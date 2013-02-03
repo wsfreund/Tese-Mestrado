@@ -1,0 +1,72 @@
+\documentclass[msc,numbers]{coppe}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+
+\usepackage[style=long,nonumberlist,sanitize=none]{glossaries} % Para as listas de simbolos e abreviaturas
+\usepackage{etoolbox} % Para robustify
+\robustify{\gls}
+\renewcommand{\glossaryname}{S{í}mbolos e Abreviaturas}
+\newglossary[slg]{Simb}{sym}{sbl}{Lista de S{í}mbolos}
+\newglossary[alg]{Abrev}{abr}{abv}{Lista de Abreviaturas}
+
+\makeglossaries
+
+
+\begin{document}
+  
+  \input{simb.tex}
+  \input{abrev.tex}
+
+  \title{Monitoramento de Cargas Não-Invasivo}
+  \foreigntitle{}
+  \author{Werner}{Spolidoro Freund}
+  \advisor{Prof.}{José Manoel}{de Seixas}{D.Sc.}
+
+  %\examiner{Prof.}{Nome do Primeiro Examinador Sobrenome}{D.Sc.}
+  \department{PEE}
+  \date{01}{2013}
+
+  \keyword{Monitoramento de Cargas Não-Invasivo}
+  \keyword{Redes Neurais}
+  \keyword{NIALM}
+
+  \maketitle
+
+  \frontmatter
+  %\include{dedic}
+  %\include{thanks}
+  %\include{resumo}
+  %\include{abstract}
+  \vfill
+  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Sumário}
+  \tableofcontents \vfill
+  \cleardoublepage \phantomsection
+  \listoffigures \vfill
+  \cleardoublepage \phantomsection
+  \listoftables \vfill
+  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Lista de Símbolos}
+  %\renewcommand{\glossarypreamble}{Texto Simbulos}
+  \printglossary[type=Simb] \vfill
+  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Lista de Abreviaturas}
+  \renewcommand{\glossarypreamble}{No caso de algumas abreviaturas internacionalmente conhecidas, optou-se por mantê-las em sua lingua original.}
+  \printglossary[type=Abrev] \vfill
+
+
+  \mainmatter
+  \include{chap01}
+  \include{chap02}
+  %\include{chap03}
+  %\include{chap04}
+  %\include{chap05}
+
+  \glsaddall
+
+  \backmatter
+  \bibliographystyle{coppe-unsrt}
+  \bibliography{thesis}
+
+  \appendix
+  %\include{appenA}
+\end{document}
