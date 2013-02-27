@@ -1,8 +1,22 @@
 \documentclass[msc,numbers]{coppe}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
-\usepackage{hyperref}
+\usepackage[unicode]{hyperref}
 \usepackage{indentfirst}
+
+\hypersetup{
+unicode=true,          % non-Latin characters in bookmarks
+pdftitle={},    % title
+pdfauthor={Werner Spolidoro Freund},     % author
+pdfsubject={Dissertação de Mestrado},   % subject of the document
+colorlinks=true,       % false: boxed links; true: colored links
+pdfdisplaydoctitle=true,
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=black%
+}
+
 
 \usepackage[style=long,nonumberlist,sanitize=none]{glossaries} % Para as listas de simbolos e abreviaturas
 \usepackage{etoolbox} % Para robustify
@@ -10,6 +24,8 @@
 \renewcommand{\glossaryname}{S{í}mbolos e Abreviaturas}
 \newglossary[slg]{Simb}{sym}{sbl}{Lista de S{í}mbolos}
 \newglossary[alg]{Abrev}{abr}{abv}{Lista de Abreviaturas}
+
+\robustify{\url}
 
 \makeglossaries
 
