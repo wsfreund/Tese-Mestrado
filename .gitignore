@@ -20,4 +20,8 @@
 *.sym
 *.syx
 *.toc
-
+COPYING
+README
+*.swp
+*.swo
+.sconsign.dblite
