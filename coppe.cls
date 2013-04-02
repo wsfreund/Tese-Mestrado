@@ -75,7 +75,8 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
   \newcommand{\@degreename}{Mestrado}
   \newcommand{\local@degname}{Mestre}
   \newcommand{\foreign@degname}{Master}
-  \newcommand\local@doctype{Disserta{\c c}{\~ a}o}
+% FIXME  \newcommand\local@doctype{Disserta{\c c}{\~ a}o}
+  \newcommand\local@doctype{Semin{\'a}rio}
   \newcommand\foreign@doctype{Dissertation}
 }
 \DeclareOption{dscexam}{%
@@ -657,11 +658,12 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
 \newcommand\local@countryname{Brasil}
 \newcommand\frontcover@maintext{
   \sloppy\nohyphens{\local@doctype\ de \@degreename\
-  \ifthenelse{\boolean{maledoc}}{apresentado}{apresentada}
-  ao Programa de P{\' o}s-gradua{\c c}{\~ a}o em \local@deptname,
-  COPPE, da \local@universityname, como parte dos requisitos
-  necess{\' a}rios {\` a} obten{\c c}{\~ a}o do t{\' i}tulo de
-  \local@degname\ em \local@deptname.}
+% FIXME  \ifthenelse{\boolean{maledoc}}{apresentado}{apresentada}
+%  ao Programa de P{\' o}s-gradua{\c c}{\~ a}o em \local@deptname,
+%  COPPE, da \local@universityname, como parte dos requisitos
+%  necess{\' a}rios {\` a} obten{\c c}{\~ a}o do t{\' i}tulo de
+%  \local@degname\ em \local@deptname.
+}
 }
 \newcommand\frontpage@maintext{
   \noindent {\MakeUppercase\local@doctype}

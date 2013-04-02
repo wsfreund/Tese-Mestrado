@@ -1,1 +1,762 @@
-\chapter{Método Proposto}
+\chapter{A Eficiência Energética no Setor Residencial}
+\label{chap:ee_retorno}
+
+O setor residencial representa um grande potencial para o alcance de uma melhor
+\gls{ee}, em especial quando considerando apenas o uso da eletricidade. Isso se
+tornará ainda mais relevante com o desenvolvimento do país. Este Capítulo detalha
+o seu perfil de consumo e potencial para explorar a \gls{ee}, dando 
+especial enfase a eletricidade (Sessão~\ref{sec:ee_setor_residencial}). Se faz
+uma referência as novas tendências para explorar esse potencial no
+mundo (Sessão~\ref{sec:ee_res_exp}), que podem utilizar das possibilidades 
+fornecidas pelas redes inteligentes (\emph{smart grid}) e seus aparelhos de 
+medição inteligentes (\emph{advanced/smart meters}).
+
+\section{Eletricidade e Potencial de Eficiência Energética 
+no Setor Residêncial}
+\label{sec:ee_setor_residencial}
+
+A eletricidade é o segundo meio energético de maior participação na matriz 
+energética brasileira, representando 16,7\% da demanda, 
+Figura~\ref{fig:matriz_bra_2011}. 
+Há uma tendência de crescimento dessa parcela na matriz indicado na 
+Figura~\ref{fig:matriz_bra_evo}, que deverá progredir devido à fatores 
+como \cite{iea_weo2010}:
+
+\begin{figure}[h!t]
+    \label{fig:eletricidade_brasil}
+    \begin{center}
+%
+        \subfigure[]{%
+            \label{fig:matriz_bra_2011}
+            \includegraphics[width=0.8\textwidth]{imagens/matriz_energetica_brasileira_2011.pdf}
+        } \\ %\hspace{0.05\textwidth}
+        \subfigure[]{%
+            \label{fig:matriz_bra_evo}
+            \includegraphics[width=0.8\textwidth]{imagens/evolucao_matriz_energetica_brasil.pdf}
+        }
+%
+    \end{center}
+    \caption[Matriz energética brasileira.]{A matriz elétrica brasileira
+em 2011 (a) e seu histório (b). Baseado (a) e extraído (b) de \cite{ben2012}.}% 
+\end{figure}
+
+\begin{itemize}
+\item substituição da biomassa para eletricidade como meio de iluminação 
+e aquecimento
+no setor residêncial;
+\item nesse setor também há um aumento do número de eletrodomésticos como
+reflexo do desenvolvimento e melhor distribuição da riqueza;
+\item a expansão do setor comercial e de serviços utilizando uma quantidade
+maiores de aparelhos elétricos (como ar condicionado, iluminação e equipamentos
+de \acrshort{ti}); 
+\item transformação do setor industrial, gradualmente substituindo o carvão e 
+aumentando a presença de dispositivos elétricos.
+\end{itemize}
+
+No que diz respeito ao consumo de eletricidade, 
+Figura~\ref{fig:eletricidade_por_setor}, 
+o setor residencial possui uma posição de destaque no consumo, com uma demanda
+de 111,97 T\acrshort{wh} e uma parcela equivalente à 26\% do total no ano de 2011, 
+exprimindo a importância desse setor para explorar a capacidade de economia de 
+eletricidade através de \gls{ee}. 
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=.6\textwidth]{imagens/consumo_por_setor.pdf}
+\caption[Consumo de eletricidade por setor em 2011.]
+{O consumo de eletricidade por setor em 2011. Baseado em \cite{ben2012}.}
+\label{fig:eletricidade_por_setor}
+\end{figure}
+
+De acordo com o último estudo do \gls{beu}\footnote{O \gls{beu} é realizado em
+intervalos decenais desde 1985.} com o ano base de 2004 \cite{beu}, o potencial de 
+economia no consumo de eletricidade nesse setor chega a 13,60 T\acrshort{wh}, 
+ou 1,17 milhões de \acrshort{toe}. Apenas como figura de mérito, quando considerando 
+melhorias de eficiência em todas as fontes energéticas, o setor residencial
+possui o terceiro maior potencial de economia, após o setor industrial e de
+transporte, com uma capacidade de economia de 2,97 milhões de 
+\acrshort{toe}. No entando, vale ressaltar que esses valores de potenciais de economia 
+apresentados são aproximados e reduzidos em relação ao valor real, onde se
+considera apenas a perda de energia na primeira transformação do processo
+produtivo. Também não são consideradas possíveis alterações no consumo de fontes
+energéticas, como a mencionada alteração de biomassa para eletricidade, uma
+fonte menos poluente e mais eficiente. Finalmente, deve-se acrescentar que 
+esse potencial é calculado utilizando o rendimento de equipamentos no estado 
+da arte entre aqueles normalmente comercializados, e não aqueles possíveis de 
+se alcançar quando considerando a literatura técnica.
+
+Os dados utilizados pela \gls{epe} para os estudos de \gls{ee} no setor
+residencial, assim como os apresentados no \gls{pne2030} e \gls{pde}, no entanto,
+utilizam as informações obtidas da última \gls{pph} realizada no Brasil entre 2004--2006 
+que possibilitam o estudo baseado em uma abordagem desagregada. Essa abordagem 
+depende do número de domícilios, a posse média e hábito de consumo específico 
+dos equipamentos eletrodomésticos, que estão implicitamente indicados na curva de carga
+ilustrada na Figura~\ref{fig:curva_carga} para a região sudeste, e rendimento médio desses 
+equipamentos no país, informação baseada nas tabelas do \gls{pbe}, coordenado pelo \gls{inmetro}. 
+Também são utilizadas variáveis agregadas para o ajuste do modelo
+utilizado, sendo elas a relação entre o número de consumidores residenciais e população 
+(que permite a projeção do número de consumidores a partir da projeção da população), 
+e consumo médio por consumidor residencial
+\cite{epe_eficiencia_2012,pde_2012,pne30_eff_energ}. 
+
+% Inserir a figura aqui de posse média
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=.9\textwidth]{imagens/curva_demanda_sudeste.pdf}
+\caption[Curva de carga média para a região sudeste, ano base 2005.]{Curva de
+carga média para a região sudeste, ano base 2005. Extraído de
+\cite{result_procel_2005}.}
+\label{fig:curva_carga}
+\end{figure}
+
+Esses estudos exploram a conservação de energia no ganho de eficiência 
+de equipamentos eletrodomésticos, mas não consideram melhoras possíveis 
+em mudanças nos hábitos de consumo. 
+Isso pode ser justificado pela dificuldade de prever essas mudanças 
+e assim o seu potencial, em especial devido a precariedade --- e talvez ausência
+--- de estudos nesse sentido no Brasil. Mesmo não participando das
+estimativas do potencial de conservação por \gls{ee}, esse potencial não é totalmente 
+negligenciado no Brasil: \textlabel{existem programas do
+\gls{procel}}{text:prog_cepel} no intuíto de insentivar e 
+conscientizar a população, como o Procel Educação, cujas linhas de ``Educação para Eficiência
+Energética na Educação Básica: O Procel nas Escolas'' e ``Educação para
+Eficiência Energética na Formação Profissional: níveis técnico, superior e
+pós-graduação'' trabalham no sentido de difundir a \gls{ee}
+\cite{procel_resultados_2012}.
+
+Entretanto, estudos no exterior mostram um potencial ainda a ser explorado de
+economia de energia elétrica no setor residencial, através do retorno de
+informação da utilização de energia para o consumidor. Conforme será visto na
+próxima sessão, esse potencial depende de aspectos, como a quantidade 
+de informação retornada ao consumidor, inerentemente ligado à quantidade de
+investimento utilizada na tecnologia para permitir um maior retorno, mas ainda,
+dependem do modo em que esse retorno é fornecido para o consumidor no intuíto de
+motivar ações sustentaveis de energia, sendo um problema complexo dependente de
+aspectos sociais, culturais e psicológicos. 
+
+Por fim, outros setores também podem reduzir seu consumo com políticas de
+\gls{ee} aplicadas para o setor residencial devido a sua natureza similar a esse
+setor. Os setores público e comercial, por exemplo, possuem prédios com natureza
+de consumo correspondente ao do setor residencial, de forma que estratégias 
+desenvolvidas possam sinergeticamente apresentar um potencial maior de 
+economia de energia na matriz brasileira, em especial no que concerne estudos
+para melhor eficiência de equipamentos.
+
+\section{Expandindo o Potencial de Eficiência Energética}
+\label{sec:ee_res_exp}
+
+% Invisibilidade da eletricidade para os consumidores residencias
+As novas fontes energéticas, dentre elas a eletricidade e gás natural e 
+que atendem a demanda dos consumidores residenciais para a vasta 
+variedade de serviços nas quais são utilizadas 
+--- desde cocção, condicionamento do ambiente, a lazer e 
+entreterimento ---, fluem invisivel e silenciosamente para seus domicílios, sem
+deixar qualquer traço notável de sua utilização além do efeito final desejado pelo
+consumidor. Para eles, o único retorno de seu consumo é informado na conta
+apresentada pela concessionária, fornecida em um longo período após o consumo,
+no início do mês. As informações nas contas são precárias, não informando 
+muito além do total de energia consumido e o preço de energia. 
+Os usuários não tem como inferir quais são os meios de uso final que demandam 
+maior energia, nem a que ponto possíveis mudanças podem afetar sua demanda, 
+seja através da mudança de seus hábitos ou na escolha 
+de aparelhos mais eficientes. Atualmente, os usuários estão cegos quanto a essas
+mudanças, não é possível vizualisar a energia que consomem. Além disso, as
+informações fornecidas não permitem o consumidor comparar seu consumo com o de
+outros, de modo que ele não é capaz de criar uma referência social para seu consumo.
+Sem uma referência, o consumidor tem dificuldades para determinar se o consumo é
+excessivo ou moderado e se é necessário algum tipo de intervenção 
+\cite{aceee_2010_estudos_feedback}.
+
+% Modos de alterar o hábito de consumo
+Estratégias para intervir no comportamento podem ser classificadas de dois modos
+\cite{aceee_2010_estudos_feedback,2009_epri}:
+\begin{enumerate}
+\item \textbf{Antecedentes}, que envolvem esforços para influênciar o que define 
+um comportamento antes de sua realização; 
+\item \textbf{De consequência}, que buscam alterar o que determina o 
+comportamento, após que ele tenha ocorrido. 
+\end{enumerate}
+
+Exemplos de estratégias antecedentes são campanhas de informação 
+com o objetivo de aumentar o conhecimento público sobre o impacto de suas 
+escolhas e das opções para econômia de energia disponíveis --- como 
+as já citadas ações do \gls{procel} (ver página~\pageref{text:prog_cepel}) ---,
+engajar o indivíduo com um compromisso de mudança, criar metas de mudança
+comportamentais, ou modelar e demonstrar o comportamento desejados. Para
+estratégias de consequência pode-se citar recompensas, punições ou o
+retorno de informação \cite{aceee_2010_estudos_feedback,2009_epri}. 
+
+Iniciativas utilizando o retorno de informação se mostraram altamente eficientes
+em mudanças comportamentais com relação ao consumo energético \cite{
+aceee_2010_estudos_feedback,2009_epri,2012_schleich__austria,
+2011_zhifeng_smart_energy_savings,2006_darby,2009_nber_studies_us,
+ucla_studies_1975_2011_usa}. O uso do retorno
+de informação se basea em que tanto resultados positivos ou
+negativos podem modelar o comportamento. Resultados atribuidos como positivos 
+irão torná-los em comportamentos mais atraentes, enquanto a atribuição de
+resultados negativos propiciam comportamentos ruins em menos desejáveis. 
+Sempre que possível, a atribuição negativa 
+deve ser evitada, pois ela tende a reduzir a motivação e não coloca nada no 
+lugar do comportamento evitado \cite{2010_aspectos_psicologicos_usa}.
+
+A questão, entretanto, não é apenas fornecer retorno do consumo ao usuário final 
+--- a própria conta de energia pode ser encarada como um meio de retorno ---, 
+mas como o retorno pode ser utilizado para efetivamente motivar pessoas 
+para reduzir o seu consumo. Algumas considerações devem ser tomadas: primeiro, 
+quais são os tipos de retornos disponíveis (Subsessão \ref{ssec:ret_tipos}) e, 
+dentre eles, quais tem mostrado resultados mais eficientes na redução do consumo
+energético (Subsessão \ref{ssec:ret_eff})? O que mais deve ser levado em
+consideração quando preparando programas de \gls{ee}
+(Subsessão~\ref{ssec:ret_outros})? Quais são as técnologias 
+disponíveis para fornecer essa informação e 
+suas tendências (Subsessão \ref{ssec:ret_tec})? 
+Ainda, pessoas possuem diferentes atitudes, crenças e valores, sendo motivadas 
+de modos distintos. Uma breve consideração sobre a perspectiva psicológica que
+envolve mudança comportamnetal será realizada (Subsessão \ref{ssec:asp_psic})
+uma vez que esse aspecto é de principal relevância para o sucesso dos programas. 
+Do mesmo modo, a apresentação visual da informação também irá influênciar no 
+êxito, e por isso o tema também sendo colocado em pauta
+(Subsessão~\ref{ssec:asp_visuais}). De nenhuma maneira as breves considerações 
+devem substituir a análise de profissionais dessas áreas, servindo apenas para 
+chamar atenção para a importância, bem como introduzir os leitores, aos temas. 
+
+\subsection{Tipos de Retorno}
+\label{ssec:ret_tipos}
+
+A categorização dos tipos de retorno que será apresentada iniciou-se em
+\cite{2000_darby} e depois foi aprimorada por \cite{2009_epri}. A primeira divisão
+toma em conta o modo no qual o retorno é fornecido, sendo possíveis o retorno 
+direto ou indireto. O termo \emph{indireto} é
+utilizado quando há alguma espécie de processamento antes de atingir o
+consumidor, enquanto \emph{direto} determina o retorno instantaneamente entregue
+ao usuário. Em seguida, realiza-se uma divisão em termos de frequência,
+diferenciando quatro tipos de retorno \emph{indiretos}, e dois retornos
+\emph{diretos}. A divisão é apresentada resumidamente em ordem crescente em 
+termos de custo e 
+quantidade de informação disponível, onde os dois retornos \emph{diretos} estão no
+final da lista \cite{aceee_2010_estudos_feedback,2009_epri}:
+
+\begin{enumerate}
+\item \textbf{Retorno por Faturamento Simples}: conta de energia contendo 
+k\acrshort{wh} 
+consumido, o preço da tarifa unitária ($\text{R\$}/$k\acrshort{wh}), o custo 
+total e outros possíveis ônus. Nessa forma de retorno normalmente carece 
+estatísticas comparativas ou qualquer informação detalhada sobre os aspectos 
+temporais do consumo;
+\item \textbf{Retorno por Faturamento Aprimorado}: fornece informações mais 
+detalhadas
+sobre o padrão de consumo de energia, incluindo em alguns casos estatísticas
+comparativas, tanto comparando o maior consumo do mes atual e sua despesa
+aliados ao consumo histórico e/ou a comparação com outros domicílios
+pertencentes ao grupo do consumidor;
+\item \textbf{Retorno Estimado}: essa abordagem utiliza geralmente de técnicas
+estatísticas para desagregar o total de energia baseado no tipo do
+domicílio do consumidor, informação de aparelhos e dados de faturamento. O
+retorno resultante fornece um relato detalhado do uso de eletricidade pelos
+utensilios e dispositivos de maior importância. A forma mais comum é através de
+ferramentas de auditoria de energia residencial baseadas na internet, oferecida
+por um fornecedor de serviços a seus consumidores;
+\item \textbf{Retorno Diário/Semanal}: esses relatórios utilizam a média de
+dados e frequentemente incluem estudos de leitura dos medidores pelos próprios 
+consumidores, assim como estudos nos quais individuos são providos com
+relatórios mensais ou semanais do fornecedor de serviços ou entidade de
+pesquisa;
+\item \textbf{Retorno em Tempo-Real}: fornecido por dispositivos que exibem o
+consumo em (pratiamente) tempo-real e informações de custo da energia em nível
+agregado domiciliar;
+\item \textbf{Retorno em Tempo-Real Desagregado}: nesse caso, as informações são
+exibidas desagregadas ao nível dos utensílios.
+\end{enumerate}
+
+\subsection{Resultados por Tipo de Retorno}
+\label{ssec:ret_eff}
+
+Há uma farta quantidade de estudos envolvendo o tema, com estudos iniciando na
+década de 1970 em resposta à Crise do Petróleo, que tiveram um declínio durante
+a década posterior. O interesse retornou a pauta recentemente devido à crescente 
+preocupação com o meio ambiente e mudanças climáticas assim 
+como o aparecimento de novas possibilidades tecnológicas 
+associadas a \gls{ict} \cite{aceee_2010_estudos_feedback}. É
+possível encontrar pesquisas nas quais se compilam diversos estudos
+de retorno de informação para consumidores residenciais no intuíto de generalizar 
+resultados \cite{aceee_2010_estudos_feedback,2011_zhifeng_smart_energy_savings,
+2006_darby,2009_nber_studies_us,ucla_studies_1975_2011_usa}.
+
+A pesquisa que mais se destacou \cite{aceee_2010_estudos_feedback} 
+revisou 57 estudos primários de retorno, realizado em países 
+desenvolvidos incluindo \gls{eua} (58\% dos
+estudos), quatro países da Europa Ocidental (Países Baixos, Finlândia,
+Dinamarca e Reino Unido, com um total de 22\%), Canada (15\%), Japão (5\%) e 
+Australia (1 estudo). Em termos de retorno, metade dos estudos envolvem retorno
+\emph{indireto}, dentre os quais 11 envolvem Faturamento Aprimorado, três
+estudos envolvem o uso de Retorno Estimado e 15 estudos consideram Retorno
+Diário/Semanal. Os remanescentes envolvem retorno \emph{direto}, dos quais 23
+exploram retorno agregado e seis estudos onde é fornecido a informação em tempo
+real no nível dos utensílios.
+
+%Realiza-se nela uma divisão quanto à data em que os estudos foram realizados,
+%utilizando o termo \gls{ece} para estudos realizados entre 1974 e 1994 
+%e \gls{emc} nos anos conseguintes até 2009. 
+%Essa divisão é importante pois os novos estudos provêm de
+%tecnologias mais recentes, em especial dispõe de novas tecnologias de \gls{ict}.
+%Essas oferecem meios inovativos de aumentar o efeito de
+%mecanismos de retorno de informação, assim como reduziram os custos associados
+%com fornecer retorno frequente e confiável para consumidores residenciais.
+%Utilizou-se dois terços dos estudos para a era mais recente, \gls{emc}. 
+
+%Com o objetivo de explorar melhor as diferenças de resultados, 
+%foram realizadas mais divisões qualitativas: 
+%quanto ao tamanho do estudo, referindo-se à quantidade de domicílios 
+%envolvidos, no qual considera o estudo como pequeno
+%(32\%) quando utilizando menos de 100 participantes, e grande caso 
+%contrário; quanto a duração do estudo, considerada curta (40\%) para períodos
+%inferiores à seis meses, e longa caso contrário; e elementos motivacionais
+%utilizados além de fatores economicos ou apelo ao meio ambiente, como atribuir
+%metas, competições e engajamento, e normas sociais.
+
+Um resumo dos resultados obtidos para os estudos realizados entre 1995 e 
+2010 (cerca de dois terços dos revisados) estão na 
+Figura~\ref{fig:potencial_consumo_retorno} para os tipos de retorno 
+detalhados na Subsessão anterior. A redução do consumo mostrada leva em conta os
+resultados globais, ou seja, considerando a taxa de adesão da população aos
+programas de \gls{ee}, considerando que os mesmos terão participação voluntária. 
+Identifica-se nos resultados que os tipos de retorno são tanto incrementais
+em custo e complexidade, quanto nos resultados de economia energética. Assim, 
+é natural a implementação do sistema de retorno ser realizada de 
+maneira continua, aplicando sistemas já disponíveis enquanto se realiza 
+investimento em tecnologia para o desenvolvimento do
+próximo nível de informação. Os desenvolvedores devem
+manter o sistema o mais flexível possível, sendo desenvolvidos 
+sempre preparados para a mudança e considerando o surgimento de novos 
+mecanismos de retorno com o avanço da tecnologia 
+\cite{aceee_2010_estudos_feedback}. Por exemplo, por ora é possível obter
+econômia de energia utilizando um sistema de baixo custo, como o Faturamento
+Aprimorado, que informa melhor o consumidor, ou até mesmo, com mais ambição, 
+fornecer o Retorno Diário/Semanal.
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/estudo_economia_aceee.pdf}
+\caption[O potencial de consumo para cada tipo de retorno]
+{O potencial de economia de consumo para cada tipo de retorno. 
+Adaptado de \cite{aceee_2010_estudos_feedback}.}
+\label{fig:potencial_consumo_retorno}
+\end{figure}
+
+
+\subsection{Indo Além dos Resultados}
+\label{ssec:ret_outros}
+
+Ademais, outras considerações devem ser levadas quando no desenvolvimento 
+de programas de \gls{ee} \cite{aceee_2010_estudos_feedback,2006_darby,2009_epri}:
+
+\begin{itemize}
+\item \textbf{Retorno Indireto versus Direito}: 
+Os retornos indiretos são mais adequados que diretos 
+para demonstrar o efeito de mudanças condicionamento do ambiente, 
+composição domiciliar e o impacto de investimentos 
+em medidas de eficiência ou utensílios de alto consumo. Já o retorno instantaneo 
+se adequa, geralmente, no fornecimento do impacto do consumo de aparelhos com 
+usos de energia menores;
+%\item \textbf{Era do Programa/Estudo}: Estudos anteriores a 1995 (não utilizados
+%para gerar os resultados apresentados na 
+%Figura~\ref{fig:potencial_consumo_retorno}) 
+%apresentam economia de energia maiores aos posteriores. 
+%Assim, recomenda-se a sua não utilização com o objetivo de evitar espectativas 
+%infladas sobre o potencial de economia atualmente;
+\item \textbf{Participação Voluntária}: Programas nos quais os usuários tem de
+optar por não participar (\emph{opt-out}) tiveram adesão significamente 
+maior (75\%-85\%) do que aqueles nos quais os usuários escolhem em colaborar
+(\emph{opt-in}, participações menores a 10\%), sendo assim recomendada essa 
+abordagem para maximizar a participação dos consumidores;
+\item \textbf{Elementos Motivacionais}: A utilização de outros elementos para
+motivar a população aquém do financeiro e apelo ao meio ambiente mostram-se 
+importantes para aumentar a eficiência dos programas de \gls{ee}. São citados
+como exemplo criar metas, compromissos, competições e normais sociais 
+(tanto descritivas quanto injutivas). A Subsessão~\ref{ssec:asp_psic} 
+irá tratar do tema com mais detalhes;
+\item \textbf{Contexto Regional}: Diferenças regionais e culturais afetam os 
+resultados. Os resultados para a Europa Ocidental superam os obtidos nos
+\gls{eua}, podendo possivelmente ser atribuidos as diferenças em como o 
+discurso sobre as mudanças climáticas pelas lideranças políticas nas duas regiões 
+é feito e assim a preocupação ao tema da população. Nesse caso, chama-se atenção
+novamente aos antecedentes no intuíto de preparar a população para os programas e
+maximizar os resultados. Outro aspecto importante é a necessidade de estudos
+sobre o tema afim de especificar como o brasileiro irá reagir em tais programas;
+\item \textbf{Duração do Estudo e Persitência dos Resultados}: Quando os 
+estudos são de menor duração ($< 6$ meses) se obtém resultados mais 
+eficientes (média de 10,1\% de economia) que estudos mais longos (7,7\%),
+discrepância essa atribuida a inaptidão de estudos curtos em observar variações
+sazionais na utilização de energia. Alguns estudos indicam que se faz necessário 
+a presença do retorno em longo termo para que os resultados persistam, 
+enquanto outros apontam a necessidade do retorno continuamente, enfatizando
+assim a necessidade na extensão dos programas de \gls{ee};
+\item \textbf{Tamanho do Estudo}: Estudos com grandes ($> 100$) amostragens
+domiciliares tendem a ter resultados mais modestos. Como esses estudos tem uma
+representatividade melhor das residenciais, isso indica que programas de
+\gls{ee} em larga escala também devem apresentar resultados mais modestos que
+aqueles apresentados na Subsessão~\ref{ssec:ret_eff}.
+Ainda, esses estudos mostram-se menos suscetíveis às oscilações 
+quanto a duração dos estudos;
+\item \textbf{Resposta de Ponta e Demanda versus Economia Fora de Ponta}:
+Reduções de pico e demanda são de particular interesse das concessionárias que
+buscam atender essencialmente o mesmo nível de serviços mas com custos totais
+menores. Há dois modos de obter tal efeito: com uma melhoria em \gls{ee} ou
+através do deslocamento de parte do consumo no horário de ponta para fora da
+ponta. O interesse em resposta de demanda, ou seja, em reduzir o
+consumo durante os horários de ponta difere dos programas de \gls{ee} que focam
+em ter reduções eficientes economicamente durante todo o ano. Ainda que não seja
+deprezível, programas de resposta de demanda apresentam economia de energia
+bastante baixos quando em comparação aos de \gls{ee}. Os consumidores
+normalmente não percebem a diferença entre os dois programas, do mesmo modo 
+que a integração dos programas é plausível e sinergética, 
+onde estudam mostram que a junção causa melhores resultados tanto 
+em econômia de energia quanto na 
+redução de picos, por isso sendo interessantes tanto do lado do consumidor 
+quanto para a consessionária. Desta forma, a abordagem ótima ao tema deveria 
+ser conseguir todos os meios economicamente atraentes de reduzir o desperdício 
+e ineficiências antes de procurar oportunidades restantes de reduzir cargas 
+durante os picos;
+\item \textbf{Hábitos, Escolhas e Estilos de Vida}: Dentre os tipos de
+comportamentos de \gls{ee} e conservação os que aparecem mais frequentemente são 
+investimentos em novos equipamentos e utensílios em populações mais ricas, sendo
+geralmente empreendido em conjunto com mudança de residência ou melhoria no
+estilo (referido em oposição a funcional) do domícilio. Para a maioria da
+população, os domícilios obtém melhor \gls{ee} através da mudança de hábitos e 
+rotina ou pela avaliação dos comportamentos relacionados a energia. Esses
+comportamentos de \gls{ee} são motivados assim por uma variedade de fatores,
+incluindo interesse próprio (financeiro) e outros motivos altruístas e
+preocupações cívicas. Desta forma, programas de \gls{ee} que procuram apenas 
+a instalação de equipamentos mais novos e eficientes irá
+desperdiçar o potencial relacionado à mudança comportamental, assim como
+programas que apelam apenas para o interesse financeiro não irão influenciar um
+largo grupo de fatores que motivam as pessoas para agir;
+\item \textbf{Segmentação Populacional}: Poucas pesquisas exploraram como o
+potencial de redução de consumo é afetado pelas diferentes classes sociais.
+Desses estudos, as descobertas sugerem grandes níves de economia tendem a estar
+associados a alto nível educacional e renda, grandes residenciais e dentre elas
+as com maior número de pessoas, consumidores jovens e/ou com grande tendência a
+valores ambientais. Essas considerações indicam que os potenciais apontados
+provavelmente estão inflados para a aplicação no Brasil como um todo.
+\end{itemize} 
+
+\subsection{Tecnologias e Tendências}
+\label{ssec:ret_tec}
+
+Como constatado, os medidores atualmente utilizadas para medição pelas 
+concessionárias, os medidores analógicos e eletrônicos, permitem fornecer um 
+retorno com baixo custo mas com um potencial melhor de economia de energia, 
+o Faturamento Aprimorado. As contas de energia de companias como a Light,
+Ampla, Cemig e Eletropaulo fornecem o histórico de consumo dos últimos 12 meses,
+uma informação que pode auxiliar o consumidor, já podendo ser consideradas um 
+Faturamento Aprimorado. Entretanto outras informações podem ser utilizadas, 
+como referencias do consumo acumulado e, em especial, comparações do consumo 
+com o de vizinhos ou grupo pertencente. Também é possível estimar o uso 
+energético por uso-final utilizando os valores médios de consumo das residenciais
+para cada uso no sentido de auxiliar o cliente. A ideia é
+transformar a conta de energia em uma espécie de relatório do consumo energético,
+com um visual mais atraente (ver Subsessão~\ref{ssec:asp_visuais}), 
+contendo gráficos e informações no sentido de
+atrair o consumidor a se preocupar com o tema, entretanto esse é apenas o
+primeiro passo \cite{2009_epri}.
+
+No entanto, o sistema elétrico atual está 
+se tornando obsoleto para atender aos problemas de 
+aumento de carga nos centros urbanos devido ao crescimento do setor 
+de serviços e do consumo das residencias. Há uma presença cada vez maior
+de cargas eletrônicas injetando harmônicos e a geração centralizada exige 
+excessivamente da capacidade de transmissão e distribuição, 
+sobrecarregando as linhas nesses grandes centros que nem sempre podem 
+corresponder à necessidade de novas linhas. A falta de informações sobre o 
+estado do sistema dificultam a operação e planejamento de uma rede cada vez mais 
+sobrecarregada. As \gls{ict} revolucionaram as redes de telecomunicações e 
+serão a tendência para a criação das redes elétricas inteligentes (\emph{smart 
+grids}), o novo sistema elétrico que tem como objetivo responder à essas
+dificuldades. Ainda não foram definidas todas as características desse sistema,
+no entanto as principais características são o uso de comunicações em tempo real
+para o controle e informação, o uso massivo de sensores e medidores para
+monitoramento do sistema, faturamento com preços para o momento de uso, 
+gestão pelo lado da demanda, a integração de 
+componentes avançados como linhas de transmissão supercondutoras, armazenamento, 
+eletrônica de potência, geração distribuida etc. 
+\cite{dissert_caires,aceee_2010_estudos_feedback}
+
+Os aparelhos eletrônicos de medição utilizados nas redes inteligentes, referidos
+neste trabalho como medidores inteligentes (\emph{advanced/smart metering}), irão 
+fornecer uma gama maior de informações em tempo-real para as concessionárias,
+melhorando a operação e planejamento. Ao mesmo tempo, será possível a
+concessionária se comunicar com o cliente, oferecendo incentivos (como
+descontos) para reduções de carga durante os horários de ponta, 
+outros planos de tarifação com preços dinâmicos de acordo com os horários,
+aumentando a interação da concessionária com o cliente. 
+
+Por outro lado, pelo ponto de vista da demanda (ou dos consumidores) essa 
+informação também estará disponível, trazendo uma gama de novas oportunidades 
+para os usuários participarem ativamente. Mais especificamente, na abordagem do
+tema atual, os medidores inteligentes oferecem uma base
+a ser explorada para fornecer o retorno em larga escala para os consumidores, 
+tanto o direto quanto indireto. Nos medidores utilizados nos \gls{eua} foram 
+apontadas algumas dificuldades
+técnicas para esse fornecimento, sendo elas: a necessidade de grande quantidade
+de energia para enviar um sinal frequente ao consumidor e o sinal ser enviado em
+intervalos de 7 s. Com um custo adicional, um estudo na industria mostrou que
+é possível de os medidores terem seu \emph{hardware} substituídos 
+no futuro para que possam fornecer medições de pequena energia e \emph{chips} 
+de comunicação para habilitar dados de utensílios específicos, assim como 
+automação para grandes cargas, como unidades de condicionamento ambiental, 
+bombas etc. Desta forma, sendo possível 
+fornecer tanto a tecnologia para o Retorno em Tempo Real com a utilização de 
+mostradores dentro do domicílio como o Retorno em Tempo Real Desagregado
+\cite{aceee_2010_estudos_feedback}.
+
+Algumas empresas se estabeleceram no novo mercado para informar o consumidor
+sobre o seu uso de energia e em auxiliá-lo nas atitudes para reduzir o seu
+consumo, antes mesmo que estivessem disponíveis os medidores inteligentes. 
+Elas fornecem o retorno indireto em alguns países
+desenvolvidos, dentre eles o \gls{eua}, Australia, Nova Zelândia, Reino Unido.
+Dentre essas empresas, faz-se referência a \emph{Positive Energy} 
+\cite{opower_site} e \emph{C3 Energy} \cite{c3_site} que disponibilizam seus 
+serviços, organizados na Tabela~\ref{tab:servicos_ret_ind}, 
+utilizando os dados da concessionária, tanto
+quando presentes os medidores convencionais ou inteligêntes. É importante notar
+que as abordagens utilizadas por essas empresas utilizarão analises mais
+complicadas conforme a presença de dados mais detalhados, frequentes e
+desagregados estejam disponíveis.
+
+\begin{table}[h!t]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{m{2.5cm}m{5cm}m{8cm}}
+\hline \hline 
+\textbf{Empresa} & \textbf{Tecnologia de Retorno} & 
+\textbf{Principios Comportamentais} \\
+\hline \hline
+\textbf{Positive Energy} & 
+Dependendo na concessionária envia correspondencias mensais ou trimestral
+e/ou fornecem um portal na internet com novas redes sociais &
+\emph{Tipo de Retorno}: Retorno indireto incluindo informação sobre o domicílio
+e conselhos, auditorias de energia através do uso da \emph{web}, análise de 
+faturamento, consumo estimado por aparelho, \gls{co2}, k\acrshort{wh} e \$.
+
+\emph{Principios Comportamentais}: Comparações sociais, metas, comparações
+pessoais e plano de ações. \\
+\hline
+\textbf{C3 Energy} & 
+Portal de comunidade social com retorno de consumo de energia e água & 
+\emph{Tipo de Retorno}: Retorno indireto incluindo informação sobre o domicílio
+e conselhos, auditorias de energia através do uso da \emph{web}, análise de 
+faturamento, consumo estimado por aparelho, \gls{co2}, k\acrshort{wh}, \$ e
+outras unidades.
+
+\emph{Principios Comportamentais}: Comparações sociais, metas, competições
+redes sociais, comparações pessoais e plano de ações. \\
+\hline \hline
+\end{tabular}
+}
+\caption[Empresas utilizando informação da concessionária e as 
+oportunidades e insentivo de economia de energia oferecidas.]
+{Empresas utilizando informação da concessionária e as 
+oportunidades e insentivo de economia de energia oferecidas. Adaptado e 
+atualizado de \cite{aceee_2010_estudos_feedback}.}
+\label{tab:servicos_ret_ind}
+\end{table}
+
+Já o retorno direto pode ser encontrado através de
+mostradores de energia no domicílio. A Tabela~\ref{tab:servicos_ret_dir}
+identifica alguns dos mostradores oferecidos atualmente e suas propriedades.
+Muitas vezes as companias oferecem também análises e estimativas do consumo 
+especifico de aparelhos, comparações sociais e outros principios para motivar os
+consumidores a economizar energia. A informação de consumo de aparelhos
+especifico ou é estimada ou realizada através de sensores nos aparelhos.
+
+\begin{table}[h!t]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{4cm}p{7cm}p{7cm}}
+\hline \hline 
+&
+\multicolumn{1}{c}{\textbf{The Energy Detector TED} \cite{ted_site} }& 
+\multicolumn{1}{c}{\textbf{Wattson}                 \cite{wattson_site}}\\
+\hline \hline
+\textbf{Descrição da \newline Tecnologia} & 
+\emph{Software} de suporte, aplicativos para celular &
+\emph{Software} de suporte com acesso a comunidades \\
+\hline 
+\textbf{Mecanismos de \newline Retorno} & 
+Mostradores em tempo real de k\acrshort{watt}, \$/hr, \gls{co2}, consumo e gastos
+diários, conta estimada em k\acrshort{wh} e \$, pico de consumo, voltagem
+min/max e custo/demanda projetada &
+Mostradores em tempo real aproximado do consumo em \acrshort{watt},
+k\acrshort{watt}, conta estimada. Leituras entre 3 a 20 s. Brilha conforma o
+consumo: azul para consumo baixo; roxo para médio; vermelho para alto. \\
+\hline
+{\multirow{5}{4cm}{\textbf{Principios Comportamentais}}} &
+\multicolumn{2}{c}{\emph{Retorno de Informação:}}
+\\
+& & \\
+& 
+\multicolumn{2}{p{14cm}}{
+Retorno direto incluindo conselhos, auditorias de energia baseadas na \emph{web},
+análise do consumo, estimativa de consumo por utensílios, \gls{co2} e \$.
+}
+\\
+& & \\
+&
+\multicolumn{2}{p{14cm}}{\emph{Motivações Oferecidas:}
+\centering 
+Comparações sociais, metas, comparações pessoais e etapas de ações.
+}
+\\
+\hline \hline
+& 
+\multicolumn{1}{c}{\textbf{PowerCost Monitor} \cite{powercost_site}}& 
+\multicolumn{1}{c}{\textbf{Efergy Elite}      \cite{efergy_site}}\\
+\hline \hline
+\textbf{Descrição da\newline Tecnologia} & 
+\emph{Software} de suporte, aplicativos para celular &
+\emph{Software} de suporte, aplicativos para celular \\
+\hline
+\textbf{Mecanismos de\newline Retorno} & 
+Mostradores em tempo real aproximado do consumo em
+k\acrshort{watt} e \$/hr, pico de consumo nas últimas 24 horas, contagem de
+k/\acrshort{wh} (reiniciável), recurso para medição de aparelhos específicos. &
+Mostradores em tempo real aproximado do consumo em k\acrshort{watt} e \$/hora
+(leituras em 6, 12 ou 18 s), informação de consumo média por hora, semanal,
+mensal. Alarmes para consumo alto. \\
+\hline
+{\multirow{5}{4cm}{\textbf{Principios Comportamentais}}} &
+\multicolumn{2}{c}{\emph{Retorno de Informação:}} \\
+& & \\
+& 
+Retorno direto incluindo conselhos, auditorias de energia baseadas na \emph{web},
+análise do consumo, estimativa de consumo por utensílios, \gls{co2} e \$.  &
+Retorno direto, análise de consumo, estimativa de consumo em \$.  \\
+& & \\
+&
+\multicolumn{2}{p{14cm}}{\emph{Motivações Oferecidas:} 
+\centering Metas e comparações pessoais}
+\\
+\hline \hline 
+\end{tabular}
+}
+\caption[Especificações de mostradores domiciliares disponíveis.]{
+Especificações de mostradores domiciliares disponíveis. Adaptado de 
+\cite{aceee_2010_estudos_feedback}.}
+\label{tab:servicos_ret_dir}
+\end{table}
+
+% TODO Atualizar a tabela
+
+Uma outra maneira mais eficiente economicamente para fornecer o
+Retorno em Tempo Real Desagregado é através do uso de \gls{nialm}. 
+O \gls{nialm} (Capítulo~\ref{cap:nialm}) coloca o
+peso da desagregação da informação no \emph{software}, reduzindo a necessidade
+de investimento em sensores e \emph{hardware}, sendo assim um método
+economicamente atraente para a implementação de programas de \gls{ee} fornecendo 
+esse tipo de retorno. No Brasil, os esforços da \gls{aneel} em regulamentar as
+bases para os novos medidores inteligentes exigem que o consumidor pode exigir
+da concessionária acesso às medições de tensão e corrente de cada fase no art.
+3$^o$ da Resolução Normativa N$^o$ 502 \cite{ren502}. Ainda não se especificou 
+a taxa de amostragem na qual essas leituras serão disponiblizadas, no entanto,
+pode-se aproveitar toda a infra-estrutura das medidas e comunição oferecida pelo
+medidores inteligente no intuíto de maximizar o custo-benefício.  
+Caso a amostragem seja baixa ou interessante para obter uma maior capacidade de
+identificação dos aparelhos, o \gls{nialm} pode utilizar de um \emph{hardware} 
+próprio de medição.
+
+Percebe-se que ainda é incerto se os medidores inteligentes são a melhor 
+alternativa de fornecer retorno de informação, contudo parece natural sua 
+utilização. Diversas tecnologias podem ser utilizadas, envolvendo, ou não, as 
+concessionárias. Apenas com o desenvolvimento delas será
+possível determinar as limitações, custos e vantagens para definir o que é 
+economicamente mais atraente.
+
+Finalmente, uma outra tendência é o uso de automação da rede doméstica. A 
+automação, além de melhorar a qualidade de vida dos consumidores, 
+pode aumentar o potencial de consumo uma vez que terão a capacidade de 
+administrar a sua demanda de energia sem grande esforço, 
+facilitando a mudança de habitos e gerir o sistema de maneira mais econômica.
+
+\subsection{Aspectos Psicológicos}
+\label{ssec:asp_psic}
+
+A tecnologia apenas concebe as possibilidades de informação a
+serem repassadas ao consumidor, no entanto, a grande questão está em como
+apresentar essa informação e motivar o usuário para a mudança. 
+O conselho de profissionais nos campos de psicologia, sociologia,
+\emph{marketing}, mudança e economia comportamental serão criticos para
+motivar, habilitar e continuamente empreender consumidores na gestão de sistemas 
+de energia residenciais \cite{aceee_2010_estudos_feedback}. 
+Uma abordagem da psicologia motivacional foi realizada em
+\cite{2010_aspectos_psicologicos_usa} com noções básicas para os desenvolvedores 
+de tecnologia que visam motivar a mudança comportamental sustentável, mostrando
+como elas podem ser aplicadas nas tecnologias de retorno de informação. O
+objetivo é atingir as atitudes, crenças e valores individuais em cada estágio da
+mudança comportamental. Na Dissertação de Mestrado será realizado um resumo com
+mais detalhes sobre a abordagem nesta Subsessão.
+
+Um exemplo prático de sucesso da aplicação de psicologia motivacional é a empresa
+\emph{Positive Energy}.
+
+% TODO Mudanças comportamentais, tipos de comportamentos
+
+\subsection{Aspectos Visuais da Informação}
+\label{ssec:asp_visuais}
+
+A apresentação na qual a informação é realizada também irá afetar o entendimento
+e engajamento do consumidor nos programas de \gls{ee}. Novamente, especialistas
+e profissionais na área de \emph{design} da informação serão importantes nesse
+intuíto, percebendo que o problema jaz além de apenas disponibilizar a
+tecnologia para fornecer a informação: também será necessário tornar a
+informação atrativa ao consumidor.
+
+O processo do fluxo de informação ocorre entre o remetente e o receptor, onde
+este analisa a informação necessaria e a apresenta na mensagem através de textos
+e imagens, enquanto aquele realiza escolhas entre as informações disponíves nela
+e opta se irá processá-las mentalmente. A visão é o sentimento mais 
+importante para a compreensão e vivência humana do meio externo. 
+Cerca de 70\% de nossas células sensoriais estão nos olhos, assim a visualizão 
+é um meio bastante efetivo de realizar a comunicação da informação e de dados. 
+Tornar a mensagem interessante visualmente depende de vários elementos 
+\cite{2012_visualisation_sweden}. Alguns exemplos são: fornecer para a 
+mensagem uma estrutura na qual serão guiados os princípios para
+a inserção das representações; clareza para a simplicidade de compreensão e
+legibilidade da informação; enfase para atrair, direcionar ou manter a atenção;
+unidade da mensagem, com uma coerência e união global \cite{it_depends}.
+
+Em \cite{2012_visualisation_sweden} apresentou-se a crianças de um colégio sueco
+uma visualização do consumo de energia em um mostrador em tempo real na sala de 
+aula. As crianças tiveram participação na criação da interface, onde desenharam
+e escolheram uma imagem para informar se o consumo estava elevado, médio ou
+baixo, assim como informaram o que entederam das informações nos mostradores.
+Esse estudo revelou cinco aspectos importantes no desenvolvimento de sua
+visualização nos mostradores:
+
+\begin{enumerate}
+\item Deve chamar a atenção dos usuários, realizando o uso de cores brilhantes,
+contrastes e quando possível uma exibição dinâmica; 
+\item Mostrar comparações entre o consumo de modo a deixar evidente aos usuários
+resultados positivos de um esforço;
+\item Fornecer o consumo em tempo real para estimular a mudança direta no
+comportamento;
+\item Deve conter um tom positivo e encorajador, potencializando a positividade
+de um comportamento correto;
+\item Ser explicativa, com pequenos textos instrutivos que fazem aos usuários
+simples de entender o que eles estão vendo.
+\end{enumerate}
+
+
+%O \gls{nialm} pode ser utilizado diretamente na obtenção de 
+%uma melhor \gls{ee}, visto que estudos no exterior
+%\cite{2010_advanced_metering,liikkanen2009extreme,schleich2012does,darby2006effectiveness}
+%indicam uma possível econômia de até 12\% no consumo residencial através do fornecimento de um
+%retorno detalhado em tempo real ao usuário de sua utilização da eletricidade, 
+%com informação do consumo por equipamento e recomendações no intuíto de reduzir
+%o consumo de energia. Esses estudos mostram uma grande variação conforme a
+%cultura e perfil social do consumidor, sendo necessário um estudo para
+%determinar esse potencial no Brasil, entretanto, percebe-se que o maior
+%potencial está nos consumidores pertencentes a classe média, que são os mais aptos a reduzirem seu
+%consumo através do retorno de informação em detrimento aos mais pobres, que 
+%raramente possuem mudanças que possam ser exploradas uma vez que seu consumo
+%é vital e menor, e os mais ricos, que tem pouca sensibilidade aos gastos com
+%energia elétrica.
+
+

@@ -3,6 +3,17 @@
 \usepackage{amsmath,amssymb}
 \usepackage[unicode]{hyperref}
 \usepackage{indentfirst}
+\usepackage{subfigure}
+\usepackage{multirow} % Tabelas com celulas agrupadas
+\usepackage{array}
+
+\makeatletter
+\newcommand*{\textlabel}[2]{%
+\edef\@currentlabel{#1}% Set target label
+\phantomsection% Correct hyper reference link
+#1\label{#2}% Print and store label
+}
+\makeatother
 
 \hypersetup{
 unicode=true,          % non-Latin characters in bookmarks
@@ -50,11 +61,13 @@ urlcolor=black%
 
   \maketitle
 
-  \frontmatter
+  %\frontmatter
   %\include{dedic}
   %\include{thanks}
   %\include{resumo}
   %\include{abstract}
+  \pagenumbering{roman} % FIXME REMOVER
+  \addtocounter{page}{1}
   \vfill
   \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Sumário}
   \tableofcontents \vfill
@@ -69,12 +82,11 @@ urlcolor=black%
   \renewcommand{\glossarypreamble}{No caso de algumas abreviaturas internacionalmente conhecidas, optou-se por mantê-las em sua lingua original.}
   \printglossary[type=Abrev] \vfill
 
-
   \mainmatter
   \include{chap01}
   \include{chap02}
-  %\include{chap03}
-  %\include{chap04}
+  \include{chap03}
+  \include{chap04}
   %\include{chap05}
 
   \glsaddall
