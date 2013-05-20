@@ -1,0 +1,152 @@
+\chapter[NIALM]{\acrlong{nialm}}
+\label{cap:nialm}
+
+
+O \gls{nialm} é um método para fornecer a informação de consumo de energia
+elétrica desagregado por utensílio. Ao invés das técnicas normalmente utilizadas
+que envolvem o uso de sensores em cada utensílio que enviam informações para uma
+central que as decodifica de modo a identificar os utensílios que estão
+demandando consumo na rede, o \gls{nialm} é um método em que não ocorre a
+intrusão da propriedade do usuário, contendo geralmente apenas um medidor central no
+fornecimento de energia dessa propriedade. O peso da identificação dos utensílios
+é transferido da utilização de uma grande quantidade de sensores e
+\emph{hardware} complexo para um \emph{software} e algoritmos de processamento
+de sinais no intuíto de realizar uma análise profunda das medições e desagregar
+as informações.
+
+Ainda assim, a capacidade dos algoritmos implementados dependem da
+disponibilidade das informações disponíveis, de forma que quanto mais avançado
+for o \emph{hardware} de medição, enviando uma quantidade e/ou frequência maior de 
+informação aos algoritmos, maior será a capacidade dos mesmos de desagregar o
+consumo específico dos utensílios.
+
+Aplicações importantes para esse dispositivo já foram detalhadas nos Capítulos
+anteriores, sendo elas: auxiliar ou substituir as \glspl{pph} sem que seja
+necessário causar incômodo ao usuário devido a presença de medidores na
+residencia (Sessão~\ref{sec:ee_dificuldades}), baratear e disponibilizar a informação 
+desagregada para o fornecimento do Retorno em Tempo Real Desagregado
+(Sessão~\ref{sec:ee_res_exp}) em programas de \gls{ee}. Obviamente, não é
+necessário que a informação seja fornecida apenas nesses casos, podendo ser de
+interesse das concessionárias na busca por furtos de energia, obter com maior
+precisão e rapidez a curva de demanda de seus clientes, ou de consumidores
+que buscam essa informação para reduzir seu consumo ou obter algum tipo de
+controle sobre seu consumo de energia.
+
+Os estudos nessa área datam do inicio da década de 1980. No entanto, a
+referência de base ao tema ocorreu em 1992 \cite{nilm_hart}. Nela, se
+utiliza apenas medições da \gls{p} em uma amostragem de 1 Hz. O estudo se
+limitou a identificar apenas cargas com potencia maior à 150
+\acrshort{watt}, mas a sequência da abordagem ainda é utilizada em muitos modelos 
+atuais do \gls{nialm}, sendo esta: 
+
+\begin{enumerate}
+\item Se detecta transientes de consumo na rede devido a mudança de estado de uma carga 
+através de mudanças no consumo que devem superar um limiear específico; 
+\item Esses eventos de alteração devido as alterações de estado de uma carga são agrupados por um 
+algoritmo que irá gerar os centróides para cada mudança de estado possíveis causadas pelas
+cargas. Se o equipamento apenas possuir dois estados (ligado e desligado) os
+centróides terão o mesmo valor absoluto, podendo agrupá-los como uma mesma
+carga. No entanto, se o equipamento tiver uma sequência de estados ainda é
+necessário determiná-la, procurando as possíveis combinações que fechem um ciclo
+de sequência em que todos os estados são únicos utilizando os centróides
+disponíveis; 
+\item Com os modelos das cargas realizados, coloca-se etiquetas de tempo
+nos eventos, de forma a determinar a sequência correta das maquinas de estados.
+\item Em seguida é feito um levantamento da estatística detalhando o comportamento de 
+consumo, como o tempo ligado e desligado de cada equipamento;
+\item As estatítiscas de comportamento e sua potência e sequência de estados são
+utilizados para identificar o equipamento.
+\end{enumerate}
+
+A exata abordagem é aprimorada em \cite{nilm_cole_eventos_simultaneos}, tratando
+problemas de eventos de duas cargas distintas ocorrendo simultaneamente. Esses
+eventos irão se parecer com uma terceira carga, dificultando a identificação
+correta do ligamento ou da sequência de operação dos estados, de forma que um
+aparelho irá aparecer como ligado ou em um determinado estado por dias. Para
+tratar desse problema, ele considera estatisticamente a probabilidade de ocorrer
+um evento simultâneo, dependendo do número de aparelhos, quantidade de eventos e
+taxa de amostragem.
+
+Outra otimização é realizada nos métodos fornecidos por 
+\cite{nilm_baranski_genetic_base,nilm_baraski_genetic_detalhado}.
+A primeira contribuição está em utilizar ao invés de casar um único $+\Delta{P}$ 
+com outro $-\Delta{P}$, se realiza o casamento
+de um conjunto de possíveis $+\Delta{P}_i$ com um outro possível grupo de
+$-\Delta{P}_i$, reduzindo assim as dificuldades de eventos simultâneos.
+Para melhorar a eficiência, esse casamento foi otimizado através 
+de um algoritmo de força bruta. Em seguida a abordagem foi aprimorada,
+utilizando um algoritmo de agrupamento com lógica \emph{fuzzy} para a criação
+dos grupos correspondentes aos eventos e um algoritmo genético para otimização
+dos casamentos.
+
+Essa abordagem é utilizada similarmente para a otimização das
+possíveis maquinas de estado em \cite{nilm_distribuido}, contando também com 
+algoritmo genético para a inicialização e otimização das possíveis máquinas de estado. 
+Entretanto a contribuição desse trabalho é uma nova arquitetura, distruibuída, para o \gls{nialm}. 
+Nesse caso, é utilizado um medidor inteligente para a colheita de dados e devido a
+limitações de processamento, apenas a deteção e identificação dos eventos é 
+realizado no mesmo. A geração das possíveis máquinas de estado e
+aparelhos é realizada em uma central, com maior capacidade de processamento, 
+no qual este envia os eventos de transição para que aquela gere as sequências de
+estado de transição dos aparelhos com sua identificação em uma tabela.
+Posteriormente a essa etapa, chamada de aprendizagem, a tabela é enviada 
+ao medidor inteligente que poderá identificar os eventos sem grandes custos
+compotacionais. Se necessário o processo pode ser novamente
+realizado para minimizar erros introduzidos por novos aparelhos e/ou aparelhos
+não identificados ou utilizados durante a última aprendizagem.
+
+Há ainda a possibilidade de se explorar em baixa amostragem, mesmo que 
+limitadamente, outras as características da onda, como o tempo do transiente
+e seu valor de pico \cite{nilm_cole_extra_info_surge}. Essas informações podem
+auxiliar e minimizar os erros dos casamentos de eventos anteriores. O uso de
+outras grandezas como \gls{q}, \gls{d} etc. pode ser realizada com o mesmo
+objetivo. Um exemplo é \cite{nilm_distribuido}, onde também se utilizou a 
+\gls{q} quando disponível no medidor inteligente.
+
+Indo além, as possibilidades também aumentam conforme se eleva a taxa de amostragem. 
+Os estudos anteriores realizados no \gls{cepel} \cite{alvaro,bezerra,aguiar} 
+utilizaram uma amostragem de 60 \acrshort{hz}. 
+Com isso, possibiliza-se obter uma informação mais detalhada do
+transiente, no caso a envoltória do consumo de corrente da residência, 
+que é propagada em uma rede neural no intuíto de diferenciar 
+os equipamentos em grupos pré-determinados de consumo. Devido à boa capacidade
+de identificação dos grupos de cargas selecionados, esses métodos utilizaram
+apenas a informação de transitório, mas seria possível acoplar mais informações para
+auxiliar na identificação, se necessário. Nesses trabalhos o medidor foi
+desenvolvido pelo próprio \gls{cepel}, de forma que \cite{aguiar} explorou, além dos
+resultados de aplicação da rede neural, os aspectos necessários para manter a qualidade da
+informação e compactá-la utilizando técnicas como \gls{pca}. Já \cite{bezerra} forneceu 
+ao sistema a possibilidade de uma arquitetura distribuída de processamento,
+similar àquela explicada em \cite{nilm_distribuido}. Nesse trabalho também foi
+analisado o uso de \gls{pcd} em comparação ao pré-processamento por \gls{pca}.
+Por fim, \cite{alvaro} implementou um detector automático de eventos de
+transição de estados de cargas.
+
+Taxas ainda maiores de amostragem podem ser utilizadas, permitindo a utilização
+de outras técnicas. A estratégia em \cite{nilm_laughman} envolvem encontrar transientes e subtrair as
+ondas pré e pós transiente de corrente em regimente permantente. Aplica-se a
+Transformada de Fourier e compara-se com um banco de dados. 
+
+Utilizou-se em \cite{nascimento} uma amostragem de 13,6
+\acrshort{hz}. Nesse trabalho utiliza-se uma estrutura de árvore de decisão para
+a discriminação. Uma pré-classificação é realizada utilizando o \emph{hardware}
+para equipamentos com valores específicos de \gls{p} e \gls{q}. Caso não seja um
+dos equipamentos de simples discriminação, modifica-se a informação a ser
+discriminada nesta ordem: aplicada Transformada de Hilbert, Transformada Wavelet
+e por último o Método de Burg. Essa informação é apresentada ao final classificador, que
+realiza a discriminação em duas etapas, primeiro selecionando um grupo genérico
+ao qual o equipamento pertence, para depois selecionar o grupo específico. A
+seleção é feita através do erro médio quadrático aplicado entre o banco de dados
+e o resultado do espectro de Burg para cada nível de detalhe utilizado da
+Transformada Wavelet. O equipamento do banco de dados que tiver maior número de 
+detalhes compatível com o sendo testado é o resultado do processo de
+discriminação.
+
+
+
+
+
+
+
+
+
