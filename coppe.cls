@@ -270,13 +270,22 @@ T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\spacefactor1000}
   \noindent\local@approvedname:\par
      \begin{center}
   \begin{flushright}
-        \count1=0
-        \@whilenum \count1<\@examiner \do {
-            \vskip26\p@ \baselineskip12pt
-        \eqparbox{signture@list}{\hrulefill}\\
-        \eqparbox{signture@list}{\protect\centering%
-            \ \ \ \csname CoppeExaminer:\the\count1 \endcsname\ \ \ }\\
-            \advance\count1 by 1}
+    \count1=0
+    \@whilenum \count1<\@examiner \do {
+    \vskip26\p@ \baselineskip12pt
+    %\eqparbox{signture@...}{\hrulefill}\\
+    %\eqparbox{signture@...}{\protect\centering%
+       \eqmakebox[signture@list]{\hrulefill}\\
+       \eqmakebox[signture@list]{%
+    \ \ \ \csname CoppeExaminer:\the\count1 \endcsname\ \ \ }\\
+    \advance\count1 by 1}
+     %   \count1=0
+     %   \@whilenum \count1<\@examiner \do {
+     %       \vskip26\p@ \baselineskip12pt
+     %   \eqparbox{signture@list}{\hrulefill}\\
+     %   \eqparbox{signture@list}{\protect\centering%
+     %       \ \ \ \csname CoppeExaminer:\the\count1 \endcsname\ \ \ }\\
+     %       \advance\count1 by 1}
   \end{flushright}
      \end{center}
   \vspace*{\fill}
