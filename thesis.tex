@@ -7,6 +7,7 @@
 \usepackage{multirow} % Tabelas com celulas agrupadas
 \usepackage{array}
 \usepackage{import} % To access created latex images in different folders
+\usepackage{enumerate}
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -30,7 +31,7 @@ urlcolor=black%
 }
 
 
-\usepackage[style=long,nonumberlist,sanitize=none]{glossaries} % Para as listas de simbolos e abreviaturas
+\usepackage[acronym,style=long,nonumberlist]{glossaries} % Para as listas de simbolos e abreviaturas
 \usepackage{etoolbox} % Para robustify
 \robustify{\gls}
 \renewcommand{\glossaryname}{S{í}mbolos e Abreviaturas}
@@ -38,6 +39,9 @@ urlcolor=black%
 \newglossary[alg]{Abrev}{abr}{abv}{Lista de Abreviaturas}
 
 \robustify{\url}
+
+% Mutliplas referências de pé de nota com o mesmo número
+\newcommand*{\fnref}[1]{\textsuperscript{\ref{#1}}}
 
 \makeglossaries
 
@@ -47,13 +51,15 @@ urlcolor=black%
   \input{simb.tex}
   \input{abrev.tex}
 
-  \title{Monitoramento de Cargas Não-Invasivo}
-  \foreigntitle{}
-  \author{Werner}{Spolidoro Freund}
+  \title{Monitoramento Não-Invasivo de Cargas Elétricas}
+  \foreigntitle{Non-Intrusive Load Monitoring}
+  \author{Werner Spolidoro}{Freund}
   \advisor{Prof.}{José Manoel}{de Seixas}{D.Sc.}
 
-  \examiner{Prof.}{ Sobrenome}{D.Sc.}
-  \examiner{Prof.}{Nome do Primeiro Examinador Sobrenome}{D.Sc.}
+  \examiner{Prof.}{José Manoel de Seixas}{D.Sc.}
+  \examiner{Prof.}{Luiz Pereira Calôba}{Dr.Ing}
+  \examiner{Prof.}{Carlos Augusto Duque}{D.Sc.}
+  \examiner{}{Chales Bezerra do Prado}{D.Sc.}
 
   \department{PEE}
   \date{12}{2013}
