@@ -1,0 +1,76 @@
+\chapter{Resultados}
+\label{chap:resultados}
+
+O capítulo em questão contém os resultados para a metodologia aplicada
+e sua discussão.
+
+%\section{Descrição da base de dados}
+%\label{sec:base_de_dados}
+%
+%Foram utilizados três conjuntos de dados fornecidos pelo \acs{cepel},
+%todos amostrados em situações controladas. Serão descritos as
+%características de cada um deles, sendo seus códigos para
+%identificação \emph{Temporizado} (Subsessão~\ref{ssec:temp}),
+%\emph{Empilhado4} (Subsseão~\ref{ssec:emp4}) e \emph{Empilhado7}
+%(Subsessão~\ref{ssec:emp7}).
+%
+%\subsection{Conjunto de dados \emph{Temporizado}}
+%\label{ssec:temp}
+%
+%\subsection{Conjunto de dados \emph{Empilhado4}}
+%\label{ssec:emp4}
+%
+%\subsection{Conjunto de dados \emph{Empilhado7}}
+%\label{ssec:emp7}
+
+
+\section[Aplicação do ES para otimização do detector de eventos]{
+Aplicação do \acf{es} para otimização do detector de eventos}
+\label{sec:aplic_es}
+
+
+
+
+\begin{table}[p]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{>{\centering}m{3cm}>{\centering}m{2cm}cccccccc}
+\hline \hline \hline
+\multicolumn{2}{c}{\parbox[t]{5cm}{\centering Conjunto de Dados}} &
+\multicolumn{2}{c}{\textbf{\acs{es} $\mathbf{1/0,9}$}} & 
+\multicolumn{2}{c}{\textbf{\acs{es} $\mathbf{1/2}$}} & 
+\multicolumn{2}{c}{\textbf{Manual}} & 
+\multicolumn{2}{c}{\textbf{Anterior}} \tabularnewline \hline
+& & 
+DET & FA & 
+DET & FA & 
+DET & FA &
+DET & FA \\
+\hline\hline
+\multirow{2}{3cm}{\centering\emph{Temporizado}
+\footnotesize{(149~eventos)}} & {Ocorr.} & 
+148 & 39 & 148 & 42 & 147 & 28 & 147 & 259\\
+ & {Taxa (\%)} & 
+99,3 & 26,2 & 99,3 & 28,19 & 98,7 &18,8 & 98,7 & 173,8  \\
+\hline
+\multirow{2}{3cm}{\centering\emph{Empilhado4}
+\footnotesize{(74~eventos)}} & {Ocorr.} & 
+37 & 0 & 37 & 0 & 24 & 0 & 57 & 9 \\
+ & {Taxa (\%)} & 
+64,9 & 0,0 & 64,9 & 0,0 & 32,4 & 0,0 & 78,0 & 12,3  \\
+\hline
+\multirow{2}{3cm}{\centering\emph{Empilhado7}
+\footnotesize{(42~eventos)}} & {Ocorr.} & 
+36 & 1 & 36 & 2 & 35 & 1 & 37 & 18 \\
+ & {Taxa (\%)} & 
+85,7 & 2,4 & 85,7 & 4,8 & 83,3 & 2,4 & 88,1 & 42,9  \\
+\hline \hline
+\end{tabular}}
+\caption[Resultado para os três conjuntos de dados onde o
+\acs{es} foi ajustado alimentado por todos eles.]{
+Resultado para os três conjuntos de dados onde o
+\acs{es} foi ajustado alimentado por todos eles. As configurações
+\emph{Manual} e \emph{Anterior} se referem respectivamente aos casos
+determinados empiricamente pelo autor do trabalho e pelo grupo do
+\gls{cepel}, o último sendo determinado em dados sem ruídos.}
+\label{tab:resultados_sem_generalizacao}
+\end{table}

@@ -1,0 +1,1281 @@
+\chapter{Ambiente de Análise}
+\label{chap:framework}
+
+Com base nas necessidades do projeto
+(Sessão~\ref{sec:motivacao_framework}) foi realizado o desenvolvimento
+de um ambiente (\emph{framework}) de análise. Seus módulos são:
+Leitura, Representação e Interação com os Dados
+(Sessão~\ref{sec:daq_info}); Interação Gráfica com o Usuário
+(Sessão~\ref{sec:gui}); Análise dos Dados (Sessão~\ref{sec:analise});
+e Otimização dos Parâmetros (Sessão~\ref{sec:otimizacao}).
+
+
+\section{Da Necessidade}
+\label{sec:motivacao_framework}
+
+No capítulo anterior foram observados diversos aspectos envolvidos
+para o densevolvimento da tecnologia do \gls{nilm} e a configuração do
+projeto no \gls{cepel}. Com base nisso, as seguintes dificuldades
+podem ser destacadas:
+
+\begin{enumerate}[label={Item} \arabic* - ,ref=\arabic*,align=left]
+\item\label{itm:dif1} havia uma necessidade de trazer para o
+\gls{cepel} uma gama de possibilidades e caminhos a serem tomados,
+pareando o projeto com a informação fornecida atualmente na
+literatura;
+\item\label{itm:dif2} mesmo para metodologia adotada não era possível
+ter uma boa interpretação do comportamento do algoritmo e como
+escolher os valores de corte, sendo necessário avaliar caso a caso os
+valores testados em busca de uma configuração que traria melhores
+resultados;
+\item\label{itm:dif3} apesar de haver uma tendência para simplificar o
+projeto para obter uma resposta em tempo de projeto menor, não se sabe
+exatamente qual estratégia será seguida, incluindo a técnica empregada
+para discriminação, frequência de amostragem (e nesse caso, havendo
+modificação da mesma, seria necessário alterar/adaptar a técnica atual
+para detecção de eventos) e o medidor;
+\item\label{itm:dif4} a larga gama de técnicas encontradas no
+levantamento bibliográfico, e em especial a chamada de atenção para o
+fato de sua utilização em paralelo ser benéfica para a capacidade de
+desagregação do \gls{nilm}, mostra que o projeto deve ter aptidão de
+agregar em um único ambiente tudo aquilo que for desenvolvido, pois
+mesmo que uma técnica não seja ótima, sua operação em paralelo pode
+ser benéfica para o sistema de desagregação como um todo;
+\item\label{itm:dif5} ainda que o item anterior não seja de interesse,
+é importante manter todas as abordagens já desenvolvidas em um único
+ambiente para garantir uma melhor evolução do projeto;
+\item\label{itm:dif6} o levantamento bibliográfico mostrou que há uma
+dificuldade dos autores em obter dados onde a informação desagregada
+em energia também esteja disponível\footnote{Para fugir dessa
+dificuldade, \cite{nilm_liang_pt2_2010_40} chegou a criar um simulador
+de Monte-Carlo (ver p.~\pageref{nilm:multiplas_tecnicas}).}. Tem-se uma
+necessidade de tanto obter um meio para armazenar os momentos de
+transição dos estados operativos para treinar (se existentes) técnicas
+supervisionados, quanto ter o consumo desagregado para avaliar a
+eficiência do \gls{nilm}. No exterior disponibilizaram-se dois
+conjuntos de dados (ver Subsessão~\ref{top:nilm_padrao}) justamente
+com o intuíto de facilitar os autores de terem essa informação e
+compararem suas técnicas.  Para obter a informação desagregada, pelo
+menos uma das informações seguintes deve estar disponível, no entanto,
+as duas se complementam, sendo desejável trabalhar com ambas: as
+marcas caracterizando os momentos de alteração de estados;
+e informação de consumo temporal dos aparelhos através de submedidores.
+Porém, nem sempre é possível obter as duas informações juntamente,
+devido a dificuldades como o fato não ser fácil monitorar os estados
+operativos de alguns aparelhos por não ter acesso nem controle de seus
+ciclos de maneira trivial, bem como, nem sempre ser possível realizar a
+submedição de todos aparelhos, estando essa informação parcialmente ou
+até mesmo não disponível.
+\end{enumerate}
+
+Exceto pelo Item~\ref{itm:dif1}, que foi resolvido pelo levante
+realizado na Sessão~\ref{sec:nilm_mundo}, viu-se a necessidade do
+desenvolvimento de um ambiente de análise que atendesse os seguintes
+pontos:
+
+\begin{enumerate}
+\item Maleabilidade: em vista dos itens
+\ref{itm:dif3}--\ref{itm:dif5}, o ambiente deve ser capaz de se
+adequar às mudanças no projeto conforme elas ocorram sem que outras
+partes do ambiente sejam afetadas. Devido a isso, optou-se por uma
+implementação orientada a objeto, mas se limitando a escolha para uma
+linguagem de amplo conhecimento no campo da engenharia. Por isso,
+optou-se por desenvolver o ambiente no \emph{Matlab}, que
+disponibiliza desde sua versão \emph{R2008a} essa capacidade.
+Ainda que o \emph{Matlab}, e em especial sua linguagem orientada a
+objeto, sofram em relação a sua performance, o ambiente de análise é
+\emph{a posteriori} à coleta de dados, sendo aceitável essa
+desvantagem. Está apenas interessado em saber como as técnicas irão se
+portar antes de implementá-las para operação em tempo real. O ambiente
+foi organizado procurando modularizar na medida do possível os
+componentes, para que, se fosse necessário o desenvolvimento ou
+adaptação de código, simplificasse o processo para que apenas o módulo
+em questão seja ser atacado;
+
+\item Capacidade de Interpretação dos Dados e Resultados: o tempo
+investido neste ponto retorna em capacidade de interpretação, de forma
+que o projeto irá ter um melhor andamento. Um dos aspectos para
+atingir isso, é através de uma boa visualização \cite{it_depends} já
+que a mesma é um meio bastante efetivo para a comunicação da
+informação (no caso se referindo a informação presente nos dados,
+análise etc.). No caso, uma visualização dinâmica permite ainda melhor
+compreensão das nuances contidas na informação. Uma outra maneira é
+através de automatizar as tarefas de modo a obter os resultados de
+maneira agregada e relevante, facilitando a comparação. Este ponto
+atende o Item~\ref{itm:dif2};
+
+\item Otimização dos Parâmetros: também considerando o
+Item~\ref{itm:dif2}, seria interessante obter configurações ótimas de
+maneira automática, sem a necessidade do usuário ficar alterando
+parametros empiricamente até obter um valor considerado bom.
+Inclusive, que o algoritmo seja capaz de realizar isso encontrando uma
+das melhores configurações possíveis para os parâmetros (não
+necessariamente a melhor);
+
+\item Estimação da Informação a ser Desagregada pelos Algoritmos: já
+quanto ao Item~\ref{itm:dif6}, os dados disponíveis no \acs{cepel} não
+foram amostrados com submedição, tendo apenas acesso às marcas de
+mudanças de estado operativo e, por isso, é necessário uma maneira para
+estimar a informação desagregada contida nos mesmos. Com esse intuíto,
+aproveitou-se o ponto ``Capacidade de Interprezação dos Dados e
+Resultados'', e adicionou-se essa capacidade na
+visualização dinâmica oferecida ao usuário. Essa estimativa da
+informação desagregada será referida neste trabalho como
+\emph{gabarito}.
+
+\end{enumerate}
+
+O resultado foi um ambiente de análise com $\sim$29.000 linhas de
+código distribuidas em $\sim$190 arquivos. Um esboço de sua
+arquitetura pode ser observado na Figura~\ref{fig:ambiente_analise}.
+As palavras em inglês representam as classes mais importantes dos
+módulos como referidas no ambiente. Observa-se que o Módulo de
+Leitura, Representação e Interação com os Dados
+(Sessão~\ref{sec:daq_info}) é a base do ambiente, sendo utilizado
+para análise e otimização. O Módulo de Análise dos Dados
+(Sessão~\ref{sec:analise}) é executado pelo Módulo de Otimização dos
+Parâmetros (Sessão~\ref{sec:otimizacao}), que realiza diversas
+análises iterativamente em busca de uma configuração ótima para os
+dados sendo alimentados. 
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]
+{imagens/ambiente_de_analise.pdf}
+\caption{Esboço do ambiente de análise implementado.}
+\label{fig:ambiente_analise}
+\end{figure}
+
+É importante notar que apesar do esboço mostrar toda a cadeia para a
+obter os parâmetros otimizados, essa não é sua única operação. O
+usuário irá determinar sua operação, ex.: seja só para realizar uma
+analise obter os resultados e explorar graficamente a sua resposta,
+construir um gabarito para um novo conjunto de dados, explorar os
+dados a procura de alguma informação etc.
+
+Um detalhe, a implementação foi realizada em inglês por opção do autor
+do trabalho com o intuíto de que o programa também seja compreensível
+no exterior. Nem todas as informações puderam ser traduzidas para
+colocá-las no trabalho, nesses casos será realizado a tradução e
+referência aos elementos no texto do trabalho.
+
+\section{Leitura, Representação e Interação com os Dados}
+\label{sec:daq_info}
+
+O Módulo de Leitura, Representação e Interação com os dados é o mais
+complexo em termos de estrutura no ambiente implementado. Ele conta
+com os seguintes segmentos:
+
+\begin{itemize}
+\item Dados do Medidor (Subsessão~\ref{ssec:dados_medidor}):
+representação em memória transitória dos dados do medidor. Uma série
+de aspectos tiveram de ser tratados neste segmento;
+\item Evento de Transitório (Subsessão~\ref{ssec:evento}): contém a informação de um
+eventos de transitório. Essa representação pode ser criada tanto pelo
+usuário durante a criação de um gabarito, ou seja, informar um evento
+de transitório e suas propriedades a serem encontradas para avaliar a
+performance de análise ou otimizar os parâmetros baseando-se nessa
+informação, ou quanto pelo Módulo de Análise, que irá gerar essa
+informação através de sua metodologia;
+\item Aparelhos (Subsessão~\ref{ssec:aparelho}): contém a informação
+do estado de consumo dos aparelhos, seus consumo temporal estimado bem
+como a estimativa de seu consumo total para o conjunto de dados.
+Apesar deste trabalho ainda não ter tratado do problema de geração da
+informação dos aparelhos (e por isso essa informação só ser gerada
+pelo usuário para o gabarito), é interessante em termos de
+continuidade do projeto que essa informação já fosse gerada nos
+gabaritos, para que eles não precisem ser revisados no futuro,
+contando com toda informação necessária para a otimização e avaliação
+de performance. Como foi visto na Subsessão~\ref{ssec:nilm_eff_calc} e
+frisado diversas vezes em tal capítulo, é necessário dar a eficiência
+do \gls{nilm} em termos de energia. Outro aspecto importante para a
+motivação da criação dessa informação foi da capacidade de compreensão
+dos dados, a informação por aparelho é muito mais intuítiva que os
+eventos de transitório, constituindo em um nível mais alto informativo
+para a compreensão dos dados, bem como facilitando a geração do
+gabarito;
+\end{itemize}
+
+A seguir, entrar-se-á em mais detalhes para cada um deles.
+
+\subsection{Dados do Medidor}
+\label{ssec:dados_medidor}
+
+Para atender as necessidades do projeto, a implementação da interface
+para leitura e representação dos dados do medidor abordou os seguintes
+tópicos:
+
+\begin{itemize}
+\item Transformação dos dados em um formato único: atualmente o
+\gls{nilm} utiliza dados de dois medidores diferentes, sendo
+necessário representar essa informação de uma única maneira para
+atender a questão de Maleabilidade. Um efeito colateral decorrente da
+transformação foi a compressão dos dados, que estavam em formatos de
+texto e ao serem armazenados em formato binário sofreram compressões de
+30$\times$ a 40$\times$ dependendo do número de fases;
+\item Robustez: a leitura e transformação dos dados para o formato
+único deve ser robusta a possíveis erros durante a aquisição de dados,
+sendo eles: descontinuidade da amostragem, seja por intervenção humana
+ou algum problema no medidor; ou sobrecarga devido ao consumo
+excessivo na rede, geralmente causado pelo acionamento de um aparelho
+a motor de maior consumo, como o ar condicionado. Para o primeiro
+caso, implementou-se um algoritmo capaz de identificar esses momentos,
+e no caso da descontinuidade ser pequena (ex. 10~s, determinado pelo
+usuário), a informação entre as bordas dos arquivos é completada com
+amostras geradas através de um ajuste linear. Essas amostras são
+marcadas para identificar que foram criadas e não medidas. Enquanto
+para a sobrecarga, é grampeado o valor de consumo máximo para as
+variáveis em que isso ocorre, bem como as amostras são marcas para
+identificar os momentos em que isso ocorre;
+\item Segmentação da memória persistente: alguns dados contém dias de
+amostragens, sendo impossível analisar toda essa informação de uma vez
+só em memória transitória. Por isso, segmentou-se os dados em diversos
+arquivos com um tamanho pré-definido (ex. 1~hora). A abordagem do
+\acs{cepel}, que teria de segmentar a informação manualmente. No
+entanto, a leitura da base de dados deve ser transparente, sem que o
+usuário precise se preocupar em como o conjunto de dados esteja
+representado e compreendido pelo ambiente;
+\item Redução da necessidade de leitura de disco: devido a segmentação
+em memória, era necessário garantir que informações nas bordas dos
+arquivos estivessem disponíveis para os algoritmos de análise sem que
+eles tivessem de requisitar a troca da informação mantida em memória
+transitória. Para isso, uma quantidade de amostras nas bordas dos
+arquivos segmentados é mantida em memória transitória sempre
+disponível, evitando que seja necessário uma navegação excessiva entre
+a informação segmentada, reduzindo drasticamente a velocidade dos
+algoritmos já que a leitura em disco é lenta;
+\item Leitura de redes elétricas com até três fases: era necessário
+compatibilidade de leitura de dados de redes monofásicas, bifásicas e
+trifásicas, representando essa informação de uma maneira universal. Um
+dos fatores que influênciou também na compressão dos dados foi armazenar
+para as fases com pouca atividade somente os momentos em que havia
+consumo;
+\item Informação gráfica: representar graficamente a informação contida
+nos dados. Essa funcionalidade é utilizada como base pela interface
+gráfica para realizar a interação com os dados.
+\end{itemize}
+
+Um exemplo de dados trifásicos em uma residência
+\emph{real}\footnote{A palavra real é empregada para identificar
+amostragens não geradas em condições de laboratório.} está
+disponível na Figura~\ref{fig:casa_real}. As três primeiras subfiguras
+são a injeção de corrente (medido em valor eficaz) no sistema,
+enquanto a última figura é o fluxo em potência trifásico para as
+variáveis descritas na p.~\pageref{eq:ipqds}. O fluxo de potência é
+informado para o consumo trifásico porque o medidor \emph{Yokogawa}
+utilizado nessa coleta de dados só permite o acesso a essa informação,
+sendo necessário operar com um nível mais agregado de consumo que a
+corrente. As barras verticais cinzas indicam como está realizada a
+segmentação dos dados em disco. Apesar de não se utilizar esse
+conjunto de dados para análise --- nesses dados não há como construir
+o gabarito, não sendo possível a otimização dos valores, nem calcular
+sua eficiência ---, ele revela uma série de aspectos importantes para
+a compreensão do problema envolvido na desagregação do \gls{nilm}, bem
+como algumas necessidades durante a implementação da parte de
+representação dos dados no ambiente de análise. 
+
+%\begin{landscape}
+%\begin{figure}[h!p]
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/RealHouse.pdf}
+\caption[Informação gráfica para o interação com dados do medidor]
+{Informação gráfica para a interação com os dados do medidor. Gráfico
+gerado através do ambiente de análise para um conjunto de dados com
+amostragem em 60~\acs{hz} de uma rede trifásica em uma casa
+\emph{real} durante aproximadamente um dia de coleta. A injeção de
+corrente para cada uma das três fases encontra-se nas subfiguras
+superiores, enquanto o fluxo trifásico de potência entrando na rede
+elétrica é representado na subfigura inferior. São utilizados as cores
+azul, vermelho, verde e preto para as potências ativa, reativa,
+harmônica e aparente, respectivamente.}
+\label{fig:casa_real}
+\end{sidewaysfigure}
+%\end{figure}
+%\end{landscape}
+
+Quanto a questão da descontinuidade, há uma falha na medição próximo
+às 07:15~h do dia~31, mostrando que o algoritmo foi capaz de perceber
+essa falha e montar a descontinuidade. Já próximo às 19:20~h, ocorreu
+uma outra descontinuidade menor, de 30~s, onde o algoritmo identificou
+e uniu as bordas através de um ajuste linear para simular a
+continuidade e recuperar a informação perdida. Enquanto isso, o ajuste para a
+descontinuidade às 07:15~h não pode ser feito porque houve alterações
+de estados operativos dos aparelhos\footnote{Estimar essas
+alterações sem nenhuma informação é mais complexo do que a tarefa do
+próprio \acs{nilm}, que realiza isso tendo a informação agregada de
+consumo.}. Por isso, esse conjunto de dados seria analisado em duas
+partes, uma partindo do início até às 07:15~h, e outra do fim da
+descontinuidade até o fim da medição.
+
+Também há nesse período a ocorrência de sobrecarga do medidor próximo
+às 21:50 do dia 30 (provavelmente causada por um ar condicionado, ver
+Figura~\ref{fig:sobrecarga}), onde o algoritmo foi capaz de
+identificá-la e alterar os valores dessa amostras para a capacidade
+máxima de medição.
+
+Outras condições que se referiu no Capítulo~\ref{cap:nilm} também
+podem ser observadas e melhores compreendidas nesse conjunto de dados.
+Por exemplo, é possível observar na fase~A
+Figura~\ref{fig:c5_ruido}\footnote{Foi necessário reduzir a qualidade
+da Figura~\ref{fig:c5_ruido} para permitir a navegação na versão
+digital deste trabalho, a figura vetorizada exigia grande capacidade
+computacional.}
+há a ocorrência de uma \gls{c5} a partir das
+20:00~h injetando ruído na rede elétrica devido a sua dinâmica
+(provavelmente esse aparelho é uma televisão). Já um exemplo típico de dinâmica causada
+pela máquina de lavar roupa se encontra na
+Figura~\ref{fig:maquina_lavar}. Apenas como curiosidade, também é
+possível observar no período de menor atividade da rede ---
+08:00~h--18:00~h do dia 31 --- nitidamente a operação da geladeira (ou
+outro aparelho similar) na fase~B.
+
+\begin{figure*}[p!]
+  \begin{center}
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth,height=0.26\textheight]{imagens/RealHouse_ZoomSobrecarga.pdf}
+      \caption{Sobrecarga do medidor causado por um equipamento na
+        fase A.}
+      \label{fig:sobrecarga}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth,height=0.26\textheight]{imagens/RealHouse_maquina_lavar.eps}
+      \caption{Um dos estados operativos da máquina de lavar
+        roupa.}
+      \label{fig:maquina_lavar}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth,height=0.26\textheight]{imagens/RealHouse_aparelho_c5.jpg}
+      \caption{Dinâmica de uma carga C5 na fase~A. Observe a diferença
+entre a relação de sinal ruído dessa fase em relação com a fase~B.}
+      \label{fig:c5_ruido}
+    \end{subfigure}
+  \end{center}
+\caption[Alguns exemplos de dificuldades encontrados nos dados reais]{
+Alguns exemplos de dificuldades encontrados nos dados reais da
+Figura~\ref{fig:casa_real}.}
+\label{fig:dificuldades}
+\end{figure*}
+
+%\begin{figure*}[ht!]
+%  \ContinuedFloat
+%    \begin{subfigure}[c]{\textwidth}
+%      \label{fig:maquina_lavar}
+%      \caption{Um dos estados operativos da máquina de lavar
+%        roupa.}
+%      \includegraphics[width=\textwidth,height=0.26\textheight]{imagens/RealHouse_maquina_lavar.eps}
+%    \end{subfigure}
+%
+%  \caption{Casos destacados no conjunto de dados da Figura~\ref{fig:casa_real}.}
+%\end{figure*}
+%\FloatBarrier
+
+
+\subsection{Evento de Transitório}
+\label{ssec:evento}
+
+Eventos são gerados tanto pelo usuário quando criando o gabarito
+ou quanto pelo algoritmo de análise. A informação nos eventos de
+transitório são de mais baixo nível que àquelas contidas no objeto que
+representa o aparelho. Suas capacidades são: 
+
+\begin{itemize}
+\item \acs{fex} para classificação: Realiza o cálculo das variáveis
+\acs{di}, \acs{dp}, \acs{dq}, \acs{dd} e \acs{ds} e extrai uma janela
+da envoltória dessas variáveis durante o transitório;
+\item Remoção de eventos ruidosos: se \acs{di}, \acs{dp} ou \acs{ds}
+forem menores a um limiar, o evento é considerado como ruidoso. O
+corte pode ser realizado em apenas uma dessas variáveis, no momento o
+corte é apenas em \acs{di}.
+\item \textlabel{Remoção de eventos próximos}{text:media}: Para a remoção de eventos próximos
+adicionou-se uma nova maneira de realizar a mesma substituindo os
+eventos próximos pela média dentro da janela.
+\item \textlabel{Remoção de eventos incosistentes}{text:incosistentes}: 
+ao observar que grande parte
+dos eventos que eram removidos por serem eventos próximos na verdade
+eram causados por eventos criados após um pico de consumo devido ao
+acionamento de um aparelho, que gerava um evento na descita após o
+pico, decidiu-se adicionar um novo tipo de corte. Esse corte remove os
+candidatos que tiverem o sinal da resposta do filtro de derivada de
+Gaussiana invertido em relação ao degrau de consumo causado pelo
+evento. Para esses eventos citados, a resposta do filtro é negativa,
+enquanto o degrau é positivo, havendo assim incosistência entre os
+dois;
+\item \textlabel{Estado do eventos}{text:estados_eventos}: para
+melhorar a capacidade de análise, eventos removidos não são excluidos,
+tendo apenas seus estados alterados. Os possíves estados dos eventos
+são:
+\begin{itemize}
+\item Em bom estado;
+\item Removido devido a evento próximo, nesse caso indicando qual
+evento que causou sua remoção;
+\item Evento ruidoso;
+\item Inconsistente;
+\item Quantidade de amostras insuficientes, se não houver amostras
+suficientes para construir o evento;
+\item Ainda não preenchido, quando o evento é criado mas ainda é
+necessário preencher a \gls{fex} e realizar os cortes para determinar
+se ele é um evento.
+\end{itemize}
+\item Mudança de estado e aparelho: os eventos também armazenam a
+informação de qual aparelho pertencem e qual foi a mudança de estado
+por eles representadas. Por enquanto essa informação só é preenchida
+pelo usuário durante a criação do gabarito;
+\item Informação gráfica: os eventos são representados conforme o seu
+estado (observe exemplos na Figura~\ref{fig:analise_eventos}).
+São utilizadas linhas verdes verticais para indicar eventos de
+transitório onde houve acréscimo no consumo, e linhas vermelhas para
+decréscimo.  Eventos removidos possuem linhas cinza tracejadas.
+Dependendo de como a geração gráfica é realizada, será criado uma área
+cinza para a região onde será realizada a extração da envoltória e
+duas faixas amarelas indicando as amostras para as quais será
+calculado o valor pré/pós-transitório utilizados para calcular o
+degrau, como indicado nas equações
+\ref{eq:deltasMacro}.
+\end{itemize}
+
+
+\subsection{Aparelho}
+\label{ssec:aparelho}
+
+A informação contida no aparelho une toda aquela contida nos eventos.
+Nela, se reconstrói todos os estados operativos do aparelho
+temporalmente e seus consumos. No momento, essa informação só é gerada
+pelo usuário quando preenchendo a informação do gabarito. Para ter uma
+ideia de como o processo é realizado observe a
+Figura~\ref{fig:gui_informacao}. As
+capacidades desse elemento são:
+
+\begin{itemize}
+\item Detecção automática de estados: quando criando o gabarito,
+faz-se uma análise de dendograma para agregar os eventos de
+transitório com informações de \acs{di}, \acs{dp}, \acs{dq}, \acs{ds}
+próximas. O usuário só necessita alterar o nome dos estados pré/pós
+transitório dos eventos agrupados, simplificando o processo de geração
+do gabarito;
+\item Informação gráfica: a capacidade de geração de informação dos
+aparelhos é bem mais extensa que a dos eventos. Para evitar
+redundância de informação, refere-se diretamente as figuras onde são
+mostradas as características dos dados que foram gerados através do
+método de informação gráfica de cada aparelho. Estes são os possíveis 
+gráficos de serem gerados são:
+%\begin{itemize}
+%\item
+%\item gráfico do consumo temporal por aparelho para os dados,
+%Figura~\ref{}. Esse gráfico representa a energia desagregada estimada
+%a ser encontrada;
+%\item gráfico circular de consumo dos aparelhos, Figura~\ref{}
+%(p.~\pageref{});
+%\item gráfico das envoltórias para todos os eventos de transitório,
+%Figura~\ref{} (p.~\pageref{}). Essa informação auxilia a encontrar
+%eventos de trasitório que anormais.
+%\end{itemize}
+\end{itemize}
+
+\section{Interação Gráfica com o Usuário}
+\label{sec:gui}
+
+A interação gráfica com o usuário oferece uma melhor compreensão dos
+dados. Além disso, este módulo também permite a capacidade de geração
+do gabarito onde está toda informação considerada como alvo para o
+\gls{nilm}, desde os momentos onde ocorreu os transitórios, até a
+estimativa de informação de energia. Por enquanto o módulo só operava
+com a informação dos dados do medidor, contudo sua expansão para
+realizar a interação com a informação de análise não é complexa e
+pretende-se realizar sua implementação no futuro. A seguir estão
+suas capacidades:
+
+\begin{figure*}[p]
+  \begin{center}
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/Temporizado_gui_evento_sobreposto.png}
+      \caption{Evento com sobreposição: a região com as amostras para o cálculo da
+média de pós transitório está sobrepondo com outro evento de
+transitório.}
+      \label{fig:gui_evento_sobreposto}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/Temporizado_gui_evento_sobreposto_consertado.png}
+      \caption{Ao arrastar a região com o ponteiro a sobreposição foi
+corrigida, resultando em uma estimativa de consumo mais fiel.}
+      \label{fig:gui_evento_sobreposto_corrigido}
+    \end{subfigure}
+  \end{center}
+\caption[Informação gráfica para o Módulo de Interação Gráfica com os
+Dados: Eventos de Transitório.]{Informação gráfica para o Módulo de Interação Gráfica com os
+Dados: Eventos de Transitório. A barra vertical preta indica a amostra
+mais próxima ao ponteiro. }
+\label{fig:gui_evento}
+\end{figure*}
+
+\begin{itemize}
+\item Informação da amostra próxima ao ponteiro: funciona de maneira
+muito similar à um medidor, mostrando os valores das amostras \acs{i}
+(essa para cada fase), \acs{p}, \acs{q}, \acs{d}, \acs{s} para a
+amostra mais próxima ao ponteiro (ver
+Figura~\ref{fig:gui_evento_sobreposto}, na região superior à esquerda
+denominada de \emph{Cursor Info}, ou informação do ponteiro em
+português). Assim, o usuário pode comparar os
+valores em cada amostra com facilidade;
+\item Geração do gabarito: a dinâmica para a geração do gabarito
+ocorre da seguinte maneira: o usuário
+seleciona a opção ``Adicionar Evento'' (na figura estando em ingles:
+\emph{Add Event}) e então seleciona a amostra que deseja ser o centro
+do transitório. Nessa amostra é criado um evento, onde são calculados
+os \acs{di}, \acs{dp}, \acs{dq}, \acs{dd}, \acs{ds}. Essa informação é
+disponibilizada já calculada para o usuário no canto inferior da
+esquerda, contendo tanto o valor do patamar operativo do 
+pré/pós-transitório, quando essas variáveis. O algoritmo
+detecta e agrupa os possíveis estados automaticamente por uma análise
+em dendograma. Conforme o usuário vai preenchendo a informação do
+gabarito, a interface gráfica mostra-lhe o consumo desagregado por
+equipamento e mantém-na atualizada para cada alteração realizada,
+possibilitando o usuário saber se o gabarito está sendo preenchido de
+maneira correta ou não. Cabe ao usuário determinar o nome do aparelho
+e o nome de seus estados. Para aparelhos \acs{c3} a interface gráfica
+já os cria automaticamente com o estados \emph{on} (ligado) e
+\emph{off} (desligado). É possível selecionar qualquer evento e
+alterar suas características, bem como arrastar as regiões aonde são
+calculadas as variáveis (ver
+Figura~\ref{fig:gui_evento_sobreposto_corrigido}) para corrigir
+possíveis sobreposições de eventos ou regiões inicialmente mal
+selecionadas.
+\item Escolha da informação disponível: há a opção de escolher a
+informação disponível na tela (observar
+figuras~\ref{fig:temporizado_gui_eventos} e
+\ref{fig:temporizado_gui_legenda}),
+podendo controlar a disponibilidade gráfica das seguintes informações:
+informação de consumo temporal dos aparelhos; centros dos eventos de
+transitório (no caso, dos eventos criados pelo usuário no arquivo em
+questão); e consumo amostrado pelo medidor. Isso é realizado porque a
+junção de toda essa informação de uma só vez acaba criando confusão e
+dificuldade para a sua interpretação, assim, com essas opções o
+usuário tem controle sobre elas, permitindo que haja comparação das
+informações sem que haja sobreposição delas;
+\item Armazenar e carregar arquivos: como o gabarito na verdade é uma
+estimativa da informação desagregada, é possível gerar diversos
+gabaritos para um mesmo conjunto de dados. Por isso, há um mecânismo de
+proteção da memória persistente e transitória. Ou seja, enquanto o
+usuário altera a informação do gabarito, o mesmo permanece intacto em
+disco, assim como se o usuário tentar encerrar a interface gráfica ou
+carregar um outro gabarito e houver dessincronia entre a informação
+na memória persistente e transitória, ele será perguntado se deseja
+descartar suas alterações ou sincronizar a informação;
+\item Janela de legenda para o consumo dos aparelhos: a informação do
+consumo temporal possui uma cor única para cada aparelho, porém
+adicionar essa legenda na própria figura com os dados do medidor e
+informação do gabarito não era possível sem gerar dificuldade para sua
+interpretação, bem como não haveria espaço suficiente para colocar
+todos os nomes dos aparelhos (espera-se cerca de 30 a 50 aparelhos nas
+residências) na tabela sem comprometer a figura. Por isso, o usuário
+tem a opção de abrir uma janela que irá conter essa legenda
+(Figura~\ref{fig:temporizado_gui_legenda}), que será atualizada
+automaticamente enquanto o usuário preenche o gabarito.
+\end{itemize}
+
+\begin{figure*}[p!]
+  \begin{center}
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/Temporizado_gui_eventos.png}
+      \caption{Informação disponível ao selecionar amostragem do
+medidor e eventos de transitório para o conjunto de dados \emph{Temporizado}.}
+      \label{fig:temporizado_gui_eventos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/Temporizado_gui_legenda.png}
+      \caption{Informação disponível ao selecionar a informação
+estimada de consumo desagregado por aparelho e a janela de legenda
+para o conjunto de dados \emph{Temporizado}.}
+      \label{fig:temporizado_gui_legenda}
+    \end{subfigure}
+  \end{center}
+\caption{Informação gráfica para o Módulo de Interação Gráfica com os
+Dados: Disposição da informação.}
+\label{fig:gui_informacao} \end{figure*}
+
+
+
+\section{Análise dos Dados}
+\label{sec:analise}
+
+O Módulo de Análise dos Dados foi implementado para refletir o ponto
+inicial da metodologia empregada pelo \acs{cepel}, mas adaptando o
+mesmo para o ambiente de análise, corrigindo possíveis pequenos
+equívocos no código original e expandindo o mesmo. Suas aptidões
+são:
+
+\begin{itemize}
+\item Continuidade da análise: a versão de ponto de partida gerava
+um evento na leitura de cada novo arquivo. Isso ocorria porque o
+consumo inicial em cada arquivo raramente é zero, e a inicialização
+das condições do filtro pelo \emph{Matlab} é realizada considerando
+que ele estava em repouso recebendo entradas nulas e respondendo
+valores também nulos. Para dar a continuidade entre as segmentações
+dos dados o próprio \emph{Matlab} fornece o vetor de condições finais
+$\underline{z}_f$ no final da leitura de um arquivo para ser aplicado
+na leitura do próximo arquivo como condições inicias
+$\underline{z}_i$. Porém, no caso do início do arquivo e nas possíveis
+reinicializações da análise devido a descontinuidade das amostras, era
+necessário determinar como simular a condição onde o filtro estava em
+repouso (com respostas nulas em estado permanente) para a entrada com
+o valor da amostra inicial. Seja, assim, a determinação da resposta
+$y(m)$ para um \acs{fir} dada por \ref{eq:y_m_fir}
+\cite[p.~311-312]{oppenheim}\footnote{Referência utilizada pelo
+\emph{Matlab} na implementação do \acs{fir}.}, onde $b(k)$ é o k-ésimo
+coeficiente do filtro de ordem $n-1$. Deseja-se encontrar o
+vetor $\underline{z}_i$ que, dado o vetor de amostras de entrada
+$\underline{x}$, irá gerar uma resposta $\underline{y}$ constante e
+nula para toda janela do filtro. Ao representar \ref{eq:y_m_fir} em
+forma matricial e igualando $\underline{y}=0$, obtém-se
+\ref{eq:matrix_fir}. No caso, quer-se simular que o filtro estava em
+repouso para a primeira amostra do arquivo, bastando fazer
+$\underline{x}=a_1$, onde $a_1$ é a primeira amostra do conjunto de
+dados ou a primeira amostra após uma descontinuidade. Assim,
+utiliza-se \ref{eq:matrix_fir} com esse valor para $\underline{x}$;
+
+\begin{subequations}
+\begin{eqnarray}\label{eq:y_m_fir}
+y(m) = b(1)x(m)+z_1(m-1)  \nonumber \\
+z_1(m) = b(2)x(m)+z_2(m-1)  \nonumber \\
+\;\;\vdots\;\;\;\;\;\; =
+\;\;\;\;\;\;\;\vdots\;\;\;\;\;+\;\;\;\;\;\;\vdots\;\;\;\;\;\;\;  \\
+z_{n-2}(m) = b(n-1)x(m)+z_{n-1}(m-1)  \nonumber \\
+z_{n-1}(m) = b(n)x(m) \nonumber
+\end{eqnarray}
+\begin{equation} \label{eq:matrix_fir}
+\underline{z} = 
+\underbrace{\begin{bmatrix}
+b(n-1) & b(n-2)   & b(n-3) & \dots & b(1) \\
+       & b(n-2)   & b(n-3) & \dots & b(1) \\
+       &          & b(n-3) & \dots & b(1) \\
+       &\mathbf{0}&        & \ddots & \vdots \\
+       &          &        &        & b(1) \\
+\end{bmatrix}}_{\mathbf{B}'}\underline{x}
+\end{equation}
+\end{subequations}
+
+\item Pareamento da resposta do \acs{fir} com os dados: como a análise
+é \emph{a posteriori}, para facilitar a interpretação, remove-se o
+atraso na resposta do \acs{fir} para que a mesma fique alinhada com a
+amostra sendo analisada, facilitando a compreensão do problema;
+
+\item Janela do filtro com apenas com valores relevantes: o tamanho da
+janela do filtro tem influência direta no tempo de execução do
+algoritmo, uma vez que a convolução será realizada com uma janela
+maior de pontos para cada uma das amostras analisadas. Diminuir a
+janela em duas amostras significa que para cada amostra no arquivo
+serão realizados pelo menos dois cálculos a menos. Assim, além de dar
+um valor limite para o tamanho da janela do filtro, é necessário podar
+o mesmo para conter apenas valores relevantes, desconsiderando pontos
+com grandeza irrelevante. Para isso, se realiza um corte para pontos
+com ordem de grandeza $10^{-3}$ menores que o ponto de maior
+relevância do filtro. Apenas com esse corte já foi possível obter
+grandes reduções no tamanho da janela e consequentemente no tempo de
+execução do algoritmo;
+
+\item Reconhecimento de múltiplas análises com mesma configuração:
+suponha que se deseje realizar quatro análises, duas delas com um filtro com
+$\sigma=2$ e valores de corte \acs{di}$_{min}=0,1$ e
+\acs{di}$_{min}=0,2$, enquanto os outros dois filtros irão ter 
+$\sigma=3$ com os mesmos cortes. Nesse caso, não é necessário gerar a
+respostas dos filtros de derivada de Gaussiana quatro vezes, apenas
+duas vezes e então aplicar os dois cortes em cada uma dessas
+respostas. O ambiente de análise realiza a identificação dessas
+ocorrências quando executando múltiplas análises e as executa apenas
+uma vez, partilhando essa memória para os algoritmos seguintes; 
+
+\item Informação gráfica: a Figura~\ref{fig:analise_eventos} contém um
+exemplo de gráfico gerado para uma análise. É possível observar a
+resposta do filtro de derivada de Gaussiana, as regiões
+sensibilizadas, os eventos, suas janelas para cálculo das \acs{fex} e
+os seus estados (ver p.~\pageref{text:estados_eventos}) informando se
+os mesmos foram aceitos ou foram eliminados devido a algum dos cortes.
+
+\end{itemize}
+
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=.8\textwidth]{imagens/Empilhado7_ex_incosistencia_e_media.pdf}
+\caption[Exemplo de informação gráfica para o Módulo de Análise dos
+Dados.]{Exemplo de informação gráfica para o Módulo de Análise dos
+Dados. Na subfigura inferior, as regiões verdes e vermelhas indicam
+regiões sensibilizadas por respostas positivas e negativas,
+respectivamente. A resposta para o filtro de
+derivada de Gaussiana é representado pela linha pontilhada, enquanto a
+linha horizontal cinza é o limear de corte para a geração de uma região
+sensibilizada. É possível observar um caso de evento incosistente e
+outro removido devido a evento próximo. Para o caso do evento inconsistente, em azul, seu
+degrau de potência é positivo enquanto sua resposta é negativa,
+revelando sua incosistência. Já os eventos próximos representados
+pelas caixas amarelas foram removidos por estarem próximos, sendo
+substituídos pela sua média (a linha verde). Nessa figura também é possível observar
+as regiões que serão utilizadas para a extração do transitório (região
+cinza) e as regiões utilizadas para calcular o degrau de potência
+(regiões amarelas pré/pós-transitório). }
+\label{fig:analise_eventos}
+\end{sidewaysfigure}
+
+
+\section{Otimização dos Parâmetros}
+\label{sec:otimizacao}
+
+Retornando agora para o esboço do ambiente
+(Figura~\ref{fig:ambiente_analise}), observa-se que o Módulo de
+Otimização dos Parâmetros utiliza o módulo de análise iterativamente
+para obter parâmetros ótimos (não necessariamente o ótimo global). 
+
+\begin{itemize}
+
+\item Redução de memória transitória: um detalhe operativo, as
+análises geradas pelo usuário mantém a informação da resposta do
+filtro de Gaussiana após o término da análise pois essa informação é
+necessária para gerar a informação gráfica, porém, no caso do
+otimizador diversas análises serão geradas, sendo interessante limitar
+ao máximo o consumo de memória em cada uma delas. Por isso, as
+análises geradas pelo algoritmo remove qualquer informação irrelevante
+durante a execussão da análise como a resposta do filtro e qualquer
+outros elementos não necessários, mantendo apenas os eventos de
+transitório;
+
+\item Regras de Pontuação: para realizar a otimização, é necessário
+haver uma regra para o otimizador avaliar aquilo que é desejável do
+que não é. É natural que essa regra tome como recompensa identificar
+corretamente um evento de transitório e como punição gerar um evento
+de transitório aonde essa informação não existe. O primeiro caso é
+referido de detecção, enquanto o segundo consiste de um falso positivo
+ou falso alarme. Também é possível adicionar outras punições, por
+exemplo, não é desejável que sejam gerados muito candidatos para serem
+removidos, isso irá reduzir a velocidade de processamento e se uma
+solução consegue realizar a detecção com acurácia parecida mas gerando
+menos candidatos, é preferível optar por essa opção, mesmo que ela
+tenha uma performance ligeiramente reduzida para obter uma performance
+de execução quando aplicado em um \gls{nilm} na residência melhor.
+Porém, essa punição deve ser pequena, por não ser a grande questão a
+ser otimizada. A regra de pontuação utilizada está representada em
+\ref{eq:regra_pontuacao}. Ainda, os eventos detectados pelo Módulo de
+Análise não estarão exatamente na mesma posição que os eventos gerados
+pelo usuário no gabarito, sendo preciso definir uma janela de um
+número máximo de amostras \acs{jmax} para os quais irá aceitar o
+evento de detecção;
+\begin{equation}\label{eq:regra_pontuacao}
+\textbf{Aptidão}=\gamma_{det}N_{det}+\gamma_{fa}N_{fa}+\gamma_{rem}N_{rem}
+\end{equation}
+\noindent onde:
+\begin{description}
+\item[$\text{Aptidão}$] mede a capacidade de resposta da análise realizada,
+sendo de interesse maximizar esse valor.
+\item[$\gamma_{det}$] é a pontuação que a análise recebe para cada
+evento de detecção;
+\item[$N_{det}$] é a quantidade de eventos detectados;
+\item[$\gamma_{fa}$] é a pontuação que a análise recebe para cada
+ocorrência de falso alarme;
+\item[$N_{fa}$] é a quantidade de ocorrências de falso alarme;
+\item[$\gamma_{rem}$] é a pontuação que a análise recebe para cada
+ocorrência de candidatos removidos;
+\item[$N_{rem}$] é a quantidade de candidatos removidos;
+\end{description}
+
+\item Comparação da resposta da análise com o gabarito: em posse da
+regra de pontuação \ref{eq:regra_pontuacao} e \acs{jmax}, realiza-se a
+comparação entre as duas informações e retona-se a eficiência em termos
+de Aptidão;
+
+\item Escolha do algoritmo: a função a ser otimizada não é
+diferenciável e portanto não é possível utilizar os métodos
+convencionais de otimização. É necessário empregar algum método de
+tentativa e erro para realizar essa tarefa. Neste trabalho, optou-se
+pela utilização de um \acs{es}, porém uma outras estratégias de
+otimização podem ser utilizadas, como Inteligência de Enxame. 
+Irá se aprofundar nas características do algoritmo
+implementado na Subsessão~\ref{ssec:es}.
+
+\end{itemize}
+
+
+\subsection[Algoritmo Genético de Estratégia Evolutiva]{\acf{es}}
+\label{ssec:es}
+
+Foi realizado a implementação de uma versão própria de um \acs{es} com
+base em \cite[cap. 4]{eiben2003introduction}, mas antes de entrar em
+detalhes sobre a versão implementada cabe introduzir o tema sobre
+algoritmos de estratégia evolutiva.
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=.9\textwidth]
+{imagens/ga.pdf}
+\caption[Esboço de um algoritmo evolutivo genérico.]
+{Esboço de um algoritmo evolutivo genérico. Baseado em
+\cite[p. 17]{eiben2003introduction}.}
+\label{fig:esboco_ga}
+\end{figure}
+
+Dispõe-se na Figura~\ref{fig:esboco_ga} a sequência de otimização
+de um algoritmo evolutivo genérico. Ela conta com uma população
+inicial, onde se recomenda que a mesma seja iniciada aleatóriamente.
+Essa população inicial passará por um processo de seleção parental
+aonde serão obtidos os espécimes ou individuos para a propagação de
+sua informação genética para sua prole, a \gls{mu}. Porém, a
+\gls{lambda} recebe o, material perturbado através de operações de
+recombinação e mutação. A mutação é uma pertubação que ocorre somente
+levando em conta o material de um pai, enquanto a recombinação ocorre
+no mínimo com dois pais. A capacidade de encontrar novas regiões
+promissoras (genes alelos) --- descoberta --- no espaço de busca de
+soluções e ganhar informação no problema é dada pela mutação através
+de diversificações aleatórias, enquanto a recombinação realiza a
+otimização dentro de uma área promissora (no caso, dentro da
+informação genética dos pais) --- exploração ---, dando grandes pulos
+para uma região dentro de duas áreas. O resultado do material genético
+pertubado constitui da base para a geração da prole. Irá ocorrer então
+a seleção dos sobreviventes, que pode levar em consideração a prole e
+os pais nesse processo ($\mu$+$\lambda$) ou apenas a prole
+($\mu$,$\lambda$). Os individuos selecionados são a nova geração da
+população, repetindo o processo até uma condição de parada. Geralmente
+a parada é através de um número máximo de gerações.
+
+Cabe ainda definir a diferença entre genótipo e fenótipo do ponto e
+vista computacional. A representação em genótipo é aquela que sofre as
+pertubações e codifica a representação do espécime, enquanto o
+fenótipo representa a informação como é demonstrada pelo espécime para
+o problema em questão, ou seja, o espaço de solução. Pode haver
+diferença entre as duas representações ou não, por exemplo, a
+representação \{Norte,Leste,Sul,Oeste\} seria as possíveis
+representações do fenótipo, e sua codificação em genótipo poderia ser
+feita como \{1,2,3,4\}, respectivamente. Nota-se a importância de não
+só saber representar a informação em genótipo para realizar as
+operações de pertubação no material, como possuir uma maneira de
+decodificá-la novamente no espaço do fenótipo. Para isso, cada solução
+do fenótipo deve ser mapeável, bem como cada genótipo tenha a
+decodificação em apenas uma solução. Ainda, a escolha da representação
+irá afetar o problema: no exemplo citado a representação escolhida
+não parece ter o significado do fenótipo, uma vez que Norte e Oeste são
+vizinhos entre si, enquanto na representação eles estão distantes de três
+unidades. Uma escolha em variáveis cíclicas parece representar o
+problema fidedignamente
+$\{(\text{sen}(\frac{1\pi}{2}),\cos(\frac{1\pi}{2})),
+(\text{sen}(\frac{2\pi}{2}),\cos(\frac{2\pi}{2})),
+(\text{sen}(\frac{3\pi}{2}),\cos(\frac{3\pi}{2})),
+(\text{sen}(\frac{4\pi}{2}),\cos(\frac{4\pi}{2}))\}$, porém o genótipo
+seria representado em duas variáveis.
+
+\subsubsection{Versão original}
+
+O \acs{es} é um algoritmo genético cuja especialidade é a
+auto-adaptação de sua estratégia evolutiva. Enquanto nos outros
+algoritmos genéticos geralmente a taxa de mutação é pequena, e a taxa
+de recombinação a de maior peso no processo de otimização, isso é o
+oposto para o caso do \acs{es}. Todos os individuos passam por
+pertubações Gaussianas em seu material genético, no entanto, a ordem
+dessas pertubações são ajustadas conforme a evolução da espécie,
+aumentando ou diminuindo sua ordem conforme as necessidades de
+evolução. Assim, o \acs{es} irá aumentar a ordem de suas pertubações
+quando distante de um valor ótimo --- sujeito a capacidade de perceber
+uma tendência no espaço de solução apontando na direção de um ótimo
+--- e reduzir as pertubações conforme se aproxima desse valor para
+realizar o ajuste fino. Há também uma pequena taxa de recombinação
+para aumentar a velocidade de convergência, normalmente na faixa de
+10\%\footnote{As taxas de recombinação e mutação são dadas em termos
+de probabilidade.}. A seleção parental não é influenciada pela aptidão
+dos individuos, quando utilizando taxa de recombinação a escolha dos
+pais para haver troca de material genético é realizado de maneira
+aleatória uniforme. A melhoria gradual das gerações é realizado pela
+seleção dos sobreviventes, que é realizada através de
+($\mu$,$\lambda$) com pressão alta de seleção. Entende-se como pressão
+de seleção dos sobreviventes a grandeza demonstrada por
+\ref{eq:pressao_selecao}. É importante a seleção
+através de ($\mu$,$\lambda$) em comparação com a ($\mu$+$\lambda$)
+para evitar ótimos locais, bem como garantir que não haverá propagação
+de individuos com estratégias mal-adaptadas através das gerações. O
+mesmo se dá versões que utilizam elitismo --- manter ao menos uma
+cópia do membro mais apto da população na próxima geração ---, não
+sendo recomendado no \acs{es} pelo mesmo problema da seleção parental
+através de ($\mu$+$\lambda$). É importante também que a seleção de
+sobreviventes aplique uma alta pressão de seleção, garantindo a
+capacidade adaptativa do \acs{es}, normalmente utilizando
+$\frac{\lambda}{\mu}=7$.
+
+\begin{equation}\label{eq:pressao_selecao}
+\text{Pressão de Seleção} = \dfrac{\lambda}{\mu}
+\end{equation}
+
+Optou-se pela mutação descorrelacionada com $n$ tamanhos de passo
+\cite[p. 76--78]{eiben2003introduction}. Nessa configuração, cada
+variável representado no genótipo tem sua própria pertubação, sendo
+descrita por \ref{eq:s_esbegin}, enquanto sua pertubação é adaptada
+anteriormente de acordo com \ref{eq:sigma_esbegin}. A taxa de
+aprendizado é divida em dois parâmetros, $\tau$ e $\tau'$, onde aquele
+é a base de aprendizado, que garante uma mudança global na
+mutabilidade para preservar os graus de liberdade do problema, e este
+é uma mutação específica por coordenada, fornecendo flexibilidade para
+empregar diversas estratégias de mutação em diferentes difereções. Os
+valores indicados para ambos são $1/\sqrt{2n}$ e $1/\sqrt{2\sqrt{n}}$,
+respectivamente. O alcance da pertubação no material genético dado uma
+determinada probabilidade de ocorrência fixa formam elipsóides no
+espaço de solução alinhadas com os eixos da representação escolhida. 
+
+\begin{subequations}
+\begin{equation}\label{eq:s_esbegin}
+x_i' = x_i\sigma_i'N_i(0,1)
+\end{equation}
+\begin{equation}\label{eq:sigma_esbegin}
+\sigma_i' = \sigma_ie^{\tau'N(0,1)+\tau N_i(0,1)}
+\end{equation}
+\end{subequations}
+
+\noindent onde: 
+
+\begin{description}
+\item[$N(0,1)$] e $N_i(0,1)$ são uma pertubação Gaussiana com média
+zero e $\sigma$ unitário, a primeira sendo um único valor para todos
+as representações , enquanto a segunda uma para cada representação $i$; 
+\item[$x_i$] e $x_i'$ é a i-ésimo representação e a mesmo após sofrer a
+pertubação;
+\item[$\sigma_i$] e $\sigma_i'$ é a i-ésima estratégia evolutiva e a
+mesma após sofrer a pertubação.
+\end{description}
+
+Para a recombinação, implementou-se a versão local da mesma por ela
+ser mais simples de elaborar, pretendendo alterar no futuro para
+a recombinação global que é mais indicada para o caso do \acs{es}.
+Porém, a recombinação utilizada não é o quesito principal do
+algoritmo, servindo apenas para melhorar a velocidade de convergência.
+Para o caso implementado, o material genético é mesclado entre apenas
+dois individuos. A informação genética que representa o espaço de
+solução é misturada através de \ref{eq:rec_discreta} --- recombinação discreta
+---, enquanto a versão para a estratégia evolutiva é realizada através
+de \ref{eq:rec_intermediaria} --- recombinação intermediária.
+
+\begin{subequations}
+\begin{equation}\label{eq:rec_discreta}
+\left\{\begin{array}{l}
+x_{i,1}' = x_{i,1} \;\; \textit{ou} \;\; x_{i,2} \;\;\;\;\;\; \text{escolhidos
+aleatoriamente}\\
+x_{i,2}' = x_{i,\text{o.c.}}
+\end{array}\right.
+\end{equation}
+\begin{equation}\label{eq:rec_intermediaria}
+\left\{\begin{array}{l}
+\sigma_{i,1}' = \dfrac{(\sigma_{i,1}+\sigma_{i,2})}{2} \\
+\sigma_{i,2}' = \dfrac{(\sigma_{i,1}+\sigma_{i,2})}{2}
+\end{array}\right.
+\end{equation}
+\end{subequations}
+
+\noindent onde:
+
+\begin{description}
+\item[$x_{i,1}$] e $x_{i,2}$ são a i-ésima representação para o
+primeiro e segundo pai, respectivamente; 
+\item[$x_{i,o.c.}$] é a i-ésima representação para o pai não
+selecionado para $x_{i,1}'$;
+\item[$\sigma_{i,1}$] e$\sigma_{i,2}$ são a i-ésima estratégia
+evolutiva para o primeiro e segundo pai, respectivamente;
+\item[$x_{i,1}'$] e $x_{i,2}'$ são a i-ésima representação para o
+primeiro e segundo pai após a pertubação, respectivamente; 
+\item[$\sigma_{i,1}'$] e $\sigma_{i,2}'$ são a i-ésima estratégia
+evolutiva para o primeiro e segundo pai após a pertubação,
+respectivamente.
+\end{description}
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=.9\textwidth]{imagens/Ackley.png}
+\caption{Função de \emph{Ackley} em duas dimensões para $-30,0< x_i <
+30,0$.}
+\label{fig:funcao_ackley}
+\end{figure}
+
+A referência \cite[p. 84]{eiben2003introduction} cita um exemplo de um
+outro autor que aplicou o \acs{es} para a função de \emph{Ackley},
+onde foi utilizado \acs{mu}$ = 30$, \acs{lambda}$ = 200$, e $x_i$
+inicial entre $-30,0 < x_i < +30,0$ e um total de 200.000 avaliações
+da função. Para um total de 10 execuções, o exemplo citado obteve a
+melhor solução com valor da função de $7,48\times10^{-8}$. A função de
+\emph{Ackley} é altamente multimodal, com um grande número de mínimos
+locais, mas com apenas um máximo global $\overline{x}=0$ e seu valor
+$f(\overline{x})=0,0$. Para validar o algoritmo implementado, executou-se o
+\acs{es} para essas configurações, obtendo uma ocorrência de
+convergência para mínimo local com o valor de $1,34$, e todas as
+outras ocorrências dão uma aptidão de média de
+$1,87\times10^{-7}\pm2.56\times10^{-7}$, onde a melhor solução é de
+tem a aptidão $1,34\times10^{-8}$. A evolução da execução com melhor
+convergência está na Figura~\ref{fig:es_standard}, mostrando o valor
+médio de aptidão na geração da população na convergência. Apesar do exemplo
+citado informar que todos os mínimos encontrados foram os globais, na
+versão aqui implementada, ocorrem casos em que não há a convergência
+para o mínimo global, ainda que em outras execuções seja possível
+encontrar todas as 10 minimizações convergindo para o mínimo global. É
+importante ter em mente que a convergência não ocorre necessariamente
+para o mínimo global, sendo uma propriedade bem conhecida dos
+algoritmos genéticos.  De qualquer forma, os valores obtidos estão
+próximos da referência e existem parâmetros não informados como o
+valor mínimo de pertubação $\sigma_{min}$ e o valor inicial para as
+pertubações $\sigma_{inicial}$ que podem influênciar na resposta.
+Apenas como referência, os valores utilizados para esses casos foram
+$\sigma_{min}=1\times10^{-9}$ e $\sigma_{inicial}=1$.
+
+
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_standard.pdf}
+\caption[Evolução para o melhor individuo para a validação da versão
+original do ES]{Evolução para o melhor individuo para a validação da versão
+original do \acs{es}. O objetivo é minimizar a função de
+\emph{Ackley}, que pela visão do \acs{es} funciona como maximizar a
+função com seus valores opostos. Por isso, os valores mostrados são
+negativos.}
+\label{fig:es_standard}
+\end{figure}
+
+\subsubsection{Versão Multiespécie}
+
+Poderia ser utilizado a versão original do \acs{es} para realizar a
+otimização dos parâmetros necessários na abordagem do problema. No
+entanto, a decorrência da dúvida quanto a qual caminho
+percorrer para a análise (ordem de remoção de eventos e quais delas
+empregar) haveriam de ser realizadas diversas execuções
+do algoritmo para otimizar os valores de maneira individual. Ao invés
+de executar cada uma delas, motivado pela ideia de otimização
+multiobjetivo \cite[cap. 9]{eiben2003introduction}, decidiu-se utilizar
+a ideia de subpopulações --- que serão referidas por espécies, por
+poderem ter cromossomos diferentes dependendo da configuração
+utilizada ---, mas aplicando a mesma para um outro conceito. No caso,
+ao invés de utilizar espécies para otimização de múltiplas funções
+objetivo, esse conceito irá ser utilizado para criar uma dinâmica
+entre as várias otimizações sendo realizadas no problema.
+
+A ideia da dinâmica é reservar o esforço computacional para aquelas
+abordagens que estão mostrando capacidade de resolver o problema com
+maior aptidão, revelando-se uma espécie mais adequada para o
+\emph{habitat} em que os espécimes estão sendo avaliados. Porém, isso
+deve ser realizado sem comprometer a evolução de espécies que, por
+algum motivo, sofreram desvantagem durante o processo evolutivo ---
+seja por uma inicialização em condições desprivilegiadas, ou por uma
+demora maior para ajustar sua estratégia evolutiva. Assim, a proposta
+é executar apenas uma otimização para as diferentes maneiras de
+tratar o problema, aonde todas as configurações desejadas irão
+competir entre si de modo que o algoritmo irá reservar maior
+esforço computacional para otimizar mais profundamente aquela que se
+melhor adequa ao espaço de solução, diferente da versão onde se
+executaria para cada espécie, reservando esforço computacional igual
+para espécies que não tem se mostrado adequadas para a solução do
+problema.
+
+Assim, propuseram-se duas configurações para as competições dos
+espécimes:
+
+\begin{itemize}
+\item Interespécie: nesse caso há cooperação entre os individuos de
+uma mesma espécie. É calculada a aptidão para cada espécie
+(\ref{eq:aptidao_especie}) para ser utilizada como parâmetro na
+competição das mesmas e determinar a parcela da população global que
+elas tem direito. Uma vez determinado o tamanho da população de cada
+espécie, seus individuos irão competir entre si para determinar os
+sobreviventes. É necessário escolher um método para avaliar a aptidão
+das espécies e como determinar suas populações através dele;
+\item Intraespécie: os espécimes disputam entre si na população global
+independente de qual espécie pertencem. Nessa configuração não há
+cooperação entre os individuos de uma mesma espécie, apenas os
+melhores da população global sobrevivem;
+\end{itemize}
+
+Para evitar que espécies não tenham a oportunidade de se desenvolverem
+antes que sua população seja drasticamente reduzida ou até mesmo
+extinta, tratou-se cada um dos casos individualmente. No caso da
+seleção interespécie, é necessário escolher uma função que privilegie
+espécies mais aptadas, mas que uma diferença de aptidão muito grande
+--- que irá ocorrer em especial durante o inicio da evolução devido a
+espécies condicionadas em ambientes mais propícios que outras --- não
+elimine toda a diversidade das populações antes que elas adequem sua
+estratégia evolutiva. Para isso, escolheu-se empiricamente a função
+\ref{eq:funcao_interespecie}, para suavizar a pressão aplicada
+em espécies menos aptas. A população reservada para uma espécie para a
+próxima geração é dada por \ref{eq:mu}. Entretanto, como se utiliza a
+função de corte \emph{floor} para transformar os valores em inteiros,
+ao somar $\mu_i'$ para cada espécie pode acabar resultando em uma
+população menor que $\mu$. Assim, distribui-se aleatoriamente os
+individuos faltantes nas espécies de forma que a soma dos $\mu_i'$
+seja o mesmo que $\mu$. Um exemplo de execução para 10 espécies para a
+função de \emph{Ackley} pode ser visto na
+Figura~\ref{fig:interespecies}.
+
+\begin{subequations}\label{eq:inter_especie}
+\begin{equation} \label{eq:aptidao_especie}
+\text{Aptidão}_{(i)} = \sum^{\lambda_i}_{j=1} \text{Aptidão}_{(i,j)}
+\end{equation} 
+\begin{equation} \label{eq:funcao_interespecie}
+f_{inter}(i)=log_2(\text{Aptidão}_{(i)}-min(\text{Aptidão}_{(i)}|\forall i\in \Gamma)+2)
+\end{equation} 
+\begin{equation} \label{eq:mu}
+\mu_i' = floor\left(\dfrac{\text{Aptidão}_{(i)}}{f_{inter,norm}}\right)
+\end{equation}
+\begin{equation} \label{eq:fnorm}
+f_{inter,norm}= \sum_{\forall i\in \Gamma} f_{inter}(i)
+\end{equation}
+\end{subequations}
+
+\noindent onde:
+
+\begin{description}
+\item[$\lambda_i$] é o tamanho da população da prole da i-ésima
+espécie;
+\item[$\Gamma$] é o espaço contendo todas as espécies;
+\item[$\mu_{i}'$] é o tamanho da população dos pais da i-ésima espécia
+para a próxima geração;
+\end{description}
+
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_interspecies.pdf}
+\caption[Competição interespécie.]{Competição interespécie. Na
+subfigura superior, as linhas contínuas, tracejadas finas e tracejadas
+grossas indicam respectivamente os individuos mais aptos de cada
+espécie, a média de aptidão da população de cada espécie e os
+individuos menos aptos de cada espécie. As subfiguras inferiores
+indicam a população para cada espécie, sendo a mais inferior a
+população para a prole, e o outro caso a população dos pais da
+espécie.}
+\label{fig:interespecies}
+\end{figure}
+
+Um outro mecânismo foi implementado para impedir a extinção de uma
+espécie. Ele funciona como um órgão de proteção da diversidade de
+espécies, limitando de espécies próximas de entrarem em extinção de
+reduzirem a sua população, independente do quão mal esses individuos
+se adequam ao \emph{habitat} para o qual estão sendo avaliados.
+
+Isso foi especialmente importante para o caso de competição
+intraespécie, onde uma espécie ao encontrar um material genético de
+melhor qualidade em comparação com as outras, rapidamente tomava conta
+da população global por espalhar esse material entre sua população com
+grande velocidade. Na Figura~\ref{fig:intraspecies_nopressure}
+observa-se que se não fosse esse mecânismo, a espécie azul ou amarela
+iriam extinguir todas as outras tomando conta da população
+global. Fica evidente também que apenas um órgão de proteção da
+diversidade de espécies não é suficiente para garantir a evolução das
+espécies, é necessário suavizar a competição, de modo que uma espécie
+que por algum motivo se tornou mais apta não extermine outras espécies
+rapidamente acabando com sua diversidade e não as dê a oportunidade
+para evoluir, já que os individuos que sobraram possivelmente ainda não
+ajustaram sua estratégia evolutiva. A 
+Figura~\ref{fig:intraspecies_nopressurecontrol_info} mostra as
+pressões de seleção em ordens muito além daquelas que deveriam
+ocorrer, obtendo valores na ordem de 20 logo no ínicio da evolução
+para as espécies que foram iniciadas em condições menos favoráveis,
+eliminando toda sua diversidade em poucas gerações. Já as espécies que
+conseguiram se desenvolver, observa-se que as mesmas ao conseguirem
+uma aptidão melhor que a da outra espécie rapidamente tomam conta da
+população global, pontos que são marcados pelos picos na pressão de
+seleção das espécies antes dominantes.
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_intraspcies_nopressurecontrol.pdf}
+\caption[Competição intraespécies sem intervenção na
+competição.]{Competição intraespécies sem intervenção na competição.}
+\label{fig:intraspecies_nopressure}
+\end{figure}
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_intraspcies_nopressurecontrol_pressureInfo.pdf}
+\caption[Pressão de seleção para competição intraespécie sem
+intervenção na competição.]{Pressão de seleção para competição
+intraespécie sem intervenção na competição.}
+\label{fig:intraspecies_nopressurecontrol_info}
+\end{figure}
+
+Em vista disso, implementou-se um mecânismo de controle de pressão de
+seleção por espécie. Esse mecânismo irá aceitar um valor máximo de
+pressão para cada espécie, se o valor ultrapassar o limiar, então irá
+reduzir sua pressão ao alocar espaço da população para essa espécie
+retirando das espécies com maior alocação de população até que a
+alocação de população dessas espécies que ultrapassaram o corte máximo
+de pressão resultem em um valor aceitável da mesma. A escolha de
+retirada da alocação de individuos é feita da seguinte maneira:
+
+\begin{itemize}
+\item Inicia-se reduzindo a alocação de população da espécie com maior
+população;
+\item Se o valor da espécie de maior população atingir o tamanho da
+população de uma outra espécie, adiciona-se essa espécie para a
+redução de população e continua o processo. Caso isso ocorra
+novamente, a próxima espécie também será adicionada para redução de
+população e o processo continua até que seja determinado quais
+espécies irão ceder espaço para que a população das espécies com altas
+pressões satisfaça o critério mínimo;
+\item Quando há o agrupamento de espécies para redução e a
+necessidade de reduzir um número não inteiro de população em cada
+espécie agrupada, a escolha do residuo da divisão é feita
+aleatoriamente. Ex. se houver de suprir 100 espécimes para garantir que
+a pressão de seleção em níveis aceitáveis, e houver 3 espécies tendo
+sua população reduzida, irá retirar 33 individuos de cada uma delas,
+porém a escolha da espécie que perderá mais um individuo será
+realizada aleatoriamente.
+\end{itemize}
+
+A execução para uma pressão máxima de 7,3 pode ser visualizada na
+Figura~\ref{fig:intraspecies_pressurecontrol}, onde fica evidente a
+convergência da população para a máxima aptidão (ou mínimo da função
+da \emph{Ackley}). Também se observa uma mudança menos brusca quando
+comparado à versão sem intervenção na competição, mostrando que o
+controle é importante para garantir mudanças mais suaves na
+configuração da população. Uma observação importante pode ser
+realizada quanto ao órgão de proteção de diversidade de espécies: não
+fosse sua operação, diversas espécies teriam sido extintas durante o
+processo evolutivo. Na
+Figura~\ref{fig:intraspecies_pressurecontrol_info} observa-se a
+pressão de seleção requerida pela competição natural, e aquela
+aplicada pelo sistema de intervenção. Observa-se que a competição
+natural chega a exigir pressões de até 500, o que acabaria com a
+diversidade de uma espécie em uma única geração. Assim, ao optar pela
+versão de competição intraespécies faz-se necessário interferir na
+competição para que todas as espécies tenham chances de evoluir. 
+
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_intraspecies_pressurecontrol.pdf}
+\caption[Competição intraespécies com intervenção na
+competição.]{Competição intraespécies com intervenção na competição.}
+\label{fig:intraspecies_pressurecontrol}
+\end{figure}
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/es_intraspcies_pressurecontrol_pressureInfo.pdf}
+\caption[Pressão de seleção para competição intraespécie com 
+intervenção na competição.]{Pressão de seleção para competição
+intraespécie com intervenção na competição.}
+\label{fig:intraspecies_pressurecontrol_info}
+\end{figure}
+
+Há uma nítida diferença entre como as duas seleções se comportam. Ao
+comparar as figuras~\ref{fig:interespecies} e
+\ref{fig:intraspecies_pressurecontrol}, percebe-se que o caso de
+competição interespécie tem uma mudança bastante tênue na configuração
+da população, privilegiando as espécies com melhor aptidão
+proporcionalmente à sua aptidão como espécie. No caso, a escolha da
+função torna a vantagem pequena entre elas, já que se utiliza uma
+atenuação logaritmica. Enquanto isso, na competição intraespécie com
+intervenção (a versão sem intervenção não é recomendada) observa-se
+que o crescimento da população da espécie ocorre gradualmente conforme
+seus individuos ocupam posições privilegiadas no espaço de
+solução.
+
+Finalmente, também se adicionou uma outra funcionalidade ao \acs{es}.
+Como as otimizações podem levar dias para serem executadas, viu-se a
+necessidade de armazenar o processo enquanto ele evoluia, para
+garantir que se ocorresse algum problema na máquina em execução, não
+houvesse de recomeçar o processo desde a primeira geração. Assim, a
+versão do algoritmo é capaz de armazenar, se o usuário requirir, as
+gerações e recuperar o processo caso ocorra a interrupção do processo
+por algum motivo. 
+
