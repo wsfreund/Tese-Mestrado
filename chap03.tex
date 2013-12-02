@@ -25,19 +25,20 @@ como \cite{iea_weo2010}:
 \begin{figure}[h!t]
     \label{fig:eletricidade_brasil}
     \begin{center}
-%
-        \subfigure[]{%
-            \label{fig:matriz_bra_2011}
-            \includegraphics[width=0.8\textwidth]{imagens/matriz_energetica_brasileira_2011.pdf}
-        } \\ %\hspace{0.05\textwidth}
-        \subfigure[]{%
-            \label{fig:matriz_bra_evo}
-            \includegraphics[width=0.8\textwidth]{imagens/evolucao_matriz_energetica_brasil.pdf}
-        }
-%
-    \end{center}
-    \caption[Matriz energética brasileira.]{A matriz elétrica brasileira
-em 2011 (a) e seu histório (b). Baseado (a) e extraído (b) de \cite{ben2012}.}% 
+    \begin{subfigure}[c]{0.8\textwidth}
+      \includegraphics[width=\textwidth]{imagens/matriz_energetica_brasileira_2011.pdf}
+      \caption{}
+      \label{fig:matriz_bra_2011}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.8\textwidth}
+      \includegraphics[width=\textwidth]{imagens/evolucao_matriz_energetica_brasil.pdf}
+      \caption{}
+      \label{fig:matriz_bra_evo}
+    \end{subfigure}
+  \end{center}
+  \caption[Matriz energética brasileira.]{A matriz elétrica brasileira
+em 2011 (a) e seu histório (b). Baseado (a) e extraído (b) de \cite{ben2012}.}
 \end{figure}
 
 \begin{itemize}
@@ -48,7 +49,7 @@ no setor residêncial;
 reflexo do desenvolvimento e melhor distribuição da riqueza;
 \item a expansão do setor comercial e de serviços utilizando uma quantidade
 maiores de aparelhos elétricos (como ar condicionado, iluminação e equipamentos
-de \acrshort{ti}); 
+de \acs{ti}); 
 \item transformação do setor industrial, gradualmente substituindo o carvão e 
 aumentando a presença de dispositivos elétricos.
 \end{itemize}
@@ -56,7 +57,7 @@ aumentando a presença de dispositivos elétricos.
 No que diz respeito ao consumo de eletricidade, 
 Figura~\ref{fig:eletricidade_por_setor}, 
 o setor residencial possui uma posição de destaque no consumo, com uma demanda
-de 111,97 T\acrshort{wh} e uma parcela equivalente à 26\% do total no ano de 2011, 
+de 111,97 T\acs{wh} e uma parcela equivalente à 26\% do total no ano de 2011, 
 exprimindo a importância desse setor para explorar a capacidade de economia de 
 eletricidade através de \gls{ee}. 
 
@@ -71,12 +72,12 @@ eletricidade através de \gls{ee}.
 De acordo com o último estudo do \gls{beu}\footnote{O \gls{beu} é
 realizado em intervalos decenais desde 1985.} com o ano base de 2004
 \cite{beu}, o potencial de economia no consumo de eletricidade nesse
-setor chega a 13,60 T\acrshort{wh}, ou 1,17 milhões de \acrshort{toe}.
+setor chega a 13,60 T\acs{wh}, ou 1,17 milhões de \acs{toe}.
 Apenas como figura de mérito, quando considerando melhorias de
 eficiência em todas as fontes energéticas, o setor residencial possui
 o terceiro maior potencial de economia, após o setor industrial e de
 transporte, com uma capacidade de economia de 2,97 milhões de
-\acrshort{toe}. Por sua vez, ressalta-se que esses valores de
+\acs{toe}. Por sua vez, ressalta-se que esses valores de
 potenciais de economia apresentados são aproximados e reduzidos em
 relação ao valor real, onde se considera apenas a perda de energia na
 primeira transformação do processo produtivo. Também não são
@@ -135,7 +136,7 @@ estratégia adotada no tocante às mudanças nos hábitos de consumo é através
 educação com os programas do \gls{procel} e \gls{conpet}, \textlabel{com as
 linhas}{text:prog_cepel}: Eficiência Energética na Educação Básica; Eficiência 
 Energética na Formação Profissional; e Rede de Laboratórios e Centros de Pesquisa em Eficiência
-Energética \cite[cap.5]{pnef}. No caso do \gls{procel}, investiu-se um montante superior a
+Energética \cite[cap. 5]{pnef}. No caso do \gls{procel}, investiu-se um montante superior a
 R\$~4,5 Mi em 2011 em projetos voltados para o desenvolvimento e
 aperfeiçoamento dessas três linhas \cite{procel_resultados_2012}, trabalhando na
 coincientização, sensibilização e informação para obter uma melhor \gls{ee},
@@ -180,7 +181,7 @@ Os usuários não tem como inferir quais são os meios de uso final que demandam
 maior energia, nem a que ponto possíveis mudanças podem afetar sua demanda, 
 seja através da mudança de seus hábitos ou na escolha 
 de aparelhos mais eficientes. Atualmente, os usuários estão cegos quanto a essas
-mudanças, não é possível vizualisar a energia que consomem. Além disso, as
+mudanças, não é possível visualizar a energia que consomem. Além disso, as
 informações fornecidas não permitem o consumidor comparar seu consumo com o de
 outros, de modo que ele não é capaz de criar uma referência social para seu consumo.
 Sem uma referência, o consumidor tem dificuldades para determinar se o consumo é
@@ -210,13 +211,13 @@ Iniciativas utilizando o retorno de informação mostraram-se altamente eficient
 em mudanças comportamentais com relação ao consumo energético \cite{
 aceee_2010_estudos_feedback,2009_epri,2012_schleich__austria,
 2011_zhifeng_smart_energy_savings,2006_darby,2009_nber_studies_us,
-ucla_studies_1975_2011_usa}. O uso do retorno
-de informação basea-se em que tanto resultados positivos ou
-negativos podem modelar o comportamento. Resultados atribuidos como positivos 
-irão torná-los em comportamentos mais atraentes, enquanto a atribuição de
-resultados negativos propiciam comportamentos ruins em menos desejáveis. 
-Sempre que possível, a atribuição negativa 
-deve ser evitada, pois ela tende a reduzir a motivação e não coloca nada no 
+ucla_studies_1975_2011_usa,2010_nilm_melhorando_pph_usa_37}. O uso do
+retorno de informação basea-se em que tanto resultados positivos ou
+negativos podem modelar o comportamento. Resultados atribuidos como
+positivos irão torná-los em comportamentos mais atraentes, enquanto a
+atribuição de resultados negativos propiciam comportamentos ruins em
+menos desejáveis. Sempre que possível, a atribuição negativa deve ser
+evitada, pois ela tende a reduzir a motivação e não coloca nada no
 lugar do comportamento evitado \cite{2010_aspectos_psicologicos_usa}.
 
 A questão, por outro lado, não é apenas fornecer retorno do consumo ao usuário
@@ -261,8 +262,8 @@ final da lista \cite{aceee_2010_estudos_feedback,2009_epri}:
 
 \begin{enumerate}
 \item \textbf{Retorno por Faturamento Simples}: conta de energia contendo 
-k\acrshort{wh} 
-consumido, o preço da tarifa unitária ($\text{R\$}/$k\acrshort{wh}), o custo 
+k\acs{wh} 
+consumido, o preço da tarifa unitária ($\text{R\$}/$k\acs{wh}), o custo 
 total e outros possíveis ônus. Nessa forma de retorno, normalmente se carece 
 estatísticas comparativas ou qualquer informação detalhada sobre os aspectos 
 temporais do consumo;
@@ -429,25 +430,29 @@ representatividade melhor das residencias, isso indica que programas de
 aqueles apresentados na Subsessão~\ref{ssec:ret_eff}.
 Ainda, esses estudos mostram-se menos suscetíveis às oscilações 
 quanto a duração dos estudos;
-\item \textbf{Resposta de Ponta e Demanda versus Economia Fora de Ponta}:
-Reduções de pico e demanda são de particular interesse das concessionárias que
-buscam atender essencialmente o mesmo nível de serviços mas com custos totais
-menores. Há dois modos de obter tal efeito: com uma melhoria em \gls{ee} ou
-através do deslocamento de parte do consumo no horário de ponta para fora da
-ponta. O interesse em resposta de demanda, ou seja, em reduzir o
-consumo durante os horários de ponta difere dos programas de \gls{ee} que focam
-em ter reduções eficientes economicamente durante todo o ano. Ainda que não seja
-deprezível, programas de resposta de demanda apresentam economia de energia
-bastante baixos quando em comparação aos de \gls{ee}. Os consumidores
-normalmente não percebem a diferença entre os dois programas, do mesmo modo 
-que a integração dos programas é plausível e sinergética, 
-onde estudos mostram que a junção causa melhores resultados tanto 
-em econômia de energia quanto na 
-redução de picos, por isso, sendo interessantes tanto do lado do consumidor 
-quanto para a consessionária. Desta forma, a abordagem ótima ao tema deve
-ser conseguir todos os meios economicamente atraentes de reduzir o desperdício 
-e ineficiências antes de procurar oportunidades restantes de reduzir cargas 
-durante os picos;
+\item \textbf{Resposta de Ponta e Demanda versus Economia Fora de
+Ponta}: Reduções de pico e demanda são de particular interesse das
+concessionárias que buscam atender essencialmente o mesmo nível de
+serviços mas com custos totais menores. Há dois modos de obter tal
+efeito: com uma melhoria em \gls{ee} ou através do deslocamento de
+parte do consumo no horário de ponta para fora da ponta. O interesse
+em resposta de demanda, ou seja, em reduzir o consumo durante os
+horários de ponta difere dos programas de \gls{ee} que focam em ter
+reduções eficientes economicamente durante todo o ano. Ainda que não
+seja deprezível, programas de resposta de demanda apresentam economia
+de energia bastante baixos quando em comparação aos de \gls{ee}. Além
+disso, esses programas também são importantes para a questão
+ambiental, considerando que essa energia normalmente será proveniente
+de fontes fosséis. Por outro lado, os consumidores normalmente não
+percebem a diferença entre os dois programas, do mesmo modo que a
+integração dos programas é plausível e sinergética, onde estudos
+mostram que a junção causa melhores resultados tanto em econômia de
+energia quanto na redução de picos, por isso, sendo interessantes
+tanto do lado do consumidor quanto para a consessionária. Desta forma,
+a abordagem ótima ao tema deve ser conseguir todos os meios
+economicamente atraentes de reduzir o desperdício e ineficiências
+antes de procurar oportunidades restantes de reduzir cargas durante os
+picos;
 \item \textbf{Hábitos, Escolhas e Estilos de Vida}: Dentre os tipos de
 comportamentos de \gls{ee} e conservação, os que aparecem mais frequentemente são 
 investimentos em novos equipamentos e utensílios em populações mais ricas, sendo
@@ -566,7 +571,7 @@ Dependendo da concessionária, envia correspondencias mensais ou
 trimestrais e/ou fornecem um portal na internet com novas redes sociais &
 \emph{Tipo de Retorno}: Retorno indireto incluindo informação sobre o domicílio
 e conselhos, auditorias de energia através do uso da \emph{web}, análise de 
-faturamento, consumo estimado por aparelho, \gls{co2}, k\acrshort{wh} e \$.
+faturamento, consumo estimado por aparelho, \gls{co2}, k\acs{wh} e \$.
 
 \emph{Principios Comportamentais}: Comparações sociais, metas, comparações
 pessoais e plano de ações. \\
@@ -575,7 +580,7 @@ pessoais e plano de ações. \\
 Portal de comunidade social com retorno de consumo de energia e água & 
 \emph{Tipo de Retorno}: Retorno indireto incluindo informação sobre o domicílio
 e conselhos, auditorias de energia através do uso da \emph{web}, análise de 
-faturamento, consumo estimado por aparelho, \gls{co2}, k\acrshort{wh}, \$ e
+faturamento, consumo estimado por aparelho, \gls{co2}, k\acs{wh}, \$ e
 outras unidades.
 
 \emph{Principios Comportamentais}: Comparações sociais, metas, competições
@@ -612,11 +617,11 @@ especifico ou é estimada, ou realizada através de sensores nos aparelhos.
 \emph{Software} de suporte com acesso a comunidades \\
 \hline 
 \textbf{Mecanismos de \newline Retorno} & 
-Mostradores em tempo real de k\acrshort{watt}, \$/hr, \gls{co2}, consumo e gastos
-diários, conta estimada em k\acrshort{wh} e \$, pico de consumo, voltagem
+Mostradores em tempo real de k\acs{watt}, \$/hr, \gls{co2}, consumo e gastos
+diários, conta estimada em k\acs{wh} e \$, pico de consumo, voltagem
 min/max e custo/demanda projetada &
-Mostradores em tempo real aproximado do consumo em \acrshort{watt},
-k\acrshort{watt}, conta estimada. Leituras entre 3 a 20 s. Brilha conforma o
+Mostradores em tempo real aproximado do consumo em \acs{watt},
+k\acs{watt}, conta estimada. Leituras entre 3 a 20 s. Brilha conforma o
 consumo: azul para consumo baixo; roxo para médio; vermelho para alto. \\
 \hline
 {\multirow{5}{4cm}{\textbf{Principios Comportamentais}}} &
@@ -647,9 +652,9 @@ Comparações sociais, metas, comparações pessoais e etapas de ações.
 \hline
 \textbf{Mecanismos de\newline Retorno} & 
 Mostradores em tempo real aproximado do consumo em
-k\acrshort{watt} e \$/hr, pico de consumo nas últimas 24 horas, contagem de
-k/\acrshort{wh} (reiniciável), recurso para medição de aparelhos específicos. &
-Mostradores em tempo real aproximado do consumo em k\acrshort{watt} e \$/hora
+k\acs{watt} e \$/hr, pico de consumo nas últimas 24 horas, contagem de
+k/\acs{wh} (reiniciável), recurso para medição de aparelhos específicos. &
+Mostradores em tempo real aproximado do consumo em k\acs{watt} e \$/hora
 (leituras em 6, 12 ou 18 s), informação de consumo média por hora, semanal,
 mensal. Alarmes para consumo alto. \\
 \hline
@@ -692,7 +697,7 @@ poder ao consumidor de exigir à concessionária acesso às medições de
 tensão e corrente de cada fase, como rege no art.~3$^o$ da Resolução
 Normativa n$^o$~502 \cite{ren502}. Ainda não se especificou a taxa de
 amostragem na qual essas leituras serão disponiblizadas, por sua vez,
-pode-se utilizar toda a infra-estrutura das colheitas de medidas e
+pode-se utilizar toda a infra-estrutura das coleitas de medidas e
 comunição oferecida pelos medidores inteligentes no intuíto de
 maximizar o custo-benefício. Caso a amostragem deles seja baixa, ou de
 interesse aumentá-la para obter uma maior capacidade de identificação
@@ -1019,19 +1024,21 @@ serão importantes nesse intuíto, frisando que o problema jaz além de
 apenas disponibilizar a tecnologia para fornecer a informação: também
 será necessário tornar a informação atrativa ao consumidor.
 
-O processo do fluxo de informação ocorre entre o remetente e o receptor, onde
-este analisa a informação necessaria e a apresenta na mensagem através de textos
-e imagens, enquanto aquele realiza escolhas entre as informações disponíves nela
-e opta se irá processá-las mentalmente. A visão é o sentimento mais 
-importante para a compreensão e vivência humana do meio externo. 
-Cerca de 70\% de nossas células sensoriais estão nos olhos, assim, a visualizão 
-é um meio bastante efetivo de realizar a comunicação da informação e de dados. 
-Tornar a mensagem interessante visualmente depende de vários elementos 
-\cite{2012_visualisation_sweden}. Alguns exemplos são: fornecer para a 
-mensagem uma estrutura na qual serão guiados os princípios para
-a inserção das representações; clareza para a simplicidade de compreensão e
-legibilidade da informação; enfase para atrair, direcionar ou manter a atenção;
-unidade da mensagem, com uma coerência e união global \cite{it_depends}.
+O processo do fluxo de informação ocorre entre o remetente e o
+receptor, onde este analisa a informação necessaria e a apresenta na
+mensagem através de textos e imagens, enquanto aquele realiza escolhas
+entre as informações disponíves nela e opta se irá processá-las
+mentalmente. A visão é o sentimento mais importante para a compreensão
+e vivência humana do meio externo.  Cerca de 70\% de nossas células
+sensoriais estão nos olhos, assim, a visualização é um meio bastante
+efetivo de realizar a comunicação da informação e de dados.  Tornar a
+mensagem interessante visualmente depende de vários elementos
+\cite{2012_visualisation_sweden}. Alguns exemplos são: fornecer para a
+mensagem uma estrutura na qual serão guiados os princípios para a
+inserção das representações; clareza para a simplicidade de
+compreensão e legibilidade da informação; enfase para atrair,
+direcionar ou manter a atenção; unidade da mensagem, com uma coerência
+e união global \cite{it_depends}.
 
 Em \cite{2012_visualisation_sweden}, apresentou-se a jovens de um colégio sueco
 uma visualização do consumo de energia em um mostrador em tempo real na sala de 

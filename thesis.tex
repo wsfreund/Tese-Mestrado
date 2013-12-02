@@ -3,12 +3,17 @@
 \usepackage{amsmath,amssymb}
 \usepackage[unicode]{hyperref}
 \usepackage{indentfirst}
-\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{subcaption} % Caption inside subfigures
+\usepackage{rotating} % Para rodar as figuras e tabelas
+\usepackage{pdflscape} % Para colocar paginas na horizontal no pdf
 \usepackage{multirow} % Tabelas com celulas agrupadas
 \usepackage{array}
 \usepackage{import} % To access created latex images in different folders
 \usepackage{enumerate}
 \usepackage[inline]{enumitem}
+\usepackage{steinmetz} % Para ter acesso ao angulo de fase como
+% deveria ser.
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -32,7 +37,7 @@ urlcolor=black%
 }
 
 
-\usepackage[acronym,style=long,nonumberlist]{glossaries} % Para as listas de simbolos e abreviaturas
+\usepackage[acronym,style=long,nonumberlist,shortcuts]{glossaries} % Para as listas de simbolos e abreviaturas
 \usepackage{etoolbox} % Para robustify
 \robustify{\gls}
 \renewcommand{\glossaryname}{S{í}mbolos e Abreviaturas}
@@ -97,7 +102,10 @@ urlcolor=black%
   \include{chap02}
   \include{chap03}
   \include{chap04}
-  %\include{chap05}
+  \include{chap05}
+  %\include{chap06}
+  \include{chap07}
+  \include{chap08}
 
   \glsaddall
 
