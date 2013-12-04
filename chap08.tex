@@ -1,8 +1,112 @@
 \chapter{Conclusão}
 \label{chap:conclusao}
 
+O \acs{nilm} é uma técnica com potencial para obtenção de uma melhor
+\acs{ee}, podendo auxiliar diretamente na obtenção de uma menor
+intensidade energética ou facilitar no estudo realizados de \acs{ee}
+para o setor residencial através da oferta de dados com melhor
+qualidade e frequência.
 
+A função do \acs{nilm} é informar o consumo de energia desagregado por
+aparelho, e não apenas identificar o mesmo. Além disso, a grande
+dificuldade para a implementação da tecnologia é quando a rede
+elétrica das residências está com maior operação de aparelhos, o que,
+dependendo de sua dinâmica operativa, irá causar ruído na rede.  Há
+ainda a questão da ocorrência de aparelhos desconhecidos, sendo
+necessário entender como a presença dos mesmos irá afetar a eficácia
+no \acs{nilm}. E, por esse mesmo motivo, é desejável que o \acs{nilm}
+tenha a capacidade de identificar aparelhos desconhecidos,
+adicionando-os ao seu catálogo e permitindo sua futura identificação
+de alguma maneira.
 
-%\section{Trabalhos Futuros}
-%\label{sec:trabfut}
+Devido â percepção de que o projeto irá se prolongar bem além deste
+trabalho, viu-se a necessidade de realizar um ambiente para integrar
+as técnicas aplicadas no \acs{nilm} permitindo que elas sejam
+utilizadas no futuro em um único ambiente agregando toda a informação.
+Inclusive para facilitar a continuação do projeto no rumo da
+discriminação dos aparelhos e de seus estados operativos que é o
+próximo passo para tornar o desenvolvimento da tecnologia.
+Esse ambiente também pode auxiliar caso o \acs{cepel} opte por tomar
+outras direções no projeto --- como na possibilidade de impregnar o
+método atuando nos medidores inteligentes, mas nesse caso se limitando
+a amostragens mais baixas, ou elevar a amostragem com o objetivo de
+obter melhores eficácias ---, sendo necessário apenas ajustar os
+módulos para atender as novas configurações de operação do \acs{nilm}
+facilitando, assim, possíveis desdobramentos. 
+
+Uma das dificuldades para o \acs{nilm} é obter uma estimativa do
+consumo desagregado por aparelho para permitir a otimização das
+técnicas e o cálculo de eficiência do \acs{nilm}. O ambiente tratou
+desse caso fornecendo uma interface gráfica para o usuário, que
+permitiu a criação da informação estimada a ser desagregada nos dados.
+Após completar o seu preenchimento para um determinado conjunto de
+dados, esse ambiente facilita a compreensão da informação contida no
+mesmo através de informações gráficas. Apenas utilizando essa
+informação já foi possível determinar um valor adequado a ser
+empregado na metodologia original do \acs{cepel}.
+
+Esse ambiente permitiu avaliar a proposta do \acs{cepel} de um filtro
+de núcleo de Gaussiana para os três conjuntos de dados oferecidos pelo
+mesmo, que contém cenários possíveis de aplicação real representando a
+operação simultânea de aparelhos na rede que a tornam um local mais
+complexo para operação da tecnologia. Nesses conjuntos de dados
+aplicou-se um otimizador por algoritmo genético para obter os
+parâmetros ótimos para as regras de avaliação determinadas pelo
+usuário. Obteve-se taxa de detecção superiores a 84\%, podendo ser
+considerada boa. A taxa de falso alarme alta, próxima à 16\%, é
+causada em sua maioria pelo arquivo Temporizado, aonde há uma
+alteração de estado de equipamento não conhecida nem presente no
+arquivo de gabarito, sendo contabilizada como falso alarme. Fica
+evidente, assim, a importância de ter em mãos tanto a informação dos
+momentos de estados programados, quanto da submedição dos aparelhos
+para garantir a construção de um gabarito fiel à realidade dos
+conjuntos de dados. 
+
+%Porém, foi constatado que a 
+%de baixo consumo, onde muitos outros autores desconsideram aparelhos
+%abaixo de uma determinada faixa de consumo, como 150 W, ou seja, o
+%conjunto de dados apresenta uma dificuldade bastante elevada se o
+%intuíto for detectar todos os eventos --- o caso para as taxas
+%apresentadas. Ao alterar o ponto de operação elevando a penalidade
+%para ocorrências de falso alarme, obterá-se uma resposta menos
+%sensível aos ruídos presentes nesses dados.
+
+Para auxiliar na compreensão do problema, também se empregou \acs{som}
+com o objetivo de melhor compreender as características dos distúrbios
+devido à alteração de um estado de consumo de um aparelho. Estudou-se,
+também, a possibilidade de empregá-los para aperfeiçoar a metodologia
+anterior. Apesar do \acs{som} não ter mostrado a capacidade de
+reproduzir a eficiência do filtro de núcleo de Gaussiana, nem auxiliar
+de maneira efetiva na eliminação da alta taxa de falso alarme, ele
+mostrou capacidade discriminante bem como aptidão para sintetizar a
+informação em um degradê de potência.
+
+\section{Trabalhos Futuros}
+\label{sec:trabfut}
+
+O trabalho tratou apenas de uma das etapas necessárias para o
+desenvolvimento da tecnologia, sendo ainda preciso tratar do tema de
+discriminação e identificação do estado operativo dos aparelhos.
+Foi realizada uma abordagem sobre a escolha das características, que
+pode auxiliar próximos trabalhos para determinar o caminho que será
+seguido. Aqui se ressalta a característica que se sobressaiu, a
+estatística de uso. Também não é possível realizar a discriminação
+apenas utilizando a envoltória como única característica uma vez que
+ela só é discriminante para mudanças de estados que causam crescimento
+na potência. Propõe-se que a implementação seja realizada no ambiente
+de análise, pela questão de unificação e aproveitamento das
+ferramentas, além de toda a capacidade já oferecida por esse ambiente.
+
+Conforme a evolução da técnica para discriminação, será necessário
+determinar o ponto operativo do detector de evento para garantir uma
+melhor capacidade do \acs{nilm}. É preciso determinar o quanto os
+falsos alarmes irão afetar a eficácia do \acs{nilm} de desagregar a
+informação, sendo necessário estudar o caso para determinar quais são
+as taxas de falso alarme que são aceitáveis sem deteriorar a operação.
+
+Quanto ao otimizador por estratégia evolutiva, pretende-se ajustar os
+métodos de competição para que a mesma só comece após algumas
+gerações, estratégia importante para garantir que as espécies ajustem
+suas estratégias evolutivas e se desenvolvam minimamente antes de
+competir, para assim garantir uma competição justa entre elas. 
 

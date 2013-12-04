@@ -1,22 +1,572 @@
 \chapter{Metodologia}
 \label{chap:metodologia}
 
+Neste capítulo está presente outras informações relevantes antes de
+entrar nos méritos de resultados. A Sessão~\ref{sec:base_de_dados}
+contém a base de dados utilizados no trabalho. A sessão seguinte
+(Sessão~\ref{sec:aplic_es}) revela como o algoritmo genético foi
+adaptado para otimizar o problema em questão, enquanto o \acs{som}
+será discutido na Sessão~\ref{ssec:som}.
+
 % Multi-espécies
-%Além dos caminhos mostrados na Figura~\ref{fig:cepel_transitorio},
-%foi implementado uma nova versão para a remoção de eventos próximos
-%utilizando a média de seus centros (ver p.~\pageref{text:media}), bem
-%como adicionado uma nova maneira de remoção dos eventos através do
-%conceito de incosistência (ver p.~\pageref{text:incosistentes}).  Uma
-%otimização em força bruta --- aqui se referindo a otimizar todas as
-%possíveis configurações e identificar a melhor convergência delas ---
-%não parecia ser a melhor maneira de abordar o problema, viu-se a
-%necessidade de realizar a escolhe de algumas configurações a serem
-%testadas.
+\section{Descrição da base de dados}
+\label{sec:base_de_dados}
+
+Foram utilizados três conjuntos de dados fornecidos pelo \acs{cepel},
+todos amostrados em situações controladas. Serão descritos as
+características de cada um deles, sendo seus códigos para
+identificação \emph{Temporizado} (Subsessão~\ref{ssec:temp}),
+\emph{Empilhado4} (Subsseão~\ref{ssec:emp4}) e \emph{Empilhado7}
+(Subsessão~\ref{ssec:emp7}).
+
+\subsection{Conjunto de dados \emph{Temporizado}}
+\label{ssec:temp}
+
+\FloatBarrier
+O conjunto de dados \emph{Temporizado} contém apenas cinco
+equipamentos:
+
+\begin{itemize}
+\item Televisão LCD;
+\item Geladeira;
+\item Lâmpada fluorescente 23W, 54W;
+\item Ventilador.
+\end{itemize}
+
+Sua medição foi realizada com o medidor \emph{Yokogawa}, e o perfil de
+consumo dos aparelhos pode ser visualizada em
+\ref{fig:temporizado_overview}.
+Este conjunto é o que tem a maior presença de ruído, causado pela
+televisão LCD, em especial para os períodos das 00:00 às 02:00 e 04:30
+às 08:00 do dia 21.
+
+A informação no gabarito pode ser observada nas figuras
+\ref{fig:temporizado_app_time}--\ref{fig:temporizado_televisao}. 
+A Figura~\ref{fig:temporizado_app_time} contém a informação do consumo
+temporal dos aparelhos, enquanto a
+Figura~\ref{fig:temporizado_app_pie} contém o gráfico circular do
+consumo estimado no gabarito para os aparelhos. As figuras
+\ref{fig:temporizado_geladeira}--\ref{fig:temporizado_televisao}
+contêm os transitórios dos aparelhos marcados pelo usuário durante a
+criação do gabarito. Todos os eventos são movidos para obterem média
+zero de forma que a figura fique uniforme e seja possível compará-los.
+A informação contida nesse gráfico auxilia a identificar eventos no
+gabarito que fogem do padrão, seja por erro do usuário no
+preenchimento, ou por caracterizar um evento excêntrico, facilitando a
+identificação desses casos. Um exemplo pode ser observado na
+Figura~\ref{fig:temporizado_ventilador}, onde há a ocorrência de um
+evento que foge do padrão dos outros coletados. Nessas figuras também
+permitem observar a quantidade de eventos para cada alteração de
+estado (indicado entre parênteses no título das subfiguras).
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_Overview.pdf}
+\caption{Perfil de consumo para o conjunto de dados \emph{Temporizado}.}
+\label{fig:temporizado_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: consumo temporal dos aparelhos.}
+\label{fig:temporizado_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=.5\textwidth]{imagens/Temporizado_AppPie.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: gráfico circular do consumo dos aparelhos.}
+\label{fig:temporizado_app_pie}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_App_Geladeira.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: envoltória para as diversas variáveis para a
+geladeira.}
+\label{fig:temporizado_geladeira}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_App_Ventilador.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: envoltória para as diversas variáveis para a
+ventilador.}
+\label{fig:temporizado_ventilador}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_App_LF23W.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: envoltória para as diversas variáveis para a
+lâmpada fluorescente 23W.}
+\label{fig:temporizado_lf23}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_App_LF54W.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: envoltória para as diversas variáveis para a
+lâmpada fluoresecente 54W.}
+\label{fig:temporizado_lf54}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Temporizado_App_Televisao.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Temporizado}: envoltória para as diversas variáveis para a
+televisão.}
+\label{fig:temporizado_televisao}
+\end{sidewaysfigure}
+
+\FloatBarrier
+
+\subsection{Conjunto de dados \emph{Empilhado4}}
+\label{ssec:emp4}
+
+O conjunto de dados \emph{Empilhado4} contém os seguintes
+equipamentos:
+
+\begin{itemize}
+\item Forno elétrico;
+\item Lâmpada fluorescente (LF) 25 W (2 unidades), 22W (2 unidades), 15W (3
+unidades), 9W;
+\item Lâmpada incandescente (LI) 40W (2 unidades);
+\item Televisão CRT.
+\end{itemize}
+
+Sua medição foi realizada com o medidor do \acs{cepel}. Contém a maior
+quantidade de alterações de estados de aparelhos de baixo consumo (no
+caso as lâmpadas fluorescentes). O
+perfil de seu consumo pode ser visualizado na
+Figura~\ref{fig:empilhado4_overview}.
+
+A informação no gabarito pode ser observada nas figuras
+\ref{fig:empilhado4_app_time}--\ref{fig:empilhado4_app_pie}. 
+A Figura~\ref{fig:empilhado4_app_time} contém a informação do consumo
+temporal dos aparelhos, enquanto a Figura~\ref{fig:empilhado4_app_pie}
+contém o gráfico circular do consumo estimado no gabarito para os
+aparelhos.
+
+%Figure~\ref{fig:empilhado4_app_pie} contém o gráfico circular do
+%consumo estimado no gabarito para os aparelhos. As figuras
+%\ref{fig:empilhado4_geladeira}--\ref{fig:empilhado4_televisao}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado4_Overview.pdf}
+\caption{Perfil de consumo para o conjunto de dados \emph{Empilhado4}.}
+\label{fig:empilhado4_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado4_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Empilhado4}: consumo temporal dos aparelhos.}
+\label{fig:empilhado4_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado4_AppPie.png}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Empilhado4}: gráfico circular do consumo dos aparelhos.}
+\label{fig:empilhado4_app_pie}
+\end{sidewaysfigure}
+
+%\begin{sidewaysfigure}[p]
+%\centering
+%\includegraphics[width=\textwidth]{imagens/Empilhado4_App_Geladeira.pdf}
+%\caption{Informação no gabarito para o conjunto de dados
+%\emph{Empilhado4}: envoltória para as diversas variáveis para a
+%geladeira.}
+%\label{fig:empilhado4_geladeira}
+%\end{sidewaysfigure}
+\FloatBarrier
+
+\subsection{Conjunto de dados \emph{Empilhado7}}
+\label{ssec:emp7}
+
+O conjunto de dados \emph{Empilhado7} contém os seguintes
+equipamentos:
+
+\begin{itemize}
+\item Lâmpada incadescente (LI) 60 W, 100 W;
+\item Lâmpada fluorescente (LF) 20 W, 21 W, 24 W, 26 W, 28 W, 40 W;
+\item Secador de cabelo;
+\item Ar condicionado;
+\item Sanduicheira;
+\item Geladeira (obs: essa geladeira tem consumo bastante superior
+àquele utilizada no arquivo \emph{Temporizado});
+\item Televisão CRT.
+\end{itemize}
+
+Sua medição foi realizada com o medidor do \acs{cepel}. Uma
+peculiaridade desse arquivo é a distorção dos transitórios durante o
+momento que o ar condicionado está operando.
+
+A informação no gabarito pode ser observada nas figuras
+\ref{fig:empilhado7_app_time}--\ref{fig:empilhado7_app_pie}. 
+A Figura~\ref{fig:empilhado7_app_time} contém a informação do consumo
+temporal dos aparelhos, enquanto a Figura~\ref{fig:empilhado7_app_pie}
+contém o gráfico circular do consumo estimado no gabarito para os
+aparelhos.
+
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado7_Overview.pdf}
+\caption{Perfil de consumo para o conjunto de dados \emph{Empilhado7}.}
+\label{fig:empilhado7_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado7_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Empilhado7}: consumo temporal dos aparelhos.}
+\label{fig:empilhado7_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/Empilhado7_AppPie.png}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{Empilhado7}: gráfico circular do consumo dos aparelhos.}
+\label{fig:empilhado7_app_pie}
+\end{sidewaysfigure}
+
+\FloatBarrier
 
 
 
-% Colocar aqui a descrição da base de dados
 
-%\section{Descrição da base de dados}
-%\label{sec:base_de_dados}
+
+
+
+
+
+\section[Aplicação do ES para Otimização do Detector de Eventos]{
+Aplicação do \acf{es} para Otimização do Detector de Eventos}
+\label{sec:aplic_es}
+
+Para o ajuste automático, utilizou-se o ambiente de análise detalhado
+no Capítulo~\ref{chap:framework}. Entretanto, algumas questões ainda
+estavam em aberto. Além dos caminhos mostrados na
+Figura~\ref{fig:cepel_transitorio}, foi implementado uma nova versão
+para a remoção de eventos próximos utilizando a média de seus centros
+(ver p.~\pageref{text:media}). Outra maneira de remoção dos eventos
+também foi adicionada utilizando o conceito de incosistência (ver
+p.~\pageref{text:incosistentes}). Uma estratégia em força bruta ---
+aqui se referindo a otimizar todas as possíveis configurações e
+identificar a melhor convergência delas --- não parecia ser a melhor
+maneira de abordar o problema. Percebeu-se a necessidade de realizar a
+escolha de algumas configurações a serem testadas para reduzir a
+quantidade de caminhos possíveis.
+
+Durante a realização do \emph{Ajuste Manual}, percebeu-se que os
+eventos removidos devido à incosistência eram sempre eventos de falso
+alarme, mas não havia a ocorrência de eventos de detecção causados por
+esse tipo de remoção. Por isso, determinou-se que a remoção de eventos de
+inconsistentes seria sempre realizada. Já para o caso da remoção de
+eventos devido à ruído era importante para remoção de pertubações
+rápidas geradas na rede que não constituiam na mudança do patamar
+operativo da rede, e com base nisso se determinou que a remoção de
+eventos ruidosos sempre seria realizada. Assim, essa variável
+($\Delta I_{min}$) sempre estará presente no material genético das
+espécies, bem como o $\sigma$ da Gaussiana a ser utilizada no filtro
+de derivada de Gaussiana e o seu valor de corte $\delta_{min}$. Já
+para o caso da remoção de eventos próximos, não era possível
+determinar se sua utilização era necessária, nem qual das versões de
+remoção --- por média, ou sem deslocamento --- era o que mais se
+adequada ao problema. No caso de não usar corte, a variável $n_{min}$
+não seria utilizada, porém no caso oposto as espécies teriam gene a
+mais, cujo fenótipo é inteiro. Por outro lado, sua representação é no
+conjunto real, sendo necessário determinar como codificar a
+informação. Simplesmente se escolheu arredondar o valor na
+representação para obter o valor do fenótipo. Finalmente, também não
+se sabia \emph{a priori} determinar se a ordem influenciaria na
+importância, e apesar de não se esperar grandes diferenças devido a
+mudança da ordem em que eles seriam removidos, decidiu-se testar ambas
+configurações.  
+
+Assim, para essas determinações, haviam cinco caminhos a serem
+percorridos: 
+
+\begin{enumerate}[label=(\Roman*)]
+\item Com remoção de eventos próximos utilizando sem deslocamento
+\emph{depois} de remover eventos ruidosos;
+\item Com remoção de eventos próximos utilizando a média 
+\emph{depois} de remover eventos ruidosos;
+\item Com remoção de eventos próximos utilizando sem deslocamento
+\emph{antes} de remover eventos ruidosos;
+\item Com remoção de eventos próximos utilizando a média 
+\emph{antes} de remover eventos ruidosos;
+\item Sem remoção de eventos próximos (essa espécie tem um gene a
+menos que as espécies anteriores); 
+\end{enumerate}
+
+Além da questão dos caminhos, era necessário determinar a
+inicialização. Para garantir melhor convergência, empregou-se
+fronteiras mínimas e máximas para cada um dos valores representados
+pelos genes. A inicialização foi aleatória uniforme dentro dessas
+fronteiras. Para o parâmetro da estratégia evolutiva, porém,
+iniciou-se esse valor de acordo com \ref{eq:sigma_init}, garantindo
+que inicialmente cada individuo tenha, em média, 95\% de chance de
+explorar uma região no interior a 10\% do espaço de solução permitido. Os
+limites inferiores e superiores foram determinados por
+\ref{eq:sigma_min} e \ref{eq:sigma_max}, respectivamente. Os valores
+de $sigma_{min,i}$ e $sigma_{max,i}$ garante que no mínimo o material
+genético irá sofrer pertubações dentro da região de 0,01\% da região
+de solução em 67\% dos casos, enquanto no máximo ele irá pertubar o
+material genético em 30\% da região para a mesma probabilidade.
+
+\begin{subequations}
+\begin{equation}\label{eq:sigma_init}
+2\sigma_{init,i}=0,1\Delta x_i
+\end{equation}
+\begin{equation}\label{eq:sigma_min}
+\sigma_{min,i}=1\times10^{-4}\Delta x_i
+\end{equation}
+\begin{equation}\label{eq:sigma_max}
+\sigma_{max,i}=1\times10^{+3}\sigma_{min,i}
+\end{equation}
+\end{subequations}
+
+\noindent onde $\Delta x_i$ é a região do espaço dentro das fronteiras
+para a i-ésima variável.
+
+Finalmente, cabe ainda decidir qual dos métodos de competição para as
+espécies será utilizado. Como a implementação do método de competição
+intraespécies acaba favorecendo espécies com carga genética mais
+simples de serem otimizadas ou que começaram em condições 
+privilegiadas --- quando sem o mecanismo de adiamento da competição
+---, irá optar-se pela competição intraespécie.
+
+\section[Mapas Auto-Organizáveis]{\acl{som}}
+\label{ssec:som}
+
+Para a construção do modelo neural será utilizado o aprendizado não
+supervisionado. O \acf{som}\footnote{Também conhecido como mapa de
+\emph{Kohonen}.} \cite[cap 9]{haykin1999neural} é um modelo de rede que
+agrupa eventos similares em regiões do mapa ao realizar um mapeamento
+do $\Re_{n} \rightarrow \Re_{k} | k \in {1,2}$. Inicialmente, gera-se
+uma grade bidimencional $m \times n$ neurônios.
+
+Os neurônios são unidades que recebem as entradas da rede e se
+movimentam no decorrer do treinamento. Cada neurônio possui uma
+coordenada no espaço dada pelo vetor peso $w$. Cada neurônio é
+posicionado aleatoriamente 
+	 
+Após a criação e a inicialização, aplica-se em todos os neurônios um
+evento do banco. A Figura~\ref{fig:som_representacao} mostra esse
+processo. 
+
+\begin{figure}[h!tb]
+\centering
+\includegraphics[width=6cm]{imagens/kohonen.pdf}
+\caption[Representação da grade bidimensional de um SOM]{
+Representação da grade bidimensional de um \acl{som}. O evento $x$
+aplicado em todos os neurônios (circulos) do mapa e a atuação da
+função de vizinhança em torno do neurônio mais similar ao evento
+(circulo em rosa claro).}
+\label{fig:som_representacao}
+\end{figure}
+
+Em seguida, calcula-se a métrica Euclidiana (\ref{eq:d_i_som}) entre o
+evento e cada peso (neurônio) da grade. 
+
+\begin{equation}\label{eq:d_i_som}
+d_{i} = \sqrt{\sum_{n=1}^{N}(w_{ni}-x_{n})^{2}}
+\end{equation}
+
+\noindent onde $w_{i}$ é o vetor peso do neurônio $i$ dado por $wi =
+[w_{i1},w_{i2},...,w_{ni}]^{T}$ e $x$ é o vetor evento dado por $x =
+[x_{1},x_{2},...,x_{n}]^{T}$ . 
+
+O neurônio cuja métrica Euclidiana será o neurônio
+vencedor, chamado de \gls{bmu}. Esse neurônio
+$j$ será o centro do raio da função de vizinhança que será empregada
+para atualizar os vetores $w$ ao longo do treinamento apartir de
+\ref{eq:som_atualiza}.
+
+\begin{equation}\label{eq:som_atualiza}
+w_{i}(t+1)=w{i}(t)+\eta(t)h_{ij}(t)(x(t)-w_{i}(t))
+\end{equation}
+
+\noindent onde $\eta(t)$ é a taxa de aprendizado que decresce monotonicamente e
+$h_{ij}(t)$ é a função de vizinhança que tem seu valor máximo no
+neurônio $j$ (\acs{bmu}), diminui conforme se afasta deste e abrange os
+neurônios que estão dentro do raio que diminui com relação ao tempo
+(interação). 
+
+A função de vizinhança é definida na equação \ref{eq:som_vizinhanca}.
+
+\begin{subequations}
+\begin{equation}\label{eq:som_vizinhanca}
+h_{ij}=e^{\frac{-d_{ij}^{2}}{2\sigma^{2}(t)}}
+\end{equation}
+\begin{equation}\label{eq:sigma_t}
+\sigma(t)=\sigma(0)e^{{-\frac{t}{\tau}}}
+\end{equation}
+\end{subequations}
+
+\noindent onde $d_{ij}$ é a distância Euclidiana entre o peso $w_{i}$ e o
+neurônio $j$ ($BMU$) e $\sigma(t)$ definido por \ref{eq:sigma_t}.
+
+Para $\sigma(0)$ igual ao raio definido no inicio do treinamento e
+$\tau$ uma constante de tempo de decaimento da função. Na
+Figura~\ref{fig:vizinhanca_grade} mostra a atuação da função de
+vizinhança no treinamento com o \acs{bmu} ao centro.
+
+\begin{figure}[h!tb]
+\centering
+\includegraphics[width=.5\textwidth]{imagens/vizinhanca_func.png}
+\caption{Atuação da função de vizinhança na grade.}
+\label{fig:vizinhanca_grade}
+\end{figure}
+
+Ao invés de se atualizar os pesos da rede a cada evento (treinamento
+sequencial), utiliza-se o conceito de batelada. O treinamento em
+batelada atualiza os pesos após um conjunto de eventos, geralmente
+toda a base, for apresentada a rede. A cada passo da interação, cada
+evento da base de dados é associado ao seu \acs{bmu}. Ao final desse
+processo calcula-se o somatório para cada neurônio do mapa.
+
+\begin{equation}\label{eq:sum_centroide}
+s_{i}=\sum_{k=1}^{\eta_{i}}x_{k}
+\end{equation}
+
+\noindent onde $\eta_{i}$ é o número total de eventos associados a
+cada neurônio e $x_{k}$ é o vetor evento associado. 
+
+Em seguida os pesos dos neurônios do mapa são atualizados pela
+equação~\ref{eq:som_wi}, sendo $m$ o número de neurônios do mapa.
+
+%EQ 7
+\begin{equation}
+\label{eq:som_wi}
+w_{i} = \frac{\sum_{j=1}^{m}h_{ij}(t)s_{j}}{\sum_{j=1}^{m}\eta_{i}h_{ij}(t)} 
+\end{equation}
+
+Portanto, esse treinamento utiliza médias ponderadas para atualizar os
+pesos. Esse efeito, torna o treinamento mais suave a medida que ocorre
+a redução da função de vizinhança. 
+
+\subsection{Definições de Treinamento}
+\label{sec:som_treinamento}
+
+O mapa foi definido com uma grade de tamanho de $20 \times 15$ (300
+neurônios) com disposição hexagonal. Para o algoritmo de treinamento
+iremos utilizar o conceito de batelada apresentado na sessão anterior.
+O processo de treinamento dar-se-á em duas etapas. A primeira fase é
+configurada para rodar um número longo de épocas de treinamento
+definido como 2000 épocas, e utilizar um raio inicial da função de
+vizinhança mais abrangente, definido como 8. A segunda etapa do
+treinamento é chamada de ajuste fino. Essa etapa possui um raio
+inicial de 2 e um número de épocas mais curto definido como 500
+épocas. Essa segunda etapa tem como objetivo tornar os agrupamentos
+formados na primeira fase mais bem definidos.
+
+Devido a grande variância das variáveis utilizadas para compor o
+treinamento da rede, foram analisados dois tipos de normalizações. A
+primeira divide cada variação de potência do evento por 127V. A
+segunda representa o mesmo processo, porém divide as potências pela
+tensão coletada no momento da medição das variações de transição do
+aparelho. Vale lembrar que um evento é composto pelas variações de
+potência real, reativa e harmônica e a variação de corrente.
+Totalizando quatro variáveis coletadas por evento.
+
+\subsection{Agrupamento por Centróides dos \acl{som}}
+
+Após o treinamento do mapa, avaliou-se o \gls{qe}, o
+\gls{te} e a \gls{matrizu}. O \gls{qe} é a média
+dos erros dos $N$ casos aplicados no \acs{som} dado pela diferença entre o
+vetor evento $x_{k}$ e o $w_{BMU}$ do seu respectivo \gls{bmu}. O
+\gls{qe} é definido pela equação \ref{eq:qe}.
+
+\begin{equation}\label{eq:qe}
+Q_{e} = \frac{1}{N}\sum_{k=1}^{N}\|x_{k}-w_{BMU}\|
+\end{equation}
+
+Esse erro avalia o quanto o mapeamento se aproxima dos padrões da
+entrada. Por outro lado, o \acs{te} (\ref{eq:te}) pode ser
+interpretado como o erro da copia de informação da alta dimensão para
+o espaço bidimensional. Dado dois neurônios que se aproximam da
+entrada $x_{k}$, $BMU_{1}$ e $BMU_{2}$ .
+
+\begin{subequations}
+\begin{equation}\label{eq:te}
+T_{e} = \frac{1}{N}\sum_{k=1}^{N}u(x_{x})
+\end{equation}
+\begin{equation}
+u(x_{k}) = \left\{\begin{array}{rl}
+ 1 &\text{ se } BMU_{1} \;\; \text{e} \;\; BMU_{2} \;\; \text{não são vizinhos} \\
+ 0 &\mbox{o.c.}\end{array}\right.
+\end{equation}
+\end{subequations}
+
+Dado um neurônio $j$ e o seu respectivo peso $w_{j}$ , a \acs{matrizu}
+calcula a distância dos pesos dos neurônios vizinhos com relação a
+$w_{j}$. O resultado é uma imagem onde cada hexágono pode ser
+interpretado como a distância calculada. 
+%Cores quentes indicam que os
+%pesos estão afastados e cores frias indicam que estão próximos nessas
+%regiões.
+	
+O algorítmo de \emph{k-means} é utilizado para rotular os neurônios do
+mapa, já treinado, em $n$ centróides. Embora estejam disponíveis 13
+tipos de diferentes aparelhos, o algoritmo será executado até
+encontrar um número de centróides que atenda a disperção dos
+diferentes tipos de aparelhos e transientes no mapa. Um número pequeno
+de agrupamentos pode acabar englobando vários aparelhos dentro de um
+mesmo centróide.  Por outro lado, um número muito grande de centróides
+pode acabar particionando em diversas partes um agrupamento que contém
+um tipo de aparelho, que cria uma resolução descenessária e dificulta
+o entendimento do mapa. Um bom exemplo é o conjunto de transientes de
+lâmpadas fluorescentes de baixa potência que é formado por diversas
+potências, menores a 25W, que na prática representam as mesmas
+características.
+% FIXME Avaliar a parte de cima
+	
+O índice de \emph{Davies-Bouldin} avalia a similaridade entre
+agrupamentos e é definido pela equação \ref{eq:bouldin}
+
+\begin{subequations}
+\begin{equation}
+\label{eq:bouldin}
+I_{DB} = \frac{1}{C}\sum_{k=1}^{C}max_{l\neq
+k}{\frac{S_{c}(Q_{k})+S_{c}(Q_{l})}{d_{ce}(Q_{k},Q_{l})}}
+\end{equation}
+\begin{equation} \label{eq:intracentroides}
+S_{c} = \frac{1}{N_{k}}\sum_{i}^{N_{k}}\|x_{i}-c_{k}\|
+\end{equation}
+\begin{equation} \label{eq:distancia_centroides}
+d_{ce} = \|c_{k}-c_{l}\|
+\end{equation}
+\end{subequations}
+
+\noindent onde: 
+
+\begin{description}
+\item [$Q$] é um centróide; 
+\item [$C$] é o número de centróides; 
+\item [$S_{c}$] é a medida de similaridade intracentróides dada pela equação
+\ref{eq:intracentroides};
+\item [$N_{k}$] o número de eventos pertencentes a cada centróide de
+centróide $c_{k}$;
+\item [$d_{ce}$] é a distância entre os
+centróides dada pela equação \ref{eq:distancia_centroides}. Quanto
+menor for esse índice, mais separados e bem definidos se encontram os
+centróides formados.
+\end{description}
 

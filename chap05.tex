@@ -19,32 +19,25 @@ projeto no \gls{cepel}. Com base nisso, as seguintes dificuldades
 podem ser destacadas:
 
 \begin{enumerate}[label={Item} \arabic* - ,ref=\arabic*,align=left]
-\item\label{itm:dif1} havia uma necessidade de trazer para o
-\gls{cepel} uma gama de possibilidades e caminhos a serem tomados,
-pareando o projeto com a informação fornecida atualmente na
-literatura;
-\item\label{itm:dif2} mesmo para metodologia adotada não era possível
-ter uma boa interpretação do comportamento do algoritmo e como
-escolher os valores de corte, sendo necessário avaliar caso a caso os
-valores testados em busca de uma configuração que traria melhores
-resultados;
-\item\label{itm:dif3} apesar de haver uma tendência para simplificar o
-projeto para obter uma resposta em tempo de projeto menor, não se sabe
-exatamente qual estratégia será seguida, incluindo a técnica empregada
-para discriminação, frequência de amostragem (e nesse caso, havendo
-modificação da mesma, seria necessário alterar/adaptar a técnica atual
-para detecção de eventos) e o medidor;
-\item\label{itm:dif4} a larga gama de técnicas encontradas no
+\item\label{itm:dif1} era necessário melhorar a capacidade de
+interpretação dos dados e da análise para permitir uma análise do
+comportamento do algoritmo e de como escolher os valores de corte,
+sendo necessário avaliar caso a caso os valores testados em busca de
+uma configuração que traria melhores resultados;
+\item\label{itm:dif2} o \acs{cepel} pode julgar necessário alterar a
+sua abordagem conforme as necessidades do projeto, como as técnicas
+aplicadas, frequência de amostragem e o medidor;
+\item\label{itm:dif3} a larga gama de técnicas encontradas no
 levantamento bibliográfico, e em especial a chamada de atenção para o
 fato de sua utilização em paralelo ser benéfica para a capacidade de
 desagregação do \gls{nilm}, mostra que o projeto deve ter aptidão de
 agregar em um único ambiente tudo aquilo que for desenvolvido, pois
 mesmo que uma técnica não seja ótima, sua operação em paralelo pode
 ser benéfica para o sistema de desagregação como um todo;
-\item\label{itm:dif5} ainda que o item anterior não seja de interesse,
+\item\label{itm:dif4} ainda que o item anterior não seja de interesse,
 é importante manter todas as abordagens já desenvolvidas em um único
 ambiente para garantir uma melhor evolução do projeto;
-\item\label{itm:dif6} o levantamento bibliográfico mostrou que há uma
+\item\label{itm:dif5} o levantamento bibliográfico mostrou que há uma
 dificuldade dos autores em obter dados onde a informação desagregada
 em energia também esteja disponível\footnote{Para fugir dessa
 dificuldade, \cite{nilm_liang_pt2_2010_40} chegou a criar um simulador
@@ -68,14 +61,13 @@ submedição de todos aparelhos, estando essa informação parcialmente ou
 até mesmo não disponível.
 \end{enumerate}
 
-Exceto pelo Item~\ref{itm:dif1}, que foi resolvido pelo levante
-realizado na Sessão~\ref{sec:nilm_mundo}, viu-se a necessidade do
+Viu-se a necessidade do
 desenvolvimento de um ambiente de análise que atendesse os seguintes
 pontos:
 
 \begin{enumerate}
 \item Maleabilidade: em vista dos itens
-\ref{itm:dif3}--\ref{itm:dif5}, o ambiente deve ser capaz de se
+\ref{itm:dif2}--\ref{itm:dif4}, o ambiente deve ser capaz de se
 adequar às mudanças no projeto conforme elas ocorram sem que outras
 partes do ambiente sejam afetadas. Devido a isso, optou-se por uma
 implementação orientada a objeto, mas se limitando a escolha para uma
@@ -87,10 +79,10 @@ objeto, sofram em relação a sua performance, o ambiente de análise é
 \emph{a posteriori} à coleta de dados, sendo aceitável essa
 desvantagem. Está apenas interessado em saber como as técnicas irão se
 portar antes de implementá-las para operação em tempo real. O ambiente
-foi organizado procurando modularizar na medida do possível os
-componentes, para que, se fosse necessário o desenvolvimento ou
-adaptação de código, simplificasse o processo para que apenas o módulo
-em questão seja ser atacado;
+foi organizado procurando modularizar os componentes, para que, se
+fosse necessário o desenvolvimento ou adaptação de código,
+simplificasse o processo para que apenas o módulo em questão seja ser
+atacado;
 
 \item Capacidade de Interpretação dos Dados e Resultados: o tempo
 investido neste ponto retorna em capacidade de interpretação, de forma
@@ -102,10 +94,10 @@ análise etc.). No caso, uma visualização dinâmica permite ainda melhor
 compreensão das nuances contidas na informação. Uma outra maneira é
 através de automatizar as tarefas de modo a obter os resultados de
 maneira agregada e relevante, facilitando a comparação. Este ponto
-atende o Item~\ref{itm:dif2};
+atende o Item~\ref{itm:dif1};
 
 \item Otimização dos Parâmetros: também considerando o
-Item~\ref{itm:dif2}, seria interessante obter configurações ótimas de
+Item~\ref{itm:dif1}, seria interessante obter configurações ótimas de
 maneira automática, sem a necessidade do usuário ficar alterando
 parametros empiricamente até obter um valor considerado bom.
 Inclusive, que o algoritmo seja capaz de realizar isso encontrando uma
@@ -113,7 +105,7 @@ das melhores configurações possíveis para os parâmetros (não
 necessariamente a melhor);
 
 \item Estimação da Informação a ser Desagregada pelos Algoritmos: já
-quanto ao Item~\ref{itm:dif6}, os dados disponíveis no \acs{cepel} não
+quanto ao Item~\ref{itm:dif5}, os dados disponíveis no \acs{cepel} não
 foram amostrados com submedição, tendo apenas acesso às marcas de
 mudanças de estado operativo e, por isso, é necessário uma maneira para
 estimar a informação desagregada contida nos mesmos. Com esse intuíto,
@@ -461,17 +453,16 @@ redundância de informação, refere-se diretamente as figuras onde são
 mostradas as características dos dados que foram gerados através do
 método de informação gráfica de cada aparelho. Estes são os possíveis 
 gráficos de serem gerados são:
-%\begin{itemize}
-%\item
-%\item gráfico do consumo temporal por aparelho para os dados,
-%Figura~\ref{}. Esse gráfico representa a energia desagregada estimada
-%a ser encontrada;
-%\item gráfico circular de consumo dos aparelhos, Figura~\ref{}
-%(p.~\pageref{});
-%\item gráfico das envoltórias para todos os eventos de transitório,
-%Figura~\ref{} (p.~\pageref{}). Essa informação auxilia a encontrar
-%eventos de trasitório que anormais.
-%\end{itemize}
+\begin{itemize}
+\item gráfico do consumo temporal por aparelho para os dados,
+Figura~\ref{fig:temporizado_app_time}. Esse gráfico representa a
+energia desagregada estimada a ser encontrada;
+\item gráfico circular de consumo dos aparelhos,
+Figura~\ref{fig:temporizado_app_pie};
+\item gráfico das envoltórias para todos os eventos de transitório,
+Figura~\ref{fig:temporizado_geladeira}. Essa informação auxilia a
+encontrar eventos anomalos.
+\end{itemize}
 \end{itemize}
 
 \section{Interação Gráfica com o Usuário}
@@ -754,7 +745,7 @@ removidos, isso irá reduzir a velocidade de processamento e se uma
 solução consegue realizar a detecção com acurácia parecida mas gerando
 menos candidatos, é preferível optar por essa opção, mesmo que ela
 tenha uma performance ligeiramente reduzida para obter uma performance
-de execução quando aplicado em um \gls{nilm} na residência melhor.
+de execução quando aplicado em um \gls{nilm} em tempo real.
 Porém, essa punição deve ser pequena, por não ser a grande questão a
 ser otimizada. A regra de pontuação utilizada está representada em
 \ref{eq:regra_pontuacao}. Ainda, os eventos detectados pelo Módulo de
@@ -789,9 +780,9 @@ de Aptidão;
 diferenciável e portanto não é possível utilizar os métodos
 convencionais de otimização. É necessário empregar algum método de
 tentativa e erro para realizar essa tarefa. Neste trabalho, optou-se
-pela utilização de um \acs{es}, porém uma outras estratégias de
+pela utilização de um \acs{es}, porém outras estratégias de
 otimização podem ser utilizadas, como Inteligência de Enxame. 
-Irá se aprofundar nas características do algoritmo
+Aprofundar-se-á nas características do algoritmo
 implementado na Subsessão~\ref{ssec:es}.
 
 \end{itemize}
@@ -821,9 +812,9 @@ inicial, onde se recomenda que a mesma seja iniciada aleatóriamente.
 Essa população inicial passará por um processo de seleção parental
 aonde serão obtidos os espécimes ou individuos para a propagação de
 sua informação genética para sua prole, a \gls{mu}. Porém, a
-\gls{lambda} recebe o, material perturbado através de operações de
+\gls{lambda} recebe o material perturbado através de operações de
 recombinação e mutação. A mutação é uma pertubação que ocorre somente
-levando em conta o material de um pai, enquanto a recombinação ocorre
+levando em conta o material de um único pai, enquanto a recombinação ocorre
 no mínimo com dois pais. A capacidade de encontrar novas regiões
 promissoras (genes alelos) --- descoberta --- no espaço de busca de
 soluções e ganhar informação no problema é dada pela mutação através
@@ -914,8 +905,8 @@ mutabilidade para preservar os graus de liberdade do problema, e este
 é uma mutação específica por coordenada, fornecendo flexibilidade para
 empregar diversas estratégias de mutação em diferentes difereções. Os
 valores indicados para ambos são $1/\sqrt{2n}$ e $1/\sqrt{2\sqrt{n}}$,
-respectivamente. O alcance da pertubação no material genético dado uma
-determinada probabilidade de ocorrência fixa formam elipsóides no
+respectivamente. O alcance da pertubação no material genético, dado uma
+determinada probabilidade de ocorrência fixa, formam elipsóides no
 espaço de solução alinhadas com os eixos da representação escolhida. 
 
 \begin{subequations}
@@ -1034,6 +1025,7 @@ negativos.}
 \end{figure}
 
 \subsubsection{Versão Multiespécie}
+\label{sssec:multiespecie}
 
 Poderia ser utilizado a versão original do \acs{es} para realizar a
 otimização dos parâmetros necessários na abordagem do problema. No
@@ -1097,13 +1089,28 @@ estratégia evolutiva. Para isso, escolheu-se empiricamente a função
 \ref{eq:funcao_interespecie}, para suavizar a pressão aplicada
 em espécies menos aptas. A população reservada para uma espécie para a
 próxima geração é dada por \ref{eq:mu}. Entretanto, como se utiliza a
-função de corte \emph{floor} para transformar os valores em inteiros,
+função de transformação em inteiro \emph{floor},
 ao somar $\mu_i'$ para cada espécie pode acabar resultando em uma
 população menor que $\mu$. Assim, distribui-se aleatoriamente os
 individuos faltantes nas espécies de forma que a soma dos $\mu_i'$
-seja o mesmo que $\mu$. Um exemplo de execução para 10 espécies para a
-função de \emph{Ackley} pode ser visto na
-Figura~\ref{fig:interespecies}.
+seja o mesmo que $\mu$. 
+
+Para a avaliação da configuração intraespécie, bem como interespécie,
+será utilizada a função de \emph{Ackley} contendo 10 espécies. As
+espécies têm de 20 a 29 dimensões, sendo rotuladas sequencialmente de
+01 a 10. As espécies de menores índices tem uma carga genética mais
+simples de ser adaptada através da estratégia evolutiva por possuir
+menos parâmetros livres que aquelas com índices maiores, porém todas
+espécies tem a mesma capacidade de resolver o problema --- todas podem
+obter o mínimo em zero. Ao observar a Figura~\ref{fig:interespecies},
+percebe-se que as espécies inferiores tendem a tomar conta da
+população nas primeiras gerações confirmando essa hipótese. Por outro
+lado, conforme a evolução ocorre, há uma tendência para o equilíbrio,
+uma vez que, nesse caso, todas as espécies são capazes de resolver
+igualmente bem o problema. Percebe-se que a espécie 05 (marrom) é
+aquela que mais sofre durante as gerações iniciais , porém, por volta
+da 30$^a$ geração ela alcança o nível de desenvolvimento das outras
+espécies, crescendo gradualmente sua população.
 
 \begin{subequations}\label{eq:inter_especie}
 \begin{equation} \label{eq:aptidao_especie}
@@ -1147,8 +1154,8 @@ espécie.}
 
 Um outro mecânismo foi implementado para impedir a extinção de uma
 espécie. Ele funciona como um órgão de proteção da diversidade de
-espécies, limitando de espécies próximas de entrarem em extinção de
-reduzirem a sua população, independente do quão mal esses individuos
+espécies, limitando que espécies próximas de entrarem em extinção terem
+sua população reduzida, independente do quão mal esses individuos
 se adequam ao \emph{habitat} para o qual estão sendo avaliados.
 
 Isso foi especialmente importante para o caso de competição
@@ -1172,8 +1179,10 @@ para as espécies que foram iniciadas em condições menos favoráveis,
 eliminando toda sua diversidade em poucas gerações. Já as espécies que
 conseguiram se desenvolver, observa-se que as mesmas ao conseguirem
 uma aptidão melhor que a da outra espécie rapidamente tomam conta da
-população global, pontos que são marcados pelos picos na pressão de
-seleção das espécies antes dominantes.
+população global, acontecimentos marcados pelos picos na pressão de
+seleção das espécies antes dominantes. Observa-se também que apenas as
+espécies mais simples conseguiram evoluir o suficiente para convergir
+para o mínimo global.
 
 \begin{figure}[h!t]
 \centering
@@ -1194,7 +1203,7 @@ intraespécie sem intervenção na competição.}
 
 Em vista disso, implementou-se um mecânismo de controle de pressão de
 seleção por espécie. Esse mecânismo irá aceitar um valor máximo de
-pressão para cada espécie, se o valor ultrapassar o limiar, então irá
+pressão para cada espécie, se o valor ultrapassar o limiar, então se irá
 reduzir sua pressão ao alocar espaço da população para essa espécie
 retirando das espécies com maior alocação de população até que a
 alocação de população dessas espécies que ultrapassaram o corte máximo
@@ -1216,7 +1225,7 @@ necessidade de reduzir um número não inteiro de população em cada
 espécie agrupada, a escolha do residuo da divisão é feita
 aleatoriamente. Ex. se houver de suprir 100 espécimes para garantir que
 a pressão de seleção em níveis aceitáveis, e houver 3 espécies tendo
-sua população reduzida, irá retirar 33 individuos de cada uma delas,
+sua população reduzida, irá se retirar 33 individuos de cada uma delas,
 porém a escolha da espécie que perderá mais um individuo será
 realizada aleatoriamente.
 \end{itemize}
@@ -1237,7 +1246,9 @@ aplicada pelo sistema de intervenção. Observa-se que a competição
 natural chega a exigir pressões de até 500, o que acabaria com a
 diversidade de uma espécie em uma única geração. Assim, ao optar pela
 versão de competição intraespécies faz-se necessário interferir na
-competição para que todas as espécies tenham chances de evoluir. 
+competição para que todas as espécies tenham chances de evoluir.
+Ainda, as espécies de índices mais altos precisam de mais tempo para
+chegarem em seu auge.
 
 
 \begin{figure}[h!t]
@@ -1268,7 +1279,14 @@ atenuação logaritmica. Enquanto isso, na competição intraespécie com
 intervenção (a versão sem intervenção não é recomendada) observa-se
 que o crescimento da população da espécie ocorre gradualmente conforme
 seus individuos ocupam posições privilegiadas no espaço de
-solução.
+solução. Seria interessante adiar a competição, dando um número de
+gerações iniciais para os quais as espécies evoluiriam sem competir,
+deixando as mesmas ajustarem sua estratégia evolutiva e estarem
+em um estágio pré-evoluido para então começarem a competir entre si.
+Comparando essas mesmas figuras novamente, observa-se que o método
+de competição intraespécies, sem a implementação desse novo mecanismo,
+favorece espécies com carga genética mais simples de ser otimizada ou
+que começaram em condições mais favoráveis.
 
 Finalmente, também se adicionou uma outra funcionalidade ao \acs{es}.
 Como as otimizações podem levar dias para serem executadas, viu-se a

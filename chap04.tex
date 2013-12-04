@@ -1,4 +1,4 @@
-\chapter[Monitoramento Não-Invasivo de Cargas Elétricas]{\acrfull{nilm}}
+\chapter[Monitoração Não-Invasiva de Cargas Elétricas]{\acrfull{nilm}}
 \label{cap:nilm}
 
 Este capítulo trata em detalhe as particularidades envolvidas no
@@ -282,12 +282,12 @@ utilizando a característica $s^j$. Uma última consideração, a presença
 de similaridade entre dois aparelhos não necessariamente é um
 problema. Deseja-se para certos aparelhos, como por exemplo, lâmpadas
 do mesmo tipo, ou equipamentos de marcas diferentes, que eles sejam
-vistos como um mesmo equipamento pelo \gls{nilm}. Há certos casos, em
-que as características são tão discriminantes, que dificultam a
+vistos como um mesmo equipamento pelo \gls{nilm}. Há certos casos em
+que as características são tão discriminantes que dificultam a
 aplicação do \gls{nilm} em larga escala (ver metodologia na
-p.~\pageref{nilm:emi}), sendo necessário encontrar características
-suficientemente discriminantes. No entanto, utiliza-se o termo
-\glspl{c6} exclusivamente para identificar os casos em que a
+p.~\pageref{nilm:emi}), sendo necessário encontrar um equilibrio entre
+a capacidade discriminante das características. No entanto, utiliza-se
+o termo \glspl{c6} exclusivamente para identificar os casos em que a
 similaridade dos equipamentos não é desejada causando erros de
 classificação.
 \end{itemize}
@@ -612,7 +612,7 @@ o intuíto de determinar a \gls{e_id_i}. A ideia
 com pequena diferença de energia, não irão afetar tanto na resolução
 de energia, assim como resguardar que identificações em estados de
 consumo maiores para os quais os aparelhos realmente operam não
-arremeterão na conta de energia corretamente identificada:
+arremeterão na conta de energia corretamente identificada.
 
 \begin{equation}\label{eq:e_id_i}
 E_{id}^i = E_{det}^i-\varepsilon^i
@@ -620,8 +620,9 @@ E_{id}^i = E_{det}^i-\varepsilon^i
 
 A \gls{en_res} representa a ideia, em energia, para tanto falsos
 positivos ou quanto identificações errôneas para estados de maior
-consumo, ou seja, a parcela de $E_{det}^i$ que excede àquela lida por
-um medidor externo ou estimada $E_{real}^i$. Ela pode ser descrita
+consumo, ou seja, a parcela de $E_{det}^i$ que excede àquela obtida
+através de um submedidor --- medição diretamente da energia do
+equipamento --- ou estimada $E_{real}^i$. Ela pode ser descrita
 por:
 
 \begin{equation}\label{eq:en_res}
@@ -681,7 +682,7 @@ em \ref{eq:en_eff_i}.
 \end{equation}
 
 \begin{equation}\label{eq:fmeasure_en}
-F_{en}^i=\frac{2 \eta_{En,prec}^i \eta_{En}^i}{\eta_{En,prec}^i+\eta_{En}^i}
+F_{en}^i=\frac{2 \;\; \eta_{En,prec}^i \;\; \eta_{En}^i}{\eta_{En,prec}^i+\eta_{En}^i}
 \end{equation}
 
 Entretanto, a \glslink{medidaf}{medida-F} (\ref{eq:fmeasure}) original
@@ -692,8 +693,8 @@ aqui referenciada por ter sido utilizada em diversos estudos desse
 autor.
 
 \begin{equation}\label{eq:fmeasure}
-F^i=2\dfrac{\dfrac{N_{id}}{N_{id}+N_{fp}}\eta_{total}}
-{\dfrac{N_{id}}{N_{id}+N_{fp}}+\eta_{total}}
+F^i=2\dfrac{\left(\dfrac{N_{id}}{N_{id}+N_{fp}}\right)\eta_{total}}
+{\left(\dfrac{N_{id}}{N_{id}+N_{fp}}\right)+\eta_{total}}
 \end{equation}
 
 
@@ -772,7 +773,7 @@ estado de um utensílio através de alterações no consumo que devem
 superar um limiar específico (15 \acs{watt}/\acs{var}) para os sinais
 normalizados como em \ref{eq:norm_hart} para \acs{p} e \acs{q}.
 As amostragens dentro de um regime permanente são normalizadas para
-sua média com o objetivo de tirar o ruído. Para a \gls{fex}, usa-se o
+sua média com o objetivo de tirar o ruído. Para a \gls{fex}, utiliza-se o
 degrau entre o regime permanente posterior e anterior (já no valor de
 suas médias) ao evento transitório para \gls{p} e \gls{q};
 \item Os eventos de transitório são analizados por um algoritmo de
@@ -812,7 +813,7 @@ ou desligamentos de um mesmo aparelho encontrados em seguida. A causa
 desses erros é, geralmente, a ocorrência de um evento simultâneo de
 dois equipamentos. Assim, o algoritmo busca por eventos não-usuais
 cuja soma é o valor de dois outros eventos perdidos;
-\item Enfim, é levantada a estatística detalhando o
+\item Por fim, é levantada a estatística detalhando o
 comportamento de consumo, como o tempo ligado e desligado de cada
 equipamento. Essa informação, junto com a potência do equipamento é
 utilizada para auxiliar a identificar o equipamento. 
@@ -979,7 +980,7 @@ análises realizadas.
 \item \emph{A abordagem de 
 \citeauthor*{nilm_baranski_genetic_base_2003_19}}
 
-Com o intuíto de possibilitar a saturação da aplicação de \glspl{nilm}
+Com o intuíto de possibilitar a impregnação da aplicação de \glspl{nilm}
 na Alemanha, \citet*{nilm_baranski_genetic_base_2003_19,
 nilm_baranski_genetic_detalhado_2004_20,nilm_baranski_summary_2004_21}
 recorreram a leitura ótica dos medidores eletromecânicos
@@ -1243,7 +1244,7 @@ algoritmo.
 \item \textbf{\Acrlong{p} e estatística de uso}
 \label{top:nilm_p_estatistica}
 
-Também com o objetivo de possibilitar a saturação do método, mas no
+Também com o objetivo de possibilitar a impregnação do método, mas no
 caso para os \gls{eua},
 \citeauthor*{nilm_zeifman_vastext_approach_2012} propôs um novo método
 \cite{nilm_zeifman_vast_2011,
@@ -1266,8 +1267,8 @@ referências parecem ser as mais próximas de possibilidar o \gls{nilm}
 em um programa de \gls{ee} em larga escala.
 
 Devido à ausência da \acl{q}, a sobreposição dos centróides ocorrerá
-com frequência maior, aumentando as ocorrências de erros devido à
-\gls{c6}. O autor criou o método \gls{vast} para empregar a informação
+com frequência maior, aumentando as ocorrências de erros decorrentes
+de \gls{c6}. O autor criou o método \gls{vast} para empregar a informação
 estatística no processo de discriminação, Etapa~\ref{itm:etapa3}.
 Diferente das outras adaptações do algoritmo de \emph{Viterbi} que se
 encontram no levantamento bibliográfico
@@ -1695,7 +1696,7 @@ medidores disponíveis no mercado estadunidense que apresentavam
 discrepâncias de 10-20\% entre si, enquanto a taxa reportada era de
 3\%. O seu sistema de aquisição de dados atual coleta amostras na
 frequência de 100 k\acs{hz} utilizados para gerar características
-em 20 \gls{hz}. Devido às dificuldades para etiquetar os momentos
+em 20 \gls{hz}. Devido às dificuldades para rotular os momentos
 exatos para o treinamento das técnicas, eles criaram um detector
 \emph{wireless} de eventos de transitório, diretamente colocado no
 cabo do aparelho.
@@ -1771,9 +1772,9 @@ seja um dos equipamentos de simples discriminação, modifica-se a
 informação em uma série de etapas, nesta ordem: aplica-se Transformada
 de \emph{Hilbert} no módulo da corrente, \gls{tw} com cinco níveis e
 por último o Método de Burg, esse adicionado para suavizar e
-sintetizar a informação contínuos na decomposição do sinal pela
-\gls{tw}. As características utilizadas são os
-picos para os níveis de detalhes do Método de Burg adicionados do
+sintetizar a informação contida nos níveis de detalhes obtidos na
+decomposição do sinal pela \gls{tw}. As características utilizadas são
+os picos para os níveis de detalhes do Método de Burg adicionados do
 \gls{fp}.
 
 A discriminação é feita em duas etapas, primeiro se seleciona um grupo
@@ -1788,13 +1789,12 @@ discriminação.
 Os resultados para acionamentos individuais reportados pelo autor
 foram de 99,7\% para a seleção na primeira etapa e 88,8\% na segunda.
 Foi realizado um ensaio para verificar o comportamento do algoritmo em
-casos empilhados, porém o mesmo foi bastante trivial, apenas
-adicionando uma lâmpada incandescente antes de acionar os outros
-equipamentos. A resposta mostrou que o grupo de equipamentos com
-motores sofreu deterioração de sua eficácia. Assim, não é possível
+casos empilhados, porém o mesmo foi trivial, apenas
+adicionando uma lâmpada incandescente --- sem dinâmica de consumo --- 
+antes de acionar os outros equipamentos.  Assim, não é possível
 deduzir a capacidade do método para a aplicação em condições reais,
-onde é necessário a robustez das técnicas aplicadas para o
-empilhamento de diversos equipamentos, injetando ruídos e dificultando
+onde é necessário a robustez das técnicas aplicadas para ao
+acúmulo de diversos equipamentos, injetando ruídos e dificultando
 a desagregação da informação. O autor identificou, também, que é
 necessário trabalhar no detector de eventos transitórios, que talvez
 tenham sido o motivo para a deterioção da eficácia dos motores no
@@ -1993,7 +1993,7 @@ tal tarefa, e cita \cite{information_fusion_basir_2007_40} como
 exemplo. Outra abordagem possível é o emprego de uma \gls{rna}.
 
 Em \cite{nilm_liang_pt2_2010_40} os autores criaram um simulador de
-Monte-Carlo, capaz de gerar situações de empilhamento de aparelhos,
+Monte-Carlo, capaz de gerar situações de operação simultânea de aparelhos,
 ruído devido a dinâmica de carga (\gls{c5}) ou fontes externas de
 ruído, dando uma capacidade maior para as possibilidades dos
 testes das técnicas a serem empregadas pelos \gls{nilm}. Com base nos
@@ -2088,16 +2088,16 @@ iluminação nesse ambiente.
 
 Um projeto na Suiça por \cite{seminilm_ihome_tomek_2012}, utiliza
 diversos submedidores de energia conectados via \emph{wireless} a uma
-central. A ideia é reduzir o empilhamento de informação colocando os
-medidores mais próximos ao consumo, facilizando assim a identificação
-dos aparelhos. Cada módulo de submedição realiza medições em
-3,2~k\acs{hz} de tensão e corrente, que são utilizados para gerar
-a \acl{p}, \acl{q} e os harmônicos impares de corrente com
-indices de 1-11. Quando é detectado um evento de transição, a
-informação é repassada para uma central, que procura no catálogo o
-aparelho que melhor se corresponde com a transição. Reporta-se
-eficiência de detecção de 95\% para submedidores com um único
-aparelho. 
+central. A ideia é reduzir o acumulo de aparelhos no sinal a ser
+desagregado ao colocar os medidores mais próximos ao consumo,
+facilitando assim a identificação dos aparelhos. Cada módulo de
+submedição realiza medições em 3,2~k\acs{hz} de tensão e corrente, que
+são utilizados para gerar a \acl{p}, \acl{q} e os harmônicos impares
+de corrente com indices de 1-11. Quando é detectado um evento de
+transição, a informação é repassada para uma central, que procura no
+catálogo o aparelho que melhor se corresponde com a transição.
+Reporta-se eficiência de detecção de 95\% para submedidores com um
+único aparelho. 
 
 Uma outra abordagem bastante interessante realizada por
 \citet*{seminilm_fhmm_empiricalnmeter_2013}, altera o conceito
@@ -2125,11 +2125,12 @@ A primeira questão que chama atenção no levantamento bibliográfico é a
 quesito de escala. O \gls{nilm} deve ser robusto para a aplicação
 independente da quantidade de aparelhos disponíveis na residência do
 consumidor. Naturalmente irá ocorrer a presença de aparelhos
-desconhecidos, bem como de \gls{c5}, que conforme o seu empilhamento
-irão tornar a rede um ambiente muito mais complexo para operação das
-técnicas. É justamente nesse ambiente que as abordagens devem ser
-testadas, demonstrando como será o seu comportamento nas condições
-adversas presentes nas redes elétricas residenciais.
+desconhecidos, bem como de \gls{c5} que, conforme o acúmulo de
+diversos aparelhos, irá tornar a rede um ambiente muito mais complexo
+para operação das técnicas. É justamente nesse ambiente que as
+abordagens devem ser analisadas, demonstrando como será o seu
+comportamento nas condições adversas presentes nas redes elétricas
+residenciais.
 
 Geralmente os \glspl{nilm} utilizam eventos de transitório para buscar
 por alterações no estado operativo dos aparelhos na rede ---
@@ -2236,7 +2237,7 @@ redundância ou subestimação do consumo por aparelho como foi tratado
 na Subsessão~\ref{ssec:nilm_eff_calc}.
 
 Quanto à extração de características e técnicas empregadas, observam-se
-três vertentes. Buscando a saturação do método, uma vertente
+três vertentes. Buscando a impregnação do método, uma vertente
 limita-se ao emprego de técnicas em cima de características
 macroscópicas obtidas com baixa amostragem 
 \cite{nilm_hart_1992_8,nilm_cole_data_extraction_1998_14,
@@ -2284,7 +2285,7 @@ levantamento de estatística na própria residência, como mostrado por
 \cite{nilm_zeifman_vastext_approach_2012,nilm_zeifman_statistical_vastext_1stws_2012},
 parece ser suficiente para atender os pontos necessários para a
 aplicação dessa tecnologia em um programa de \gls{ee}. A única questão
-dessa abordagem seria como etiquetar os modelos encontrados com os
+dessa abordagem seria como rotular os modelos encontrados com os
 nomes dos aparelhos, assunto debatido previamente nesta subsessão.
 
 Outra vertente, ao procurar por melhores capacidade de discriminação,
@@ -2394,7 +2395,7 @@ seminilm_berges_multisensor_2010}. O objetivo para essa configuração
 pode ser descrito como minimizar o custo com sensores sem deteriorar a
 capacidade de desagregação. Essas abordagens podem optar por
 submedidores mais próximos ao nível de consumo, reduzindo o
-empilhamento de aparelhos que intrinsecamente torna a tarefa mais
+acúmulo de operação de aparelhos que, intrinsecamente, torna a tarefa mais
 simples; utilizar outros sensores que deem sensibilidade para a
 discriminação, como correlacionar o nível sonóro, de iluminação e
 movimento com certos aparelhos; ou submedição diretamente nos
@@ -2413,20 +2414,20 @@ máximo de aparelhos.
 
 Portanto, as técnicas devem ser robustas para aplicação em residências
 com a presença de aparelhos desconhecidos e para os momentos onde
-haverá maior operação, causando o empilhamento de diversos aparelhos
-que injetarão ruídos na rede.  Devido a presença de aparelhos
-deconhecidos, um aspecto desejável para o \gls{nilm} é conseguir
-detectá-los de maneira automática e de algum modo possibilitar a
-correlação dos modelos identificados com seus nomes. Outra questão é
-como obter informação discriminante garantindo que o projeto seja
-viável. A utilização de amostragem baixa deteriora a capacidade de
-discriminação, por outro lado é possível que a estrutura para essas
-abordagens já esteja disponível. Essa abordagem parece ser a mais
-próxima de tornar-se realidade. Enquanto a elevação da amostragem
-aumenta a eficiência, dificulta a aplicação do projeto por necessitar
-de \emph{hardware} específico. Além disso, as técnicas presentes
-atualmente para alta amostragem ainda precisam ser testadas quanto a
-sua robustez. Todavia, um outro caminho para obter maiores
+haverá maior operação, causando a operação simultânea de diversos aparelhos
+que, possivelmente, injetarão ruídos na rede através de sua dinâmica.
+Devido a presença de aparelhos deconhecidos, um aspecto desejável para
+o \gls{nilm} é conseguir detectá-los de maneira automática e de algum
+modo possibilitar a correlação dos modelos identificados com seus
+nomes. Outra questão é como obter informação discriminante garantindo
+que o projeto seja viável. A utilização de amostragem baixa deteriora
+a capacidade de discriminação, por outro lado é possível que a
+estrutura para essas abordagens já esteja disponível. Essa abordagem
+parece ser a mais próxima de tornar-se realidade. Enquanto a elevação
+da amostragem aumenta a eficiência, dificulta a aplicação do projeto
+por necessitar de \emph{hardware} específico. Além disso, as técnicas
+presentes atualmente para alta amostragem ainda precisam ser testadas
+quanto a sua robustez. Todavia, um outro caminho para obter maiores
 eficiências pode ser através da escolha ótima de submedidores que, ao
 mesmo tempo, maximizam a eficiência e minimizam o custo do projeto.
 
@@ -2434,14 +2435,14 @@ mesmo tempo, maximizam a eficiência e minimizam o custo do projeto.
 \label{sec:nilm_cepel}
 
 Esta sessão se dedica à descrição do projeto no \gls{cepel} e as
-colaborações realizadas pela \acs{coppe} no mesmo. Os trabalhos
-de autores precedentes ao presente trabalho é realizado na
+colaborações realizadas pela \acs{coppe} no mesmo. Os trabalhos de
+autores precedentes ao presente trabalho é realizado na
 Subsessão~\ref{ssec:cepel_anteriores}. A contribuição realizada pelo
 grupo de engenheiros do \gls{cepel} posterior ao último trabalho em
 colaboração com a \acs{coppe} encontra-se na
-Subsessão~\ref{ssec:met_cepel}, sendo essa a realidade onde o trabalho
-atual auxiliou. Na Subsessão~\ref{ssec:caracteristicas} é realizada
-considerações quanto a escolha da \gls{fex} em relação a
+Subsessão~\ref{ssec:met_cepel}, sendo essa metodologia a base
+para o trabalho atual. Na Subsessão~\ref{ssec:caracteristicas} é
+realizada considerações quanto a escolha da \gls{fex} em relação a
 discriminação, levantamento deixado para contribuir para a escolha das
 mesmas em trabalhos futuros. Ver-se-á nesta sessão que há uma série de
 dificuldades a serem abordadas antes de retornar a questão de
@@ -2463,7 +2464,7 @@ dos trabalhos realizados pelo mesmo grupo de
 \cite{nilm_norford_leeb_medianfilt_1996_13,
 nilm_leeb_spectral_envelope_1995_23}\footnote{Esses são apenas alguns
 dos trabalhos realizados, a literatura disponível pelo grupo é muito
-mais extensa.} onde a extração da envoltória utilizando a decomposição
+mais extensa.} onde a extração da envoltória obtida através da decomposição
 harmônica é realizada em amostras espaçadas em 1~\acs{hz}, os
 trabalhos utilizaram a envoltória em 60~\acs{hz}. Essa diferença
 é justificável pela diferença dos dois ambientes, onde os transitórios
@@ -2517,19 +2518,17 @@ Finalmente, o sistema de aquisição disponível para
 maior de equipamentos, sendo capaz observar equipamentos com
 consumo superior à 150~m\acs{a}, enquanto
 \citet*{nilm_cepel_aguiar} operava somente para utensílios consumindo
-mais de 1~\acs{a}\footnote{\citeauthor*{nilm_cepel_bezerra}
-explicita em seu texto que houve melhorias quanto a essas limitações
-no seu sistema de aquisição, no entanto não foi possível encontrar o
-novo valor para esse limiar.}. Houve também uma melhoria no levantamento do
-banco de dados, havendo uma amostragem bastante superior aos trabalhos
-anteriores, com um total de 1324 acionamentos observados. O trabalho
-implementou dois detectores especialistas para a identificação dos
-momentos de acionamentos (a Etapa~\ref{itm:etapa2}, porém apenas para
-acionamentos), e um baseado em correlação. Foram utilizadas 150
-amostras da envoltória de corrente, obtendo taxa de detecção de 86~\%.
-Grande parte da inexatidão ocorreu devido aos erros no grupo de
-eletrônicos, obtendo taxas de classificação bastante inadequadas para
-esse grupo, na ordem de 30~\%.
+mais de 1~\acs{a}. Houve também uma melhoria no
+levantamento do banco de dados, havendo uma amostragem bastante
+superior aos trabalhos anteriores, com um total de 1324 acionamentos
+observados. O trabalho implementou dois detectores especialistas para
+a identificação dos momentos de acionamentos (a
+Etapa~\ref{itm:etapa2}, porém apenas para acionamentos), e um baseado
+em correlação. Foram utilizadas 150 amostras da envoltória de
+corrente, obtendo taxa de detecção de 86~\%.  Grande parte da
+inexatidão ocorreu devido aos erros no grupo de eletrônicos, obtendo
+taxas de classificação bastante inadequadas para esse grupo, na ordem
+de 30~\%.
 
 Apesar da evolução dos trabalhos, diversos pontos podem ser
 levantados. Primeiro, a principal característica utilizada pelos
@@ -2542,14 +2541,14 @@ estado positivas, já que os estudos não trataram o caso de \gls{c2}
 --- sendo uma outra dificuldade a ser tratada. Não bastasse, os
 estudos trataram apenas de casos de aparelhos sendo acionados
 isoladamente. Como foi notado na Subsessão~\ref{ssec:nilm_discussao},
-a maior dificuldade para os \glspl{nilm} ocorrem devido ao
-empilhamento de equipamentos na rede, em especial devido à decorrência
-de \gls{c5}. Os esforços para realizar a Etapa~\ref{itm:etapa2}
-envolveram apenas a detecção de acionamentos, bem como não fica claro
-no trabalho de \cite{nilm_cepel_alvaro} a maneira proposta para tratar
-a questão de classificação do desligamento. Indo adiante, a taxonomia
+a maior dificuldade para os \glspl{nilm} ocorrem devido à
+operação simultânea de equipamentos na rede, em especial quando eles
+se constituem de \gls{c5}. Os esforços para realizar a
+Etapa~\ref{itm:etapa2} envolveram apenas a detecção de acionamentos,
+bem como o trabalho de \cite{nilm_cepel_alvaro} não considera a
+questão de classificação do desligamento. Indo adiante, a taxonomia
 levantada pelos autores realiza a discriminação em grupos bastante
-genéricos de equipamentos. Não se sabe até que ponto essa informação
+genéricos de equipamentos.  Não se sabe até que ponto essa informação
 pode contribuir para a desagregação do consumo de energia residencial,
 em especial para a aplicação em programa de \gls{ee}, onde os
 consumidores desejam saber o consumo por equipamento. Continuando, a
@@ -2595,7 +2594,6 @@ trabalho.}
 \end{figure}
 
 
-% TODO Colocar aqui uma referencia para uma figura mais a frente.
 A opção tomada pelo grupo do \acs{cepel} foi a segunda, onde
 \citet*{rel_cepel_detevt} decidiram utilizar a derivada de Gaussiana
 baseando-se na literatura de processamento de imagens para a detecção
@@ -2629,11 +2627,11 @@ absoluto é utilizado.
 %configurações mais complexas, adicionando \gls{c4}, \gls{c5} e
 %\gls{c6} de maneira gradual até chegar em condições reais. A validação
 %do filtro de derivada de Gaussiana foi realizada em cima de
-%configurações mais simples, havendo empilhamento em configurações
+%configurações mais simples, havendo acúmulo em configurações
 %simples e dados limpos. 
 
 A fim de avaliar a eficácia, o relatório utilizou de novos dados, onde
-algumas configurações já apresentavam empilhamento de aparelhos
+algumas configurações já apresentavam operação justaposta de aparelhos
 operando em diversos estados, no entanto sem ruído. A ideia aplicada
 foi de gradualmente aumentar a dificuldade a ser estudada e adaptar a
 abordagem até chegar em condições similares àquelas encontradas nas
@@ -2774,23 +2772,26 @@ n-ésima componente da decomposição harmônica;
 FP = \frac{P}{S}
 \end{equation}
 
-Em especial quanto ao terceiro item, há um interesse por parte do
+Em especial quanto ao segundo item, há um interesse por parte do
 \gls{cepel} de procurar uma solução menos complexa, mesmo
-que isso deteriore a capacidade do \gls{nilm}, mas que resulte em uma
-resposta mais rápida em tempo de projeto. Por esse mesmo motivo, o
-\gls{cepel} considera a utilização de medidores presentes no mercado,
-dando preferência para os de baixo custo para facilitar o projeto, já
-que o desenvolvimento do \emph{hardware} adiciona peso e reduz a
-velocidade do projeto. Por enquanto, dois medidores estão sendo
-utilizados, um proprietário do \acs{cepel} e um medidor da empresa
-\emph{Yokogawa} \cite{yokogawa_medidor}, estando alguns dados
-disponíveis em uma configuração, e outros na outra.
+que isso deteriore --- até niveis aceitáveis --- a capacidade do
+\gls{nilm}, mas que resulte em uma resposta mais rápida em tempo de
+projeto. Por esse mesmo motivo, o \gls{cepel} considera a utilização
+de medidores presentes no mercado, dando preferência para os de baixo
+custo para facilitar o projeto, já que o desenvolvimento do
+\emph{hardware} adiciona peso e reduz a velocidade do projeto. Por
+enquanto, dois medidores estão sendo utilizados, um proprietário do
+\acs{cepel} e um medidor da empresa \emph{Yokogawa}
+\cite{yokogawa_medidor}, estando alguns dados disponíveis em uma
+configuração, e outros na outra.
 
-As variáveis anteriormente citadas são as que estão disponíveis
-atualmente para serem utilizadas (em amostragem de 60~\acs{hz}).
-Este trabalho não irá entrar na questão da discriminação,
-sendo realizadas considerações na subsessão a seguir para auxiliar na
-escolha das características a serem empregadas. Como é possível
+As variáveis anteriormente citadas --- adicionadas de suas envoltórias
+--- são as que estão disponíveis atualmente para serem utilizadas (em
+amostragem de 60~\acs{hz}).
+Este trabalho foca na detecção de eventos, buscando nessa informação
+para identificá-los, e não entrando em detalhes sobre a classificação.
+Na subsessão a seguir serão feitas algumas considerações com o intuíto
+de auxiliar trabalhos futuros na escolha de características. Como é possível
 perceber, há uma série de dúvidas a serem tratadas antes de chegar no
 mérito da discriminação. Assim, focou-se em fornecer uma
 plataforma para dar maleabilidade ao projeto e laborar a generalização
@@ -3094,25 +3095,26 @@ identificação visual dos mesmos.}
 \label{tab:taxonomias_lam}
 \end{table}
  
-Porém, como foi dito na Subsessão~\ref{ssec:met_cepel}, ainda não foi
-definido o caminho para qual vertente o projeto irá seguir, havendo
-uma tendência para seguir o caminho de baixa amostragem. Nesse caso,
-terá acesso apenas a variáveis macroscópicas, como \acs{di}, \acs{dp}
+Pode ser do interesse do \acs{cepel} alterar a amostragem dos
+medidores, dependendo, por exemplo, se for possível utilizar os
+medidores inteligentes para garantir a impregnação do método, ou de
+ser necessário melhores eficácias, nesse caso, sendo necessário
+aumentar a frequência de amostragem. No primeiro caso,
+ter-se-á acesso apenas a variáveis macroscópicas, como \acs{di}, \acs{dp}
 e \acs{ds}, possivelmente outras variáveis podem ser empregadas, como
 \acs{dq} e \acs{dd}, entretanto isso dependerá da capacidade do
-medidor utilizado. Se optar por alta amostragem, será necessário
-explorar frequências maiores à 60~\acs{hz} para obter informação
+medidor utilizado. Já para alta amostragem, 
+frequências maiores à 60~\acs{hz} permitem a obtenção da informação
 contida dentro do ciclo, possibilitando o acesso às informações
 descritas no parágrafo anterior e, assim, uma maior capacidade de
 discriminação. Nota-se que, como levantado na
 p.~\pageref{nilm:multiplas_tecnicas}, a escolha não precisa se limitar
-a uma única dessas características, podendo abranger-se para um
-conjunto delas ou aplicar/adicionar uma característica ainda não
-explorada para obter melhor capacidade discriminativa. Nessa
-alternativa, pode-se também explorar a envoltória das ondas já que
+a uma única característica ou técnica, podendo abranger-se para um
+conjunto delas para obter melhor capacidade discriminativa. Nessa
+alternativa, pode-se também explorar a envoltória das ondas uma vez que
 elas mostram uma capacidade de, no mínimo, auxiliar na discriminação
 de cargas lineares para os eventos de transitório de aparelhos durante
-o acionamento. Essa capacidade possivelmente poderá auxiliar para as
+o acionamento. Essa capacidade pode extender-se para as
 cargas não-lineares, porém não será tratado neste trabalho se isso
 é verdadeiro, limitando-se aqui em apenas mostrar que a questão
 está aberta. Além disso, a informação de estatística de uso, como foi
@@ -3126,11 +3128,11 @@ mostrados em
 \cite{nilm_zeifman_vast_2011,nilm_zeifman_vastext_approach_2012,
 nilm_zeifman_statistical_vastext_1stws_2012,
 nilm_zeifman_vast_hisample_pdfmerge_2011,
-nilm_zeifman_statistical_naive_enduses_2013}. Finalmente, é possível
-manter a mente aberta para a possibilidade de utilizar submedidores,
-seja para reduzir o empilhamento dos aparelhos a uma quantidade
-aceitável, ou para obter diretamente a informação desagregada de
-aparelhos complexos e importantes em termos de uso-final
+nilm_zeifman_statistical_naive_enduses_2013}. Finalmente, existe a
+possibilidade de utilizar submedidores, seja para reduzir a operação
+justaposta dos aparelhos a uma quantidade aceitável, ou para obter
+diretamente a informação desagregada de aparelhos complexos e
+importantes em termos de uso-final
 \cite{seminilm_ihome_tomek_2012,seminilm_fhmm_empiricalnmeter_2013,
 seminilm_berges_multisensor_2010}.
 
