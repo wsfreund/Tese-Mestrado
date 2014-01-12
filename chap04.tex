@@ -1,75 +1,111 @@
 \chapter[Monitoração Não-Invasiva de Cargas Elétricas]{\acrfull{nilm}}
 \label{cap:nilm}
 
-Este capítulo trata em detalhe as particularidades envolvidas no
-desenvolvimento da tecnologia conhecida como
-\gls{nilm}\footnote{NIALM e NALM são outras abreviaturas utilizadas na
-literatura.}, em especial quanto aos aspectos técnicos. A
-Sessão~\ref{sec:nilm_aspec_gerais} irá introduzir os seus pontos
-gerais, sendo um resumo da informação contida nos capítulos
-anteriores. Em seguida, as diversas metodologias utilizadas no mundo
-são utilizadas para um levantamento dos aspectos envolvidos no
-desenvolvimento da tecnologia na Sessão~\ref{sec:nilm_mundo}.
-Finalmente, será apresentado na Sessão~\ref{sec:nilm_cepel} a evolução
-dessa tecnologia no escopo deste trabalho, desenvolvido em conjunto
-com o \gls{cepel}.
+Este capítulo trata as particularidades envolvidas no
+desenvolvimento da tecnologia conhecida como \gls{nilm}\footnote{NIALM
+e NALM são outras abreviaturas utilizadas na literatura com o mesmo
+significado àquela aqui utilizada, Monitoração
+Não-Invasiva de Cargas Elétricas, tradução própria do
+termo em inglês \emph{Non-Intrusive Appliance Load Monitoring}.}.
+Diferente dos capítulos anteriores, que
+se dedicaram à contextualizar as aplicações do \acs{nilm} em torno do
+tema de \acs{ee}, este capítulo se dedica à descrição do projeto do
+\acs{nilm} em termos técnicos e das abordagens utilizadas observadas
+durante o levantamento bibliográfico realizado para este trabalho, bem
+como o estado do projeto e a metodologia proposta pelo \acs{cepel} que
+foi expandida e sistematizada pelo trabalho atual, que será descrita
+nos dois próximos capítulos.
+
+Antes, porém, o \acs{nilm} é abordado trazendo seus aspectos gerais na
+Seção~\ref{sec:nilm_aspec_gerais}, aonde é realizado uma sinopse da
+informação dos capítulos anteriores e citadas outras possíveis
+aplicações para o \acs{nilm} --- suas aplicações não se limitam à
+\acs{ee}. Em seguida, a Seção~\ref{sec:nilm_mundo} apresenta as
+convenções adotadas por este trabalho, estando disponíveis os
+conceitos e nomenclaturas que serão utilizados em diante no trabalho.
+Essa seção apresenta, em seguida, um extenso levante de técnicas
+empregadas por demais autores para realizar a desagregação do consumo
+que será resumida e debatida em sua subseção final.  Por sua vez, a
+metodologia proposta pelo \acs{cepel} está disponível na
+Seção~\ref{sec:nilm_cepel}, aonde também serão tratados os estudos
+anteriores realizados pela colaboração \acs{coppe}-\acs{cepel} e
+considerações sobre a escolha das características discriminantes, que
+utilizará como base os demais estudos de \acs{nilm} abordados por este
+trabalho. 
+
+Apesar deste capítulo trazer as técnicas para o \acs{nilm} e tratá-lo
+de uma maneira geral, vale ressaltar que a metodologia aplicada pelo
+trabalho se restringiu apenas para a detecção de eventos de
+transitório. O tratamento do \acs{nilm} como um todo foi realizado
+para elucidar e facilitar, da melhor maneira possível, o projeto dessa
+técnica, não se limitando a compreensão apenas do ponto atacado pela
+metodologia do trabalho, mas permitindo uma visão do projeto de uma
+maneira global.
+
 
 \section{Aspectos Gerais}
 \label{sec:nilm_aspec_gerais}
 
 O \gls{nilm} é uma alternativa para fornecer a informação de consumo
-de energia elétrica desagregado por utensílio. Ao invés das técnicas
-normalmente utilizadas --- onde se faz mão de sensores dispostos em cada
-utensílio, esses enviando informações para uma central encarregada de
-decodificá-las e, assim, identificar os utensílios que estão demandando
-consumo na rede ---, o \gls{nilm} é um método em que não ocorre a intrusão
-da propriedade do usuário (ou intrusão em escala mínima), contendo
-geralmente apenas um medidor central no fornecimento de energia dessa
-propriedade. O peso da identificação dos utensílios é transferido da
-utilização de uma grande quantidade de sensores e \emph{hardware}
-complexo para um \emph{software} e algoritmos de processamento de
-sinais no intuíto de realizar uma análise profunda das medições e
-desagregar as informações.
+de energia elétrica desagregada por equipamento ou dispositivo. Ao
+invés das técnicas normalmente utilizadas --- onde se lança mão de
+sensores dispostos em cada equipamento, esses enviando informações
+para uma central encarregada de decodificá-las e, assim, identificar
+os equipamentos que estão demandando consumo na rede ---, o \gls{nilm}
+é um método em que não ocorre a intrusão na propriedade do usuário (ou
+intrusão em escala mínima), contendo geralmente apenas um medidor
+central no fornecimento de energia dessa propriedade. O peso da
+identificação dos equipamentos é transferido da utilização de uma
+grande quantidade de sensores e \emph{hardware} complexo para um
+\emph{software} e algoritmos de processamento de sinais no intuito de
+realizar uma análise profunda das medições e desagregar as
+informações.
 
 Ainda que o peso da identificação esteja no \emph{software}, a
 aptidão dos algoritmos implementados dependem da capacidade do
 medidor de extrair informações da rede e das distorções causadas pelos
-utensílios na mesma, de forma que quanto mais avançado for o
-\emph{hardware} de medição, enviando uma quantidade e/ou frequência
+equipamentos na mesma, de forma que quanto mais avançado for o
+\emph{hardware} de medição, com capacidade de enviar uma quantidade e/ou frequência
 maior de informação aos algoritmos encarregados de realizar a
-discriminação dos rastros deixados na rede elétrica pelos aparelhos,
+discriminação dos rastros deixados na rede elétrica pelos equipamentos,
 também maior será a capacidade dos mesmos de desagregar o consumo
-específico dos utensílios.
+específico dos equipamentos.
 
 Possíveis aplicações para esse dispositivo são: 
 
 \begin{itemize}
 \item auxiliar ou substituir as \glspl{pph} sem que seja necessário
 causar incômodo ao consumidor devido a presença de medidores na
-residencia, fornecendo assim dados com maior fidelidade em caracter
-desagregado por utensílio e maior frequência para estudos de \gls{ee}
-no consumo de eletricidade (Sessão~\ref{sec:ee_dificuldades}), em
+residencia, fornecendo assim dados com maior fidelidade em carácter
+desagregado por equipamento e maior frequência para estudos de \gls{ee}
+no consumo de eletricidade (Seção~\ref{sec:ee_dificuldades}), em
 especial para o setor residencial;
 \item disponibilizar a informação desagregada para o fornecimento do
 Retorno Indireto Diário/Semanal e/ou Retorno em Tempo Real Desagregado
-em programa de \gls{ee}. Os programa de \gls{ee} utilizando retorno
+em programa de \gls{ee}. Os programas de \gls{ee} utilizando retorno
 de informação são possíveis fontes de redução de consumo nos grandes
-centros urbanos, no entanto, são necessários estudos no Brasil para
-determinar seu potencial (Sessão~\ref{sec:ee_res_exp}). O retorno de
-informação desagregada por utensílio pode ser utilizado por empresas
+centros urbanos. No entanto, são necessários estudos, no Brasil, para
+determinar seu potencial (Seção~\ref{sec:ee_res_exp}). O retorno de
+informação desagregada por equipamento pode ser utilizado por empresas
 que oferecem serviços de redução de consumo
-(Subsessão~\ref{ssec:ret_tec}), ou mesmo por consumidores que precisam
+(Subseção~\ref{ssec:ret_tec}), ou mesmo por consumidores que precisam
 ter algum tipo de controle sobre seu consumo de energia; \item no
 interesse das concessionárias, a informação desagregada pode auxiliar
 os clientes a identificarem consumo não essencial durante o horário de
 ponta, auxiliando no deslocamento de carga (ver item \emph{Resposta de
 Ponta e Demanda versus Economia Fora de Ponta} na
-Subsessão~\ref{ssec:ret_outros}), assim como identificar clientes com
-maior potencial de redução de consumo durante esses períodos para
-oferecer incentivos nesse sentido (Subssessão~\ref{ssec:ret_tec}); 
-\item outras possíveis aplicações: monitoramento da qualidade de
-energia, diagnóstico de carga, identificação de aparelhos defeituosos
-ou com consumo excessivo de energia;
+Subseção~\ref{ssec:ret_outros}), assim como identificar clientes com
+maior potencial de redução de consumo durante esses períodos, para
+oferecer incentivos nesse sentido (Subseção~\ref{ssec:ret_tec}); 
+\item identificar equipamentos defeituosos ou com consumo excessivo de
+energia;
+\item informar aos fabricantes de eletrodomésticos o
+perfil de seus consumidores (caso seja possível obter essa
+informação);
+\item permitir a identificação de perdas não-técnicas através de
+discrepâncias entre a informação de consumo agregado obtido pelo
+\acs{nilm} e aquele obtido pela concessionária, o que indicaria
+incoerências na tarifação;
 \end{itemize}
 
 As possibilidades de aplicação como um meio de melhoria da \gls{ee} e
@@ -84,9 +120,9 @@ levou a organização do primeiro \emph{workshop} especificamente para o
 tema em 2012 \cite{workshop_nilm}. Essa alternativa é mais simples
 quando comparando com a automação residencial por não requerer
 mudanças na produção dos eletrodomésticos --- a automação requer
-comunicação nos dois sentidos (entre a interface e o aparelho), tal
-como a capacidade de controle do aparelho, de forma que se faz
-necessário adaptar aparelhos antigos e a produção dos novos
+comunicação nos dois sentidos (entre a interface e o equipamento), tal
+como a capacidade de controle do equipamento, de forma que se faz
+necessário adaptar equipamentos antigos e a produção dos novos
 equipamentos com essas capacidades --- juntamente com o fato de haver
 um relutância social quanto às residências automatizadas, apesar de
 esforços governamentais e da mídia local \cite{Lipoff_Automation_2010}
@@ -95,6 +131,14 @@ nos \gls{eua}). Não bastasse, também se pode citar o nascimento de
 \emph{start-ups} procurando espaço na corrida por esse novo mercado,
 como \emph{GetEmme} \cite{getemme_site} e \emph{Navetas}
 \cite{navetas_site}.
+
+Porém, é importante aqueles envolvidos no projeto terem em mente a
+questão da ética: a informação do consumo não deve sair da residência
+sem o consentimento do consumidor. Além disso, o projeto deve ser
+realizado em um sistema autocondido, ou seja, deve ser garantido ao
+consumidor a segurança da informação e sua privacidade, de forma que
+esses itens também devem ser incluídos para o projeto e proliferação
+da técnica.
 
 \section{As Diversas Metodologias Utilizadas no Mundo}
 \label{sec:nilm_mundo}
@@ -118,15 +162,10 @@ nilm_liang_pt1_2010_34,nilm_suzuki_2011_35,nilm_berges_2008_7,
 nilm_berges_2009_36,2010_nilm_melhorando_pph_usa_37,
 nilm_liang_pt2_2010_40} realizado em \citet*{nilm_zeifman_review_2011}
 expõe que as técnicas aplicadas em \glspl{nilm} ou não são robustas no
-sentido de atenderem especificamente a um grupo limitado de utensílios
+sentido de atenderem especificamente a um grupo limitado de equipamentos
 estudados, ou apresentam acurácia marginal, mostrando que o processo
-de desagregação da informação não é trivial. Indo além das
-dificuldades técnicas, ressaltam-se os pontos enfatizados nas
-Subsessões \ref{ssec:asp_psic} e \ref{ssec:asp_visuais}, nas quais
-foram evidenciadas as características multidisciplinares desse método
-quando aplicado como um meio de economia de energia e intensificação
-da \gls{ee}. Outras referências que não constam em
-\cite{nilm_zeifman_review_2011} citadas nesta sessão contendo
+de desagregação da informação não é trivial. Demais referências que não constam em
+\cite{nilm_zeifman_review_2011} citadas nesta seção contendo
 abordagens de \glspl{nilm} são
 \cite{nilm_apresentacao_review_2011,
 nilm_bergman_distribuido_2011,nilm_zeifman_vast_2011,
@@ -139,19 +178,51 @@ nilm_coppe_nascimento,nilm_itajuba_rodrigues,
 wavelet_transients_2009,
 seminilm_fhmm_empiricalnmeter_2013,
 seminilm_ihome_tomek_2012,
-seminilm_berges_multisensor_2010}.
+seminilm_berges_multisensor_2010} (ver
+Subseção~\ref{ssec:nilm_tecnicas}).
 
-Dividiu-se esta sessão da seguinte maneira. As primeiras subsessões,
-\ref{ssec:modelos_carga} e \ref{ssec:metodologia_generica}, referem-se
-aos modelos de carga utilizados para os aparelhos eletrodomésticos e
-às etapas e abordagens usualmente envolvidas na desagregação da
-informação de consumo quando utilizando \glspl{nilm} respectivamente.
-Uma proposta de padronização para o cálculo de eficiência é
-apresentado na Subsessão~\ref{ssec:nilm_eff_calc}. Em seguida, a
-Subsessão~\ref{ssec:nilm_tecnicas} irá apresentar as diversas
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]{imagens/projeto_do_nilm.pdf}
+\caption{Esboço dos passos envolvidos no projeto do \acs{nilm} e da
+sua operação.}
+\label{fig:esboco_do_projeto_nilm}
+\end{figure}
+
+Na Figura~\ref{fig:esboco_do_projeto_nilm} há um esboço dos passos
+envolvidos no projeto do \acs{nilm} e de sua operação, baseando-se nas
+diversas técnicas observadas nas referências citadas, apenas quando
+levando em conta o processo para a obtenção da informação desagregada
+do consumo. Vale ressaltar que a informação do consumo desagregado
+ainda precisa ser tratada levando em conta os aspectos psicológicos
+(Subseção~\ref{ssec:asp_psic}) e visuais
+(Subseção~\ref{ssec:asp_visuais}) para motivar os consumidores a
+reduzirem seu consumo quando aplicando o \acs{nilm} como um meio de
+economia de energia e intensificação da \gls{ee}. Outro ponto do
+projeto para o projeto do \acs{nilm} é a questão da segurança da
+informação e privacidade do consumidor, sendo necessário garantir que
+a mesma não deixará a residencia sem seu consentimento. Dito isso, o
+projeto começa com a questão de como modelar os equipamentos e
+dispositivos presentes nas redes elétricas, sendo divididos de acordo
+com o comportamento de suas cargas, descritos na
+Subseção~\ref{ssec:modelos_carga}. Em seguida,
+Subseção~\ref{ssec:metodologia_generica}, será tratado a escolha
+do sistema de aquisição de dados e da metodologia a ser adotada. Em um
+projeto sem limitações, a metodologia escolhida implica na escolha do
+sistema de aquisição de dados a ser utilizado, porém, podem haver
+limitações no mesmo, nesse caso a metodologia tem de ser ajustada
+conforme as capacidades dele em fornecer informação. Com o crescente
+interesse pelo desenvolvimento do \acs{nilm}, os autores perceberam a
+dificuldade de comparar as diferentes técnicas já presentes devido ao
+emprego de diferentes medidas para o cálculo de eficiência ou
+utilização de conjuntos com características diferentes entre si, de
+forma que o assunto merece atenção e será tratado na
+Subseção~\ref{ssec:nilm_eff_calc}. Em seguida, a
+Subseção~\ref{ssec:nilm_tecnicas} irá apresentar as diversas
 abordagens utilizadas, sendo guiada na proposta de divisão das
 técnicas e características feita por \cite{nilm_zeifman_review_2011}.
-Essa subsessão contém levantamento bastante técnico, sendo de
+Essa subseção contém levantamento bastante técnico, sendo de
 interesse somente daqueles que desejam se aprofundar no tema.  A
 discussão das informações levantas é realizada em
 \ref{ssec:nilm_discussao}, sendo sua leitura suficiente para
@@ -160,46 +231,43 @@ aqueles que desejam as informações mais relevantes.
 \subsection{Modelos de Carga}
 \label{ssec:modelos_carga}
 
-Os utensílios podem ser modelados devido às características de
+Os equipamentos podem ser modelados devido às características de
 comportamento de suas cargas. A seguir, encontram-se possíveis
 características de carga elétrica dos eletrodomésticos. Os quatro
 primeiros itens são modelos de cargas mutuamente exclusivos, enquanto
 os dois seguintes podem ser incluídos, dependendo das propriedades dos
-aparelhos ligados à rede, para caracterizar aparelhos potencialmente
-dificultadores do processo de desagregação \cite[com adaptações]{
+equipamentos ligados à rede, para caracterizar equipamentos potencialmente
+dificultadores do processo de desagregação (baseado em \cite{
 nilm_hart_1992_8,nilm_baranski_genetic_base_2003_19,
 nilm_zeifman_review_2011,nilm_zeifman_vast_hisample_pdfmerge_2011,
 nilm_apresentacao_review_2011,nilm_liang_pt2_2010_40,
-nilm_liang_pt1_2010_34}:
+nilm_liang_pt1_2010_34}):
 
 \begin{itemize}
-\item \textbf{\Gls{c1}}: aparelhos que permanecem
+\item \textbf{\Gls{c1}}: equipamentos que permanecem
 ligados 24~h/dia, 7~dias/semana, com consumo de energia praticamente
 constante. Ex.: detectores de fumaça, fontes de alimentação
 constantemente ligadas à rede;
 \item \textbf{\gls{c2}}\footnote{Nas referências, não há separação na
 categoria \gls{c2}, que é utilizada para descrever exclusivamente
-aparelhos modelados como \acs{c2a}. Nelas, a categoria
+equipamentos modelados como \acs{c2a}. Nelas, a categoria
 \acs{c2b} é incluída em \acs{c4}, uma vez que em ambos os
 casos as \glspl{fsm} podem alterar o seu estado de operação para
 qualquer outro estado independente tanto de qual estado anterior ele estava
-operando como o tempo de operação nesse estado. A separação das
-\glspl{fsm} com estados discretos em duas categorias parece mais
-familiar do que incluir \glspl{fsm} com patamares discretos e
+operando como o tempo de operação nesse estado. A separação da
+\gls{fsm} com estados discretos em duas categorias parece mais
+familiar do que incluir \gls{fsm} com patamares discretos e
 aleatórios em uma categoria que permite patamares
-continuos.\label{fn:subdivisao}}: essa categoria é utilizada
-para identificar aparelhos que passam um conjunto de estados definidos
-no qual os ciclos de mudança de estados são repetidos com frequência
-suficiente nos eventos diários ou semanais. Mesmo equipamentos que são
-apenas ligados/desligados pelo usuário podem acabar sendo modelados
-como \glspl{c2} por mudar seus patamares de consumo enquanto estiver
-ligado. Essa categoria pode ser dividida em dois conjuntos:
+contínuos.\label{fn:subdivisao}}: essa categoria é utilizada
+para identificar equipamentos que contém um conjunto definido de
+patamares discretos de consumo. Pode-se dividir esses equipamentos 
+em dois conjuntos:
 \begin{itemize}
-\item \textbf{\gls{c2a}}\fnref{fn:subdivisao}: os estados do aparelho repetem-se em
+\item \textbf{\gls{c2a}}\fnref{fn:subdivisao}: os estados do equipamento repetem-se em
 padrões definidos temporalmente, garantindo que os seus ciclos serão
 observados frequentemente durante intervalos diários ou semanais. Ex.:
 máquina de lavar roupas, máquinas de lavar louças;
-\item \textbf{\gls{c2b}}\fnref{fn:subdivisao}: nesses aparelhos não há
+\item \textbf{\gls{c2b}}\fnref{fn:subdivisao}: nesses equipamentos não há
 um padrão para os seus ciclos de operação. A operação por uma fonte
 externa, como o consumidor, altera o seu padrão de consumo sem ser
 possível encontrar uma regra operativa para o ciclo através da busca
@@ -210,17 +278,17 @@ dependendo de como operados pelo consumidor: se apenas ligados e
 desligados, irão comportar-se como \acs{c3}s, enquanto se
 operados de modo padronizado, irão se comportar como \acs{c2a}s;
 \end{itemize}
-\item \textbf{\gls{c3}}: um caso partícular das \glspl{c2} ocorre
-quando o aparelho pode ser modelado como tendo apenas dois estados:
-ligado/desligado. Ex.: lâmpadas, torradeiras, bombas de água;
+\item \textbf{\gls{c3}}: um caso particular das \glspl{c2} ocorre
+quando o equipamento pode ser modelado como tendo apenas dois estados:
+ligado/desligado. Ex.: lâmpadas, bombas de água;
 \item \textbf{\Gls{c4}}: uma generalização das \glspl{c2}, onde
-há uma infinidade de estados para os quais o aparelho pode operar.
-Essa categoria pressupõe que o aparelho irá estabilizar o seu consumo
+há uma infinidade de estados para os quais o equipamento pode operar.
+Essa categoria pressupõe que o equipamento irá estabilizar o seu consumo
 em um patamar após um período de tempo. Sua operação pode ser dividida
-em dois grupos: operação manual do operador, aparelhos
-auto-controlados. Estes são de mais simples detecção quando comparados
+em dois grupos: operação manual do operador, equipamentos
+autocontrolados. Estes são de mais simples detecção quando comparados
 com aqueles, uma vez que seus ciclos de mudanças de estado são
-distribuidos uniformemente no tempo. Ainda assim, essa categoria é o
+distribuídos uniformemente no tempo. Ainda assim, essa categoria é o
 maior desafio para as técnicas empregadas nos \glspl{nilm}, sendo
 raramente tratada por elas. Ex.: lâmpadas com \emph{dimmer},
 ferramentas elétricas (furadeiras, serras etc.), bomba de aquário.
@@ -231,9 +299,9 @@ mínimo, em \cite{nilm_zeifman_review_2011,nilm_liang_pt2_2010_40}
 como dificultadores no processo de desagregação e, por esse motivo,
 preferiu-se adicionar diretamente essas categorias para
 enfatizar e facilitar a identificação de cargas com essas
-características.\label{fn:categoria_add}}: aparelhos que causam
+características.\label{fn:categoria_add}}: equipamentos que causam
 distúrbios na rede continuamente devido à dinâmica durante sua
-operação, se referindo a possíveis oscilações inerentes a
+operação, se referindo a possíveis oscilações inerentes à 
 característica operativa do mesmo. Alguns exemplos observados pela
 equipe do \gls{cepel}: televisores, onde a variabilidade de brilho,
 cores e som, alteram seu consumo (também observado em
@@ -241,56 +309,82 @@ cores e som, alteram seu consumo (também observado em
 alteram sua potência conforme a demanda dos processadores e
 \emph{coolers}, consumindo mais quando o usuário está realizando
 tarefas como, por exemplo, executando algoritmos do mestrado,
-escutando música etc.; alguns outros aparelhos como o ar condicionado
+escutando música etc.; alguns outros equipamentos como o ar condicionado
 --- esse quando com o compressor ligado --- apresentam uma dinâmica
 com oscilações em frequências sub-harmônicas, os mesmos são potenciais
 dificultadores à identificação de rastros deixados por outros
-aparelhos, particularmente os de menor consumo, caso estudado em
+equipamentos, particularmente os de menor consumo, caso estudado em
 \cite{nilm_liang_pt2_2010_40}. A Figura~\ref{fig:ar_cond_dinamica}
 demonstra a dinâmica sub-harmônica causada na envoltória para esse
-aparelho. Outros exemplos de utensílios com motores que também geram
+equipamento. Outros exemplos de equipamentos com motores que também geram
 oscilações --- mas em ordem inferior ao ar condicionado --- são:
 microondas, geladeira, desumidificador
 \cite{nilm_liang_pt2_2010_40};
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=\textwidth]
+{imagens/ArCondicionado-CargaDemandaDinamica_ComTextoImpr.pdf}
+\caption[\acf{c5}: ar condicionado]
+{Exemplo de \acf{c5}: ar condicionado. Também é possível
+observar uma alteração gradual no nível de consumo, que irá dificultar
+o processo de reconstrução de energia.}
+\label{fig:ar_cond_dinamica}
+\end{figure}
 \item \textbf{\Gls{c6}}\fnref{fn:categoria_add}: apesar de não ser
-uma característica de um utensílio \emph{per se} e nem constituir um
+uma característica de um equipamento \emph{per se} e nem constituir um
 modelo de carga elétrica, estudos de performance de \glspl{nilm} podem
 considerar quais equipamentos serão potencialmente vistos como se
-fossem um mesmo equipamento por possuirem os mesmos padrões. Essa categoria
-varia conforme os aparelhos presentes e quais são as
+fossem um mesmo equipamento por possuírem os mesmos padrões. Essa categoria
+varia conforme os equipamentos presentes e quais são as
 características sendo extraídas. Por exemplo, um computador e uma
 lâmpada incandescente possuem consumos semelhantes quando procurando
 padrões no plano \acs{dp}$\times$\acs{dq}
 \cite{nilm_laughman_continuous_variables_2003_9}, enquanto
 equipamentos com motores de potências distintas podem não ser
 desagregados quando apenas olhando para seus transitórios --- em
-especial quando normalizados, abordagem que seria utilizada se
-utilizando \acrfull{rna}. \cite{nilm_liang_pt1_2010_34} propõe a
-equação \ref{eq:similaridade}\footnote{Nota-se aqui que qualquer 
+especial quando normalizados, caso que possivelmente ocorreria se
+utilizando \acrfull{rna}. Um exemplo de ocorrência de \acs{c6} pode
+ser observado na Figura~\ref{fig:exemplo_c6} para a característica
+\acs{dp}. \cite{nilm_liang_pt1_2010_34} propõe a
+equação \ref{eq:similaridade}\footnote{Nota-se, aqui, que qualquer 
 outra divergência representativa pode ser empregada com esse 
-intuíto. Divergências são generalizações das métricas e medem a
+intuito. Divergências são generalizações das métricas e medem a
 quase-distância entre duas medidas não-negativas
 \cite[cap. 2]{cichocki2009nonnegative}. No caso de algumas
 divergências, como a métrica Euclidiana, é possível aplicar valores
 negativos.} como uma maneira de medir a similaridade entre dois
-utensílios, onde $s^j_{ia,ib}$ é a relação entre a j-ésima
-característica entre os utensílios $ia$ e $ib$, $N$ é o tamanho da
+equipamentos, onde $s^j_{ia,ib}$ é a relação entre a j-ésima
+característica entre os equipamentos $ia$ e $ib$, $N$ é o tamanho da
 dimensão dessa característica e $y_{k|(ia,j)}$ é o ponto k para o
-utensílio $ia$ e j-ésima característica. Quanto mais próximo for
+equipamento $ia$ e j-ésima característica. Quanto mais próximo for
 $s^j_{ia,ib}$ da unidade, mais dificil será desagregar $ia$ e $ib$
 utilizando a característica $s^j$. Uma última consideração, a presença
-de similaridade entre dois aparelhos não necessariamente é um
-problema. Deseja-se para certos aparelhos, como por exemplo, lâmpadas
+de similaridade entre dois equipamentos não necessariamente é um
+problema. Deseja-se para certos equipamentos, como por exemplo, lâmpadas
 do mesmo tipo, ou equipamentos de marcas diferentes, que eles sejam
 vistos como um mesmo equipamento pelo \gls{nilm}. Há certos casos em
 que as características são tão discriminantes que dificultam a
 aplicação do \gls{nilm} em larga escala (ver metodologia na
-p.~\pageref{nilm:emi}), sendo necessário encontrar um equilibrio entre
+pp.~\pageref{nilm:emi}), sendo necessário encontrar um equilíbrio entre
 a capacidade discriminante das características. No entanto, utiliza-se
 o termo \glspl{c6} exclusivamente para identificar os casos em que a
 similaridade dos equipamentos não é desejada causando erros de
 classificação.
 \end{itemize}
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=.7\textwidth]{imagens/exemplo_c6.pdf}
+\caption[Exemplo de \acrfull{c6}]
+{Exemplo de \acrfull{c6}. As cores amarelo e vermelho constituem
+respectivamente acionamentos e desacionamentos de uma geladeira; rosa
+e azul análogo para um ventilador; e verde e preto análogo para
+lâmpadas fluorescentes no plano \acs{dp}$\times$\acs{dq}. Caso apenas 
+observando \acs{dp}, percebe-se que os equipamentos possuem uma região
+de confusão o que prejudicará o processo de discriminação se apenas
+empregando essa característica.}
+\label{fig:exemplo_c6}
+\end{figure}
 
 \begin{equation}\label{eq:similaridade}
 s^j_{ia,ib} = \dfrac{
@@ -302,25 +396,239 @@ s^j_{ia,ib} = \dfrac{
 }
 \end{equation}
 
-\begin{figure}[h!t]
-\centering
-\includegraphics[width=\textwidth]
-{imagens/ArCondicionado-CargaDemandaDinamica_ComTextoImpr.pdf}
-\caption[Exemplo de aparelho C5: ar condicionado]
-{Exemplo de aparelho \acs{c5}: ar condicionado. Também é possível
-observar uma alteração gradual no nível de consumo, que irá dificultar
-o processo de reconstrução de energia.}
-\label{fig:ar_cond_dinamica}
-\end{figure}
-
-\subsection{Metodologia Genérica}
+\subsection{Escolha da Metodologia}
 \label{ssec:metodologia_generica}
 
-O \gls{nilm} pode ser resumido em quatro etapas para o
-tratamento da informação na rede elétrica e em três abordagens quanto
-às técnicas empregadas: 
+A escolha da metodologia do \acs{nilm} pode estar limitada à
+capacidade do sistema de aquisição de dados de extrair informação do
+consumo da rede elétrica, caso que ocorre quando desejando aplicar o
+\acs{nilm} a uma estrutura já existente, ou livre, aonde o custo do
+sistema de aquisição de dados também torna a escolha de uma
+metodologia com o menor custo e capaz de atender as necessidades do
+projeto como a ideal a ser aplicada. Além disso, em ambos os casos há
+uma limitação da capacidade de processamento dos dados em tempo real,
+já que a informação desagregada deve ser informada com pequena
+defasagem após a ocorrência do consumo. Como no esboço apresentado na
+Figura~\ref{fig:esboco_do_projeto_nilm}, normalmente realiza-se a
+transformação da informação em características que apresentam uma
+melhor representação para a realização da discriminação e desagregação
+do consumo. Há ainda a questão de quando extrair a informação, se em
+regime permanente ou apenas quando ocorre a transição do estado
+operativo de um equipamento. É necessário optar pelas técnicas para
+realizar a discriminação ou se serão empregadas múltiplas técnicas e a
+estratégia para detecção de transitórios quando extraindo informação
+nesses momentos. As técnicas precisam ser ajustadas para a operação,
+seja o treinamento de técnicas supervisionadas, a obtenção de dados
+para o emprego de discriminadores estatísticos ou quais informações
+devem ser trabalhadas para a otimização, assim cabe a questão de
+quando e com que informação realizar o ajuste. Essas questões são
+esquematizadas de maneira genérica a seguir, levando em conta as
+diversas metodologias observadas e que serão detalhadas
+na Subseção~\ref{ssec:nilm_tecnicas} e debatidas em seguida na
+Subseção~\ref{ssec:nilm_discussao}.
 
-\subsubsection[Etapas]{Etapas \cite{nilm_matthews_overview_2008_22}}
+\subsubsection{A procura por padrões de operação dos
+equipamentos}
+\label{top:procura_padroes}
+
+Quando extrair informação para a procura por padrões de operação dos
+equipamentos?
+
+\begin{itemize}
+\item \textbf{Em regime transitório}: identifica o novo consumo dos
+equipamentos apenas quando ocorre alteração do estado de um ou mais
+deles. Para isso, se faz necessário a detecção de eventos de
+transitório aonde são diferenciados os distúrbios na rede devido a
+ruído daqueles causados por transições no consumo dos equipamentos.
+Isso possibilita o tratamento de menos informação pelas técnicas de
+discriminação e a independência da informação tratada em relação à
+presença de outros equipamentos (exceto quando há a presença da
+operação de \glspl{c5}, que irão interferir na informação obtida); 
+\item \textbf{Em regime permanente}: identifica o consumo durante a
+operação contínua dos equipamentos em um mesmo estado de operação.
+Isso traz como necessidade altas frequências de amostragem (superiores
+a frequência da rede), porém permite a identificação de \acs{c1}.
+Da maneira que essa informação foi extraída pelos autores nas
+referências observadas, a exploração dessa informação é limitada para
+a presença de poucos equipamentos, uma vez que há um crescimento
+exponencial da complexidade problema de acordo com o número de
+estados operativos dos equipamentos presentes na rede.
+\end{itemize}
+
+\subsubsection{Definição das representações da informação}
+\label{top:caracteristicas}
+
+Qual representação da informação vai ser utilizada como característica
+para as técnicas empregadas para discriminação do consumo dos
+equipamentos?
+
+\begin{itemize}
+\item Macroscópicas - informação simplificada dos ciclos da rede, ex.:
+\begin{itemize}
+\item Corrente eficaz/pico;
+\item Tensão eficaz/pico;
+\item Potência Ativa, Reativa, Harmônica, Aparente;
+\item \gls{thd}.
+\end{itemize}
+\item Intermediária - informação contida nas envoltória das ondas
+(corrente, tensão, potência etc.) --- geralmente relevante apenas para
+acionamentos de equipamentos ou eventos de transitório com acréscimo
+de consumo;
+\item Microscópicas - informação detalhada de um ciclo da rede, ex.:
+\begin{itemize}
+\item Forma de onda (sem tratamento);
+\item Decomposição harmônica resultante da Transformada de Fourier;
+\item Informação nos níveis de detalhes da Transformada Wavelet;
+\item Autovetores mais relevantes da \gls{svd} das formas de onda (de
+corrente, por exemplo);
+\item Curvas I-V.
+\end{itemize}
+\item Outros - demais informações que podem ser exploradas não
+diretamente extraídas do consumo de energia dos equipamentos na rede,
+ex.:
+\begin{itemize} 
+\item Informação de estatística de uso - tempo e horários que os
+equipamentos costumam operar em cada um de seus possíveis estados
+operativos;
+\item \gls{emi} - assinaturas deixadas pelos equipamentos devido ao
+chaveamento, seja por sua operação (ex.: fontes chaveadas, escova de
+motores) ou durante seu acionamento e desacionamento (ex.: conectar o
+equipamento na tomada, alteração do estado de um interruptor);
+\item Informação do ambiente - correlacionar informação proveniente no
+ambiente (ex.: movimento, som) com o uso dos equipamentos. Necessário a
+utilização de outros sensores, constituindo uma abordagem
+semi-invasiva (ver pp.~\pageref{top:seminilm}).
+\end{itemize}
+\end{itemize}
+
+\subsubsection[Abordagens]{Abordagens (baseado em 
+\cite{nilm_liang_pt1_2010_34,nilm_zeifman_review_2011})}
+\label{top:abordagens}
+
+Quais técnicas empregar para a discriminação das características?
+
+\begin{enumerate}[label={Abordagem} \arabic* - ,ref=\arabic*,align=left]
+\item\label{itm:abordagem1}\textbf{Abordagem por reconhecimento de
+padrões}\footnote{A referência \cite{nilm_zeifman_review_2011}
+trabalha a diferença das abordagens em termo da quantidade de dados
+abordados, onde a Abordagem~\ref{itm:abordagem1} trata a informação
+uma a uma, ou seja, para cada evento de transitório, enquanto a
+Abordagem~\ref{itm:abordagem2} opera com todo o período sendo
+otimizado, o que não é necessariamente verdade. Geralmente ambos os casos passam
+por um período de otimização antes de serem empregados e, depois de
+otimizados, são utilizados para a detecção dos padrões dos equipamentos
+na rede. A distinção está que o primeiro otimiza a capacidade de
+discernir os padrões --- sendo a reconstrução consequência disso ---,
+enquanto o segundo a capacidade de reconstruir com maior fidelidade
+possível o sinal original --- obtendo os padrões como
+resultado.\label{fn:diff_abordagens}}: as técnicas de reconhecimento
+de padrões podem ser tanto técnicas de aprendizado de máquina quanto
+técnicas estatísticas ajustadas (ou treinadas) em conjuntos de dados similares
+aos quais eles irão operar. O reconhecimento de padrões pode ocorrer
+apenas para os eventos de transitórios detectados pela
+Etapa~\ref{itm:etapa2} ou para cada ciclo da rede, dependendo de qual
+informação está sendo tratado para a
+identificação de padrões. Algumas técnicas utilizadas nessa abordagem
+podem ser robustas aos equipamentos desconhecidos, sendo capaz de
+destacar seu padrão dos outros já conhecidos e adicioná-lo ao catálogo
+de padrões. Assim, quando esses padrões ocorrerem novamente, eles
+serão identificados como o mesmo equipamento --- chamado de aprendizado
+em tempo real. Em \cite{nilm_matthews_overview_2008_22} é observado a
+importância dessa estratégia para tornar possível o crescimento do
+catálogo, que, tendo o novo equipamento nomeado pelo consumidor, torna
+possível a criação de um catálogo universal de equipamentos. Essa
+tarefa é impraticável, se não impossível, de ser realizada em
+laboratório. Exemplos de técnicas:
+\begin{itemize}
+\item Técnicas de Aprendizado de Máquina:
+\begin{itemize}
+\item Redes Neurais (\gls{mlp} e \gls{rbf});
+\item \gls{svm}.
+\end{itemize}
+\item Mapeamento em grupos:
+\begin{itemize}
+\item \gls{som};
+\item \gls{isodata};
+\item \gls{art};
+\item \emph{K-means}.
+\end{itemize}
+\item Discriminadores estatísticos:
+\begin{itemize}
+\item Vizinho próximo;
+\item \emph{Naïve Bayes}.
+\end{itemize}
+\end{itemize}
+\item\label{itm:abordagem2}\textbf{Abordagem
+por otimização}\fnref{fn:diff_abordagens}: concentra a capacidade de
+suas técnicas na otimização, onde é realizada a procura por uma
+combinação de equipamentos cujo o sinal agregado resultante é a melhor
+aproximação do possível do sinal observado. Em alguns casos,
+utiliza-se a concentração dos dados em longos períodos de tempo para
+identificar o consumo desagregado, retornando a operação dos diversos
+equipamentos no final do processo. Nesses casos, a informação final
+pode ser utilizada como padrões a serem identificados posteriormente.
+Para manter os equipamentos atualizados, novos períodos (possivelmente
+menores ao período inicial) podem ser utilizados para garantir a
+resposta adequada a possíveis alterações na presença ou utilização de
+equipamentos. Na outra possibilidade, a otimização é realizada no nível
+de ciclo da rede, onde, sabendo o padrão dos possíveis equipamentos
+presentes, busca-se a melhor combinação operativa que reflitam o sinal
+observado. Exemplos de técnicas:
+\begin{itemize}
+\item Programação por Inteiros;
+\item Algoritmo Genético;
+\item Força Bruta.
+\end{itemize}
+\item\label{itm:abordagem3}\textbf{Abordagem empregando múltiplas
+técnicas}: ao perseguir melhor eficiência, é possível aplicar
+múltiplas técnicas, tanto de otimização quanto de reconhecimento de
+padrões, que irão em paralelo para complementarem as deficiências
+entre si. Por outro lado, isso torna necessário mais uma etapa no
+processo de discriminação, aonde será unida a informação das diversas
+técnicas aplicadas no \acs{nilm} (o assunto é tratado em mais detalhes
+na pp.~\pageref{nilm:multiplas_tecnicas}).
+\end{enumerate}
+
+\subsubsection{Ajuste das técnicas}
+\label{top:ajuste_das_tecnicas}
+
+\begin{itemize}
+\item \textbf{Pré-ajuste}: os padrões são obtidos via laboratório ou
+em testes realizados anteriormente. As técnicas podem vir
+pré-ajustadas antes de serem aplicadas na residência, estando prontas
+para operação assim que o \acs{nilm} for instalado. Porém, isso pode
+ter algumas limitações uma vez que o pré-ajuste dificilmente irá
+representar a realidade exata da rede elétrica residencial. Mesmo que
+o catálogo seja extenso, é necessário ajustá-lo posteriormente para
+evitar a presença de \acs{c6}, limitando o catálogo apenas aos
+equipamentos existentes na residencia;
+\item \textbf{Ajuste na residência}: obtenção dos padrões através de
+submedição ou operação individual dos equipamentos (realizado pelo
+próprio consumidor ou com auxilio). Esse seria o ideal, se não fosse
+uma tarefa árdua. A exigência da participação do consumidor pode
+reduzir o interesse dos mesmos no produto, bem como eles podem não
+conseguir realizar o ajuste de maneira adequada do NILM.
+Mesmo que o processo seja realizado por técnicos (o que tornaria o
+produto mais caro), é interessante evitar a intrusão
+da residência em longos períodos de tempo para tornar o \acs{nilm}
+em um produto mais atraente;
+\item \textbf{Auto-ajuste}: a técnica aplicada é capaz de descobrir os
+padrões a serem encontrados. Esforços foram feitos para a
+identificação e modelagem automática dos equipamentos de maneira cega
+durante a operação. Geralmente o \acs{nilm} passa por uma fase maior de
+coleta de dados (ex. 1 semana), aonde é realizado a identificação dos
+modelos a serem encontrados, para então operar e identificar esses
+padrões. Porém, apenas equipamentos que tem padrões recorrentes podem
+ser encontrados (são utilizadas adaptações do algoritmo de
+\emph{Viterbi} que encontra a sequência mais provável para as
+alterações de estado). Além disso, esse ajuste pode ser utilizado em
+conjunto com o pré-ajuste, para permitir a operação do \acs{nilm}
+assim que instalado na residencia, para então o mesmo se autoajustar
+conforme a coleta de dados for sendo realizada.
+\end{itemize}
+
+\subsubsection[Etapas durante operação]{Etapas durante operação 
+(baseado em \cite{nilm_matthews_overview_2008_22})}
 \label{top:etapas}
 
 \begin{enumerate}[label={Etapa} \arabic* - ,ref=\arabic*,align=left]
@@ -335,100 +643,57 @@ utiliza o sinal sem processamento e a \gls{fex} é realizada somente
 para a Etapa~\ref{itm:etapa3}, o que permite reduzir o esforço de
 processamento;
 \item\label{itm:etapa2}\textbf{Detecção de eventos de transitório}:
-identificar alterações causadas por utensílios na rede.  Essa etapa é
-necessária para identificar alterações no consumo de equipamentos.
-Pode-se empregar limiares estáticos ou dinâmicos. Os limiares
-dinâmicos permitem o ajuste de operação, reduzindo ou aumentando a
-sensibilidade do detector conforme a presença de equipamentos
-\acs{c5}. Em algumas topologias, a Etapa~\ref{itm:etapa3} é
-realizada ciclo a ciclo. Nesses estudos, os autores se reservaram
-apenas a discriminar os estados operativos dos aparelhos, restando
-ainda determinar como seria realizado a estimativa do consumo dos
-aparelhos. Uma alternativa seria realizar a Etapa~\ref{itm:etapa2} em
-cima da informação fornecida pela Etapa~\ref{itm:etapa3}, de formar
-que a ordem dessas etapas estaria invertida;
-\item\label{itm:etapa3}\textbf{Reconhecimento de padrões}: utilizar as
+identificar alterações causadas por equipamentos na rede. Essa etapa é
+necessária para extrair a informação em regime transitório.
+Pode-se empregar limiares estáticos ou dinâmicos para a detecção dos
+eventos. Os limiares dinâmicos permitem o ajuste de operação,
+reduzindo ou aumentando a sensibilidade do detector conforme a
+presença de equipamentos \acs{c5};
+\item\label{itm:etapa3}\textbf{Discriminação da informação}: utilizar as
 características pertinentes para o reconhecimento de padrões,
-deduzindo, assim, qual foi o utensílio que causou o disturbio na rede
-e qual seu novo consumo. É desejável que o algoritmo seja capaz de identificar
-a ocorrência de novos padrões e reconhecê-los em suas próximas 
-aparições pois a construção de um catálogo com todos os possíveis
+deduzindo, assim, qual foi o equipamento que causou o distúrbio na rede
+e qual seu novo estado de consumo. A discriminação da informação pode ser
+realizada por técnicas de aprendizado de máquinas, estatística ou via
+otimização. Possivelmente, múltiplas técnicas podem ser empregadas
+nesta etapa a fim de maximizar a eficiência. É desejável que a técnica
+seja capaz de identificar a ocorrência de novos padrões e
+reconhecê-los em suas próximas aparições --- ajuste automático das
+técnicas --- pois a construção de um catálogo com todos os possíveis
 eletrodomésticos é impraticável, se não impossível. Tal tarefa só será
-possível com a capacidade dos \glspl{nilm} de incluirem novos
-equipamentos ao catálogo. Diversas técnicas podem ser utilizadas em
-conjunto para esta etapa;
-\item\label{itm:etapa4}\textbf{Refinamento dos resultados}: após as
-Etapas~\ref{itm:etapa2} e/ou \ref{itm:etapa3}, pode-se adicionar uma
-etapa opcional para procurar por possíveis erros ou melhorias na
-informação desagregada. Por exemplo, corrigir a informação de um
-aparelho que remanesce consumindo energia da rede por dias enquanto
-sua operação normalmente ocorre em intervalos curtos. Isso pode
-ocorrer por falhas na Etapa~\ref{itm:etapa2}, onde o desligamento do
-equipamento não foi encontrado, ou na Etapa~\ref{itm:etapa3}, na qual
-o desligamento foi identificado como causado por outro equipamento.
-Outra possível melhoria seria encontrar possíveis novos ciclos de
-operações para aparelhos~\gls{c2}. As estratégias corretivas podem ser
-meramente remediativas, ou seja, simplesmente ignorar alterações de
-estados que permanecem em no mesmo patamar de consumo durante um grande
-período de tempo para melhorar a resolução em energia do \gls{nilm},
-aplicarem técnicas complementares para reanalizar a informação
-parcial, realizar uma otimização complementar utilizando a informação
-obtida nas etapas anteriores, ou simplesmente realizarem uma nova
-análise através da Abordagem~\ref{itm:abordagem2}.
-\end{enumerate}
-
-\subsubsection[Abordagens]{Abordagens \cite[com
-adaptações]{nilm_liang_pt1_2010_34,nilm_zeifman_review_2011}}
-\label{top:abordagens}
-
-\begin{enumerate}[label={Abordagem} \arabic* - ,ref=\arabic*,align=left]
-\item\label{itm:abordagem1}\textbf{Abordagem por reconhecimento de
-padrões}\footnote{A referência \cite{nilm_zeifman_review_2011}
-trabalha a diferença das abordagens em termo da quantidade de dados
-abordados, onde a Abordagem~\ref{itm:abordagem1} trata a informação
-uma a uma, ou seja, para cada evento de transição, enquanto a
-Abordagem~\ref{itm:abordagem2} opera com todo o período sendo
-otimizado, o que não é necessariamente verdade. Geralmente ambos os casos passam
-por um período de otimização antes de serem empregados e, depois de
-otimizados, são utilizados para a detecção dos padrões dos aparelhos
-na rede. A distinção está que o primeiro otimiza a capacidade de
-discernir os padrões --- sendo a reconstrução consequência disso ---,
-enquanto o segundo a capacidade de reconstruir com maior fidelidade
-possível o sinal original --- obtendo os padrões como
-resultado.\label{fn:diff_abordagens}}: as técnicas de reconhecimento
-de padrões são treinadas (otimizadas) em conjuntos de dados similares
-aos quais eles irão operar. O reconhecimento de padrões pode ocorrer
-apenas para as respostas da Etapa~\ref{itm:etapa2} ou para cada ciclo
-da rede. Algumas técnicas utilizadas nessa abordagem podem ser
-robustas aos aparelhos desconhecidos, sendo capaz de destacar seu padrão
-dos outros já conhecidos e adicioná-lo ao catálogo de padrões. Assim,
-quando esses padrões ocorrerem novamente, eles serão identificados
-como o mesmo aparelho --- chamado de aprendizado em tempo real. Em
-\cite{nilm_matthews_overview_2008_22} é observado a importância dessa
-estratégia para tornar possível o crescimento do catálogo, que, tendo
-o novo aparelho nomeado pelo consumidor, torna possível a criação de
-um catálogo universal de equipamentos. Essa tarefa é impraticável, se
-não impossível, de ser realizada em laboratório;
-\item\label{itm:abordagem2}\textbf{Abordagem
-por otimização}\fnref{fn:diff_abordagens}: concentra a capacidade de
-suas técnicas na otimização, onde é realizada a procura por uma
-combinação de aparelhos cujo o sinal agregado resultante é a melhor
-aproximação do possível do sinal observado. Em alguns casos,
-utiliza-se a concentração dos dados em longos períodos de tempo para
-identificar o consumo desagregado, retornando a operação dos diversos
-equipamentos no final do processo. Nesses casos, a informação final
-pode ser utilizada como padrões a serem identificados posteriomente.
-Para manter os equipamentos atualizados, novos períodos (possivelmente
-menores ao período inicial) podem ser utilizados para garantir a
-resposta adequada a possíveis alterações na presença ou utilização de
-aparelhos. Na outra possibilidade, a otimização é realizada no nível
-de ciclo da rede, onde, sabendo o padrão dos possíveis aparelhos
-presentes, se busca a melhor combinação operativa que reflitam o sinal
-observado;
+possível com a capacidade dos \glspl{nilm} de incluírem novos
+equipamentos ao catálogo;
+\item\label{itm:etapa4}\textbf{União da informação e refinamento dos
+resultados}: quando empregando múltiplas técnicas, faz-se necessário a
+união da informação discriminante fornecida pelas técnicas na
+Etapa~\ref{itm:etapa3}. Além disso, durante a união da informação,
+pode-se procurar por possíveis erros ou melhorias que possam ser
+feitas na informação desagregada. Por exemplo, ao correlacionar a nova
+informação obtida com a passada, pode ser possível identificar
+um equipamento que remanesce consumindo energia da rede por
+tempo demasiado, enquanto sua operação normalmente ocorre em
+intervalos curtos, o que possivelmente foi causado por falhas na
+Etapa~\ref{itm:etapa2}, onde o desacionamento do equipamento não foi
+encontrado, ou na Etapa~\ref{itm:etapa3}, na qual o desacionamento foi
+identificado como causado por outro equipamento. 
+As estratégias corretivas podem ser meramente remediativas, ou seja,
+simplesmente remover incoerências sem realizar um tratamento
+procurando sua causa, ou aplicar técnicas complementares
+para reanalisar a informação disponível.
 \end{enumerate}
 
 \subsection{Cálculo da Eficiência}
 \label{ssec:nilm_eff_calc}
+
+O assunto aqui tratado é de grande importância para permitir uma
+comparação justa entre os \glspl{nilm} de diferentes autores e, por
+isso, levado em consideração nesta subseção.
+Porém, este trabalho não teve a oportunidade de empregar as medidas de
+eficiência debatidas nesta subseção pois trabalhou a detecção de
+eventos de transitório --- foram utilizados a taxa de detecção e falso
+alarme dos eventos nos resultados divulgados no
+Capítulo~\ref{chap:resultados} ---, não estando disponíveis, portanto,
+a capacidade discriminante e a estimativa do consumo para empregar as
+medidas aqui debatidas.
 
 \subsubsection{Padronização}
 \label{top:nilm_padrao}
@@ -436,8 +701,8 @@ observado;
 O estudo bibliográfico realizado por \cite{nilm_zeifman_review_2011}
 teve dificuldades ao tentar comparar as diferentes técnicas aplicadas
 nos \glspl{nilm}. O primeiro empecilho está na variedade das base
-de dados utilizadas, possuindo aparelhos e estados de operações
-bastante distintos, criando condições que podem previlegiar a
+de dados utilizadas, possuindo equipamentos e estados de operações
+bastante distintos, criando condições que podem privilegiar a
 eficiência de um determinado \gls{nilm}. Para a unificação dos dados
 estudados e permitir a comparação de performance entre os algoritmos
 empregados nos \glspl{nilm}, foi disponibilizado por
@@ -446,10 +711,10 @@ a análise, o \acs{blued}. Um outro conjunto de dados público
 utilizado nas referências é o \acs{redd}
 \cite{nilm_dataset_redd_2011}, onde há dados gravados tanto em alta
 frequência (15~k\acs{hz}) e baixa frequência (0,5~\acs{hz} e
-1~\acs{hz}). Os conjuntos de dados foram construidos para
+1~\acs{hz}). Os conjuntos de dados foram construídos para
 representar a realidade de residências nos \gls{eua} e por isso podem
 não corresponder a realidade brasileira. Apesar disso, o conjunto
-de dados podem servir como base para comparação da perfomance dos
+de dados podem servir como base para comparação da performance dos
 \glspl{nilm} aqui desenvolvidos com os do exterior, assim como nada
 impede o emprego em paralelo de dados próprios mais representativos
 para demonstrar a realidade de aplicação e capacidade da abordagem
@@ -459,7 +724,7 @@ Outra dificuldade foi o fato de autores utilizarem uma
 medida própria para o cálculo das taxas de eficiência.  Além disso,
 normalmente os autores não reportaram as taxas de falsos positivos na
 Etapa~\ref{itm:etapa2}, apenas a capacidade dos algoritmos de
-detectarem os eventos (excessões observadas são
+detectarem os eventos (exceções observadas são
 \cite{nilm_marceau_16ssamp_improved_1999_18,nilm_liang_pt2_2010_40}).
 Em outros casos, os autores concentraram-se apenas na capacidade dos
 algoritmos da Etapa~\ref{itm:etapa3} de discriminarem equipamentos,
@@ -471,7 +736,7 @@ apresentou considerações metódicas para o tema. Foram apresentadas
 três medidas. A primeira medida, \gls{det_eff}, considera a capacidade
 do \gls{nilm} de desagregar a informação nos eventos que foram
 detectados\footnote{Empregada por \cite{nilm_hart_1992_8} quando não
-disponível a medição paralela de energia dos utensílios e por
+disponível a medição paralela de energia dos equipamentos e por
 \cite{nilm_gupta_patel_2010_30}.}. Quando interessado apenas em
 estudar a capacidade do classificador para os eventos detectados, a
 medida \gls{class_eff} deve ser utilizada. Finalmente, a
@@ -508,7 +773,7 @@ evento erroneamente identificados;
 \end{description}
 
 Segmenta-se \ref{eq:total_eff} para obter a eficiência do \gls{nilm}
-por aparelho conforme:
+por equipamento conforme:
 
 \begin{equation}\label{eq:app_eff}
 \eta_{total}^i\approx\frac{N_{id}^i}{N_{real}^i} ~~ \forall ~~ i =
@@ -516,7 +781,7 @@ por aparelho conforme:
 \end{equation}
 
 \noindent onde $N_{id}^i$ e $N_{real}^i$ são os respectivos
-$N_{id}$ e $N_{real}$ para o i-ésimo aparelho dos $N_{ap}$
+$N_{id}$ e $N_{real}$ para o i-ésimo equipamento dos $N_{ap}$
 disponíveis.
 
 O grande favorecimento para essas medidas é sua simplicidade de serem
@@ -525,7 +790,7 @@ Primeiro, a medida com maior sensibilidade à capacidade do \gls{nilm}
 é a \ref{eq:det_eff}, uma vez que os valores por ela representados
 levam em conta as perdas de alvo e os falsos positivos.
 Segundo, as mesmas não levam em conta o consumo de energia dos
-aparelhos, dando importância análoga para aparelhos com parcelas
+equipamentos, dando importância análoga para equipamentos com parcelas
 pequenas ou grandes de consumo. Além disso, a correta identificação
 dos $N_{id}$ não significa que a energia será corretamente
 reconstruída, dependendo da capacidade do \gls{nilm} de unir essas
@@ -543,7 +808,7 @@ etapas.
 
 Por isso, além das medidas apontadas, outras maneiras de representar
 a eficiência podem ser utilizadas para complementar o estudo do
-comportamendo da abordagem utilizada. Uma técnica para representar o
+comportamento da abordagem utilizada. Uma técnica para representar o
 compromisso entre a capacidade de detectar eventos e a quantidade de
 falsos positivos encontrados é a curva \gls{roc}, também recomendada
 por \cite{nilm_zeifman_review_2011}. A \gls{roc} além de ser utilizada
@@ -551,7 +816,7 @@ para expressar de maneira geral a capacidade do algoritmo de detectar
 e identificar em função dos falsos positivos, pode ser utilizada para
 estudar a eficiência específica da Etapa~\ref{itm:etapa2}. Já para a
 Etapa~\ref{itm:etapa3}, a matriz de confusão permite entender quais
-aparelhos ou classes de aparelhos são confundidos em outras classes,
+equipamentos ou classes de equipamentos são confundidos em outras classes,
 assim como a eficiência de classificação em uma única representação.
 
 As outras medidas utilizadas na literatura levantada são: o
@@ -568,15 +833,15 @@ Etapa~\ref{itm:etapa3} utilizou eventos recortados manualmente.};
 nilm_cole_extra_info_surge_1998_15,nilm_farinaccio_16ssamp_1999_17,
 nilm_marceau_16ssamp_improved_1999_18}; \gls{p_eff} 
 \cite{2010_nilm_melhorando_pph_usa_37}; desvio
-do tempo em que o aparelho foi identificado operando em relação ao
+do tempo em que o equipamento foi identificado operando em relação ao
 tempo que ele realmente estava operando
 \cite{nilm_farinaccio_16ssamp_1999_17}\footnote{O estudo focou na
 identificação de grandes cargas elétricas como ar condicionado e
 aquecedores de água, modelados por \gls{c3}\label{fn:valc3}. Essa
 medida seria limitada para outros modelos.}; porcentagem de detecção
-de eventos de transição para ligado perdidos
+de eventos de transitório para ligado perdidos
 \cite{nilm_farinaccio_16ssamp_1999_17}\fnref{fn:valc3}; erro médio
-absoluto de reconstrução de energia e outras estatísticas por aparelho
+absoluto de reconstrução de energia e outras estatísticas por equipamento
 \cite{nilm_powers_15minsamp_1991_16}.
 
 A medida mais utilizada pelas referências, a \gls{p_eff_i}, embora
@@ -593,7 +858,7 @@ i = 1,2,...,N_{ap}
 \end{subequations}
 
 \noindent onde $E_{det}^i$, $E_{real}^i$ é o consumo detectado e
-consumo real do i-ésimo aparelho, respectivamente, o último sendo
+consumo real do i-ésimo equipamento, respectivamente, o último sendo
 obtido por submedição ou por um estimador. A \gls{p_eff_i}
 pode ser generalizada para calcular a \gls{p_eff} através de
 \ref{eq:frac_en}.  Essas medidas levam em consideração o consumo
@@ -601,17 +866,17 @@ detectado pelo \gls{nilm}, mas perdem a capacidade das medidas
 \ref{eq:eff} de representar a informação que foi corretamente
 identificada. Por exemplo, se um equipamento é considerado como ligado
 em um espaço de tempo em que o mesmo está desligado, isso irá
-contribuir para corrigir possíveis erros que seriam atribuidos quando
+contribuir para corrigir possíveis erros que seriam atribuídos quando
 o estado estimado e a operação estiverem na lógica oposta.
 
 Assim, fica evidente que essas medidas precisam ser refinadas para
 identificar os momentos nos quais a energia foi corretamente
 reconstruída. Para isso, aqui se sugere o uso de \ref{eq:e_id_i} com
-o intuíto de determinar a \gls{e_id_i}. A ideia
-é representar que identificações do aparelho em outros estados, mas
+o intuito de determinar a \gls{e_id_i}. A ideia
+é representar que identificações do equipamento em outros estados, mas
 com pequena diferença de energia, não irão afetar tanto na resolução
 de energia, assim como resguardar que identificações em estados de
-consumo maiores para os quais os aparelhos realmente operam não
+consumo maiores para os quais os equipamentos realmente operam não
 arremeterão na conta de energia corretamente identificada.
 
 \begin{equation}\label{eq:e_id_i}
@@ -661,19 +926,19 @@ Posteriormente, descobriu-se que o próprio autor de
 \cite{nilm_zeifman_review_2011} criou uma medida que, depois de
 modificada por \cite{seminilm_fhmm_empiricalnmeter_2013}, permite
 também exprimir a questão de precisão de reconstrução de energia, bem
-como reflete, de outra maneira, a quantidade de energia redudante. 
+como reflete, de outra maneira, a quantidade de energia redundante. 
 A alteração de \cite{seminilm_fhmm_empiricalnmeter_2013} será referida
 como \glslink{medidafenergia}{medida-eF (\acs{medidafenergia})}.
 Ela pode ser descrita pelo quadrado da média geométrica normalizado
 pela média aritmética (\ref{eq:fmeasure_en}) de duas grandezas: 
 
 \begin{itemize}
-\item parcela de energia atribuida ao aparelho que foi realmente
+\item parcela de energia atribuída ao equipamento que foi realmente
 consumida pelo mesmo em relação ao seu consumo pelo \gls{nilm}
 atribuído, um parâmetro que também reflete a ideia de energia
 redundante, descrita por \ref{eq:en_recon};
 \item parcela de energia que foi corretamente identificada em relação
-ao consumo total do aparelho, a própria \gls{en_eff_i} aqui descrita
+ao consumo total do equipamento, a própria \gls{en_eff_i} aqui descrita
 em \ref{eq:en_eff_i}.
 \end{itemize}
 
@@ -698,7 +963,7 @@ F^i=2\dfrac{\left(\dfrac{N_{id}}{N_{id}+N_{fp}}\right)\eta_{total}}
 \end{equation}
 
 
-\subsection{Técnicas Aplicadas}
+\subsection{Técnicas Aplicadas por demais autores}
 \label{ssec:nilm_tecnicas}
 
 As abordagens aplicadas desde o início dos estudos ao tema e
@@ -720,7 +985,7 @@ energia com outros medidores, como temperatura, movimento, som etc.
 \subsubsection{1. Medição com Baixa Amostragem}
 \label{top:nilm_baixa_am}
 
-A utilização de características mascroscópicas de consumo do aparelho,
+A utilização de características macroscópicas de consumo do equipamento,
 como alterações no patamar de consumo da rede, foi a
 primeira abordagem encontrada ao tema. As mesmas podem ser obtidas sem
 grande granularidade na taxa de amostragem, por isso, esse tipo de
@@ -733,7 +998,7 @@ que aquelas alegadas, de 3\%. Os medidores testados no caso foram
 
 A taxa de amostragem mais frequentemente utilizada é 1 Hz, entretanto
 alguns estudos fizeram mão taxa de amostragem ainda menores por
-desejarem identificar aparelhos que se ressaltam dentre os outros
+desejarem identificar equipamentos que se ressaltam dentre os outros
 devido ao seu relativo alto consumo, como ar condicionado, aquecedores
 de água e geladeira. Exemplos de medidores utilizados no exterior são
 \gls{ted} \cite{ted_site} e \emph{Watts up? PRO} \cite{wattsup_site},
@@ -757,8 +1022,8 @@ extenso que o de \citeauthor*{nilm_sultanem_1991_10}.}, ocorreu em
 1992. Nela, utilizam-se medições de
 \gls{p} e \gls{q} com uma taxa de amostragem de 1 Hz. A abordagem
 aplica uma normalização para reduzir flutuações no consumo devido a
-alterações na tensão de acordo com \ref{eq:norm_hart} com o intuíto de
-reduzir disperções nos dados. O estudo de \citeauthor*{nilm_hart_1992_8}
+alterações na tensão de acordo com \ref{eq:norm_hart} com o intuito de
+reduzir dispersões nos dados. O estudo de \citeauthor*{nilm_hart_1992_8}
 limitou-se a identificar apenas cargas com potência maior a 150
 \acs{watt}. A essência da metodologia ainda pode ser encontrada
 em \glspl{nilm} mais atuais, sendo esta: 
@@ -769,30 +1034,30 @@ P_{\text{norm}}(t) = \left[ \frac{120}{V(t)} \right]^2 P(t)
 
 \begin{enumerate}[label=\arabic*]
 \item Detectam-se transitórios de consumo na rede devido a mudança de
-estado de um utensílio através de alterações no consumo que devem
+estado de um equipamento através de alterações no consumo que devem
 superar um limiar específico (15 \acs{watt}/\acs{var}) para os sinais
 normalizados como em \ref{eq:norm_hart} para \acs{p} e \acs{q}.
 As amostragens dentro de um regime permanente são normalizadas para
 sua média com o objetivo de tirar o ruído. Para a \gls{fex}, utiliza-se o
 degrau entre o regime permanente posterior e anterior (já no valor de
 suas médias) ao evento transitório para \gls{p} e \gls{q};
-\item Os eventos de transitório são analizados por um algoritmo de
-agrupamento que irá gerar os centróides das mudanças de estado
-possíveis causadas pelos utensílios no plano
+\item Os eventos de transitório são analisados por um algoritmo de
+agrupamento que irá gerar os centroides das mudanças de estado
+possíveis causadas pelos equipamentos no plano
 \acs{dp}$\times$\acs{dq};
 % FIXME Tem que ver se ele cria C2, ou na verdade procura combinações
 % para gerar C3.
-\item \textlabel{Centróides com simétria em relação aos eixos são tomados em
+\item \textlabel{Centroides com simetria em relação aos eixos são tomados em
 pares e com eles são criados modelos \gls{c3}}{text:passo3}. Para os
-centróides remanescentes, além de regras heurísticas como a junção de
-centróides próximos que permitam o pareamento com um outro refletido
+centroides remanescentes, além de regras heurísticas como a junção de
+centroides próximos que permitam o pareamento com um outro refletido
 nos eixos --- etapa conhecida como resolução de conflitos ---,
-determinam-se possíveis combinações de centróides que possam formar
+determinam-se possíveis combinações de centroides que possam formar
 uma \gls{c2} utilizando uma adaptação do algoritmo de \emph{Viterbi}
 \cite{nilm_bouloutas_viterbi_ext_1991_11,
 nilm_hart_fsm_viterbi_1993_12}\footnote{A versão original pode ser
 encontrada em \cite{viterbi_alg}.}. Assim que é determinada uma combinação
-que permite a criação de uma \gls{c2}, os centróides da mesma são
+que permite a criação de uma \gls{c2}, os centroides da mesma são
 removidos, e o processo continua até que todas as \glspl{fsm} tenham
 sido construídas. A adaptação utilizada
 \cite{nilm_bouloutas_viterbi_ext_1991_11,
@@ -800,16 +1065,16 @@ nilm_hart_fsm_viterbi_1993_12} permite várias operações para consertar
 corrupções e retornar uma estimativa ótima das alterações de estados
 operativos da \gls{fsm} original. Como a reconstrução depende da
 estatística do processo, é necessário que as mudanças de estado das
-\glspl{fsm} observadas tenham um comportamento para que a \gls{fsm}
+\glspl{fsm} observadas tenham um comportamento recorrente para que a \gls{fsm}
 original seja reconstruída, e por isso, restringe-se apenas às
 \glspl{c2a}. As \glspl{c2b} podem ser reconstruídas se houver
 conhecimento prévio da presença das mesmas, de modo que elas sejam
 medidas operando em cada um de seus estados e então inseridas
 manualmente no catálogo do \gls{nilm};
 \item Em seguida é levantado o comportamento dos equipamentos,
-montando o estados de consumo para cada aparelho. É utilizado um
-algoritmo de força-bruta para corrigir ocorrências de dois ligamentos
-ou desligamentos de um mesmo aparelho encontrados em seguida. A causa
+montando o estados de consumo para cada equipamento. É utilizado um
+algoritmo de força-bruta para corrigir ocorrências de dois acionamentos
+ou desacionamentos de um mesmo equipamento encontrados em seguida. A causa
 desses erros é, geralmente, a ocorrência de um evento simultâneo de
 dois equipamentos. Assim, o algoritmo busca por eventos não-usuais
 cuja soma é o valor de dois outros eventos perdidos;
@@ -824,11 +1089,11 @@ O método é robusto para o desagregação de cargas \glspl{c3}
 nilm_hart_fsm_viterbi_1993_12} do algoritmo de \emph{Viterbi}
 parecem resolver o problema das \glspl{c2a}. Outro problema das
 metodologias envolvendo algoritmos de agrupamento é a lenta alteração
-da resitência conforme a operação do aparelho. Geralmente, ao
-interromper a operação, o aparelho tem alterações no consumo na margem
+da resistência conforme a operação do equipamento. Geralmente, ao
+interromper a operação, o equipamento tem alterações no consumo na margem
 de 5\%-10\% em relação ao inicio de operação
 \cite{nilm_sultanem_1991_10}. \citeauthor*{nilm_hart_1992_8} observa
-o degrau geralmente é menor em valor absoluto para os desligamentos
+o degrau geralmente é menor em valor absoluto para os desacionamentos
 nos casos de equipamentos com motores, que reduzem o consumo conforme
 seu aquecimento.
 
@@ -839,16 +1104,16 @@ onde são feitas considerações em relação as características de bordas e
 inclinações. Aqueles são definidos como o auge atingido de potência
 durante o acionamento e estes variações lentas de mudança no consumo.
 Apesar de definir as bordas como o pico de potência, as referências
-empregam as bordas apenas como os eventos de transição de consumo, não
+empregam as bordas apenas como os eventos de transitório de consumo, não
 empregando essa informação para classificação. A abordagem aplicada,
 ao invés de agrupar os dados para depois procurar por possíveis
-aparelhos como feito por \citeauthor*{nilm_hart_1992_8}, primeiro
-busca temporalmente por ciclos fechados nos eventos de transição (ou
+equipamentos como feito por \citeauthor*{nilm_hart_1992_8}, primeiro
+busca temporalmente por ciclos fechados nos eventos de transitório (ou
 bordas, como na nomenclatura da referência), que depois serão
-adicionadas aos centróides no espaço
-\acs{dp}$\times$\acs{dq}. Se o centróide não existir, será
-criado um candidato a centróide. Conforme a quantidade de ciclos dos
-centróides aumenta, o mesmo irá se tornar um candidato a uma carga.
+adicionadas aos centroides no espaço
+\acs{dp}$\times$\acs{dq}. Se o centroide não existir, será
+criado um candidato a centroide. Conforme a quantidade de ciclos dos
+centroides aumenta, o mesmo irá se tornar um candidato a uma carga.
 Para as cargas \glspl{c3}, a carga será aceita apenas se a detecção
 das bordas ocorrerem repetidamente. Já para as cargas \glspl{c2a}, foi
 realizado um estudo da probabilidade dela ter sido originada pela
@@ -868,7 +1133,7 @@ realizado pelo mesmo instituto para aplicar o \gls{nilm} no setor
 comercial e industrial, sendo realizado por
 \citet*{nilm_norford_leeb_medianfilt_1996_13,
 nilm_leeb_spectral_envelope_1995_23}.
-No setor comercial são encontrados aparelhos com características
+No setor comercial são encontrados equipamentos com características
 diferentes ao setor residencial, geralmente com transitórios mais
 lentos (podendo chegar a cerca de centenas de segundos
 \cite{nilm_norford_leeb_medianfilt_1996_13}), menor consumo reativo
@@ -887,13 +1152,13 @@ ao mesmo tempo, a menor capacidade de discriminação da variável
 mediana com 11 pontos, esse sendo mais indicado para a eliminação dos
 picos quando comparado aos filtros lineares, que terão dificuldades de
 distinguir os picos e os degraus, uma vez que eles tem espectros de
-frequência parecidos. Os trabalhos utilizam o conceito de sessões-v
+frequência parecidos. Os trabalhos utilizam o conceito de seções-v
 (tradução própria de \emph{v-sections}), que são subdivisões do
 transitório em segmentos de variação significante. Para isso, o grupo
 utilizou uma janela para identificar mudanças na média e criar as
-sessões-v, onde os valores ótimos são determinados por um processo de
+seções-v, onde os valores ótimos são determinados por um processo de
 treinamento pré-instalação ou em laboratório. É aplicada uma medida de
-distância entre as sessões-v observadas e os transitórios
+distância entre as seções-v observadas e os transitórios
 característicos que, ao estarem dentro de um limiar, serão
 identificados como um determinado equipamento. Para o tratamento das
 \glspl{c4}, a referência indica o emprego de variáveis de controle,
@@ -905,7 +1170,7 @@ como o caso para os equipamentos de \gls{avac} em geral.
 
 A medição de \acl{q} adiciona custo ao \gls{nilm} --- ainda que
 não tão oneroso quanto medições em altas frequências --- e, para
-detectar certos aparelhos com assinaturas de destaque na rede,
+detectar certos equipamentos com assinaturas de destaque na rede,
 essa variável pode ser desnecessária. Em outros casos, medidores que
 disponibilizam essa informação podem não estar disponíveis, sendo
 possível operar apenas com a \acl{p}.
@@ -922,7 +1187,7 @@ equipamentos de maior uso-final.
 utilizaram somente regras heurísticas, enquanto
 \cite{nilm_marceau_16ssamp_improved_1999_18} também empregou os
 degraus em potencia real e um filtro para a detecção dos
-ligamentos/desligamentos dos aparelhos.
+acionamentos/desacionamentos dos equipamentos.
 
 Em \cite{nilm_powers_15minsamp_1991_16}, foram reportadas a capacidade
 de reconstrução para ar condicionado e aquecedores de água. A
@@ -930,9 +1195,9 @@ amostragem é realizada a cada 15 minutos e os arquivos são analisados
 dia a dia. Por ser proprietário, as regras não são detalhadas (é
 utilizada uma árvore de decisões, embora o estudo considere a aplicação
 de redes neurais), mas o algoritmo procura por picos no consumo, assim
-como sua duração, tempo e magnetude, que são utilizados pelas regras
+como sua duração, tempo e magnitude, que são utilizados pelas regras
 para determinar se os mesmos foram utilizados para os usos-finais
-cobiçados. Posteriomente, eles são ajustados conforme
+cobiçados. Posteriormente, eles são ajustados conforme
 verificações de consistência. Para o ar condicionado, é relatado que o
 valor de pico estimado médio para as residências difere cerca de
 apenas 5\% do valor original médio, enquanto o consumo fica na margem
@@ -941,37 +1206,37 @@ de 10\% e observa-se boa capacidade de estimar os horários de consumo.
 Já os estudos \cite{nilm_farinaccio_16ssamp_1999_17,
 nilm_marceau_16ssamp_improved_1999_18}, realizados por outro
 grupo, empregaram amostragem de \acs{p} a cada 16~segundos. Os
-aparelhos estudados foram: geladeira, aquecedor de água e aquecedores
+equipamentos estudados foram: geladeira, aquecedor de água e aquecedores
 de ambiente (este somente em
 \cite{nilm_marceau_16ssamp_improved_1999_18}\footnote{O algoritmo da
 referência \cite{nilm_marceau_16ssamp_improved_1999_18}
 também leva em consideração a máquina de lavar roupa, mas os
-resultados focaram apenas nos outros três aparelhos.}).
+resultados focaram apenas nos outros três equipamentos.}).
 \cite{nilm_zeifman_review_2011} expõe a arbitrariedade e não
 intuitividade das regras utilizadas em
 \cite{nilm_farinaccio_16ssamp_1999_17}, que precisam ser estudadas
-para cada caso de aparelho. Foram determinadas 8 regras para cada
-aparelho (algumas regras são reaproveitadas entre aparelhos),
+para cada caso de equipamento. Foram determinadas 8 regras para cada
+equipamento (algumas regras são reaproveitadas entre equipamentos),
 divididas em duas etapas: determinar o conjunto de eventos de
-transição e a duração do consumo.  Em seguida, a duração de consumo é
-multiplicada pela demanda média do aparelho durante a fase de
+transitório e a duração do consumo.  Em seguida, a duração de consumo é
+multiplicada pela demanda média do equipamento durante a fase de
 treinamento para obter o consumo estimado. A fase de treinamento,
 período em que há medição paralela dos equipamentos, e, por isso,
 ocorrendo intrusão da propriedade do consumidor, é feita para um
 período de uma semana. A reconstrução de energia diária para os
 equipamentos é na margem de $-10,5\%$ a $15,9\%$.
 
-O estudo em sequêcia aperfeiçoou o anterior com uma abordagem única
-para determinar os aparelhos em operação. Ele compara, em ordem
-decrescente em termos de demanda média operativa, se a magnetude
-do evento é próxima à média do nível operativo de um dos aparelhos
+O estudo em sequência aperfeiçoou o anterior com uma abordagem única
+para determinar os equipamentos em operação. Ele compara, em ordem
+decrescente em termos de demanda média operativa, se a magnitude
+do evento é próxima à média do nível operativo de um dos equipamentos
 almejados, empregando como limiar de corte dois desvios padrões. Ainda
 assim, a referência emprega diversas regras de pré/pós-processamento
 determinadas empiricamente para melhorar a resolução em energia, assim
 como também necessita do período de treinamento através de medição
 paralela de 1~semana, limitando a aplicabilidade do método para uma
 gama maior de equipamentos. Por outro lado, o método serve para o seu
-próposito, obtendo reconstruções na faixa de 10\% para a maioria das
+proposito, obtendo reconstruções na faixa de 10\% para a maioria das
 análises realizadas.
 
 \item \textbf{\Acrlong{q} não disponível}
@@ -980,7 +1245,7 @@ análises realizadas.
 \item \emph{A abordagem de 
 \citeauthor*{nilm_baranski_genetic_base_2003_19}}
 
-Com o intuíto de possibilitar a impregnação da aplicação de \glspl{nilm}
+Com o intuito de possibilitar a impregnação da aplicação de \glspl{nilm}
 na Alemanha, \citet*{nilm_baranski_genetic_base_2003_19,
 nilm_baranski_genetic_detalhado_2004_20,nilm_baranski_summary_2004_21}
 recorreram a leitura ótica dos medidores eletromecânicos
@@ -994,16 +1259,27 @@ Apesar das limitações, essa abordagem é uma referência de destaque
 devido às diversas contribuições feitas. Para melhorar a capacidade de
 discriminação entre os equipamentos, além da potência ativa, o estudo
 adicionou como característica o pico de consumo para o evento de
-transição, bem como o período que o mesmo leva para estabilizar
+transitório, bem como o período que o mesmo leva para estabilizar
 (apresentado em \cite{nilm_baranski_genetic_detalhado_2004_20}),
 diferente de \cite{nilm_cole_data_extraction_1998_14,
 nilm_cole_extra_info_surge_1998_15} que observou essas propriedades,
-mas empregou somente a última com o intuíto de melhorar a
-capacidade de reconstrução de energia. Ainda, o autor contribuiu
-transformando a estratégia aplicada por
-\citeauthor*{nilm_hart_1992_8} em uma Abordagem~\ref{itm:abordagem2}.
+mas empregou somente a última com o intuito de melhorar a
+capacidade de reconstrução de energia. A grande contribuição foi uma
+abordagem por otimização para a identificação dos modelos de carga a
+serem encontrados que trabalham como uma adaptação do algoritmo de
+\emph{Viterbi}, que podem ser resumidos da seguinte maneira:
 
-Tratar-se-ão de detalhes das técnicas aplicadas pelos autores por dois
+\begin{enumerate}
+\item criação das \gls{fsm} por algoritmos genéticos
+para reduzir o tempo de otimização; 
+\item em seguida essas são otimizadas por \gls{es} para obter os
+parâmetros da \gls{fsm} (tempo e consumo em cada estado); 
+\item e finalmente, os modelos utilizam lógica \emph{fuzzy}, permitindo que
+dois ou mais modelos sejam criados para um mesmo distúrbio na rede,
+sendo depois escolhido o modelo que melhor se aplica.
+\end{enumerate}
+
+Tratar-se-ão de detalhes das técnicas aplicadas pelos autores por três 
 motivos:
 
 \begin{itemize}
@@ -1023,21 +1299,8 @@ leitores que desejarem se aprofundar, recomenda-se a leitura de
 \citeauthor*{nilm_baranski_genetic_detalhado_2004_20}.}. 
 \end{itemize}
 
-Os leitores não interessados em detalhes técnicos podem
-seguir para a próxima abordagem mantendo em mente que as contribuições
-das técnicas foram: 
 
-\begin{enumerate}
-\item criação das \gls{fsm} por algoritmos genéticos
-para reduzir o tempo de otimização; 
-\item em seguida essas são otimizadas por \gls{es} para obter os
-parâmetros da \gls{fsm} (tempo e consumo em cada estado); 
-\item e finalmente, os modelos utilizam lógica \emph{fuzzy}, permitindo que
-dois ou mais modelos sejam criados para um mesmo distúrbio na rede,
-sendo depois escolhido o modelo que melhor se aplica.
-\end{enumerate}
-
-A estratégia começa com o agrupamento dos dados em centróides,
+A estratégia começa com o agrupamento dos dados em centroides,
 limitando-se a degraus acima de um limiar mínimo de potência (valores
 aplicados de 50 \acs{watt} em
 \cite{nilm_baranski_genetic_base_2003_19} e 80 \acs{watt}
@@ -1048,25 +1311,25 @@ utilizando lógica \emph{fuzzy}, mas na última referência
 \cite{nilm_baranski_summary_2004_21}, além desse método, cita-se o
 emprego de \gls{som} para essa etapa. A fim de reduzir a complexidade
 do problema (a estimativa de eventos é de $16.000$ por dia), o autor
-desconsidera os centróides com poucas ocorrências, limitando-se a
-identificar apenas aparelhos com padrões recorrentes. 
+desconsidera os centroides com poucas ocorrências, limitando-se a
+identificar apenas equipamentos com padrões recorrentes. 
 
 Na primeira abordagem \cite{nilm_baranski_genetic_base_2003_19},
 \citeauthor*{nilm_baranski_genetic_base_2003_19} segmentaram a etapa
-de modelar os aparelhos. A primeira modela as \glspl{c3} simplesmente
-encontrando pares de centróides no espaço. Para validar os modelos
+de modelar os equipamentos. A primeira modela as \glspl{c3} simplesmente
+encontrando pares de centroides no espaço. Para validar os modelos
 \glspl{c3} encontrados, é gerado a matriz de correlação cruzada
-utilizando o estado de operação para os aparelhos em cada instante de
-tempo. Se o aparelho $i$ e o aparelho $j$ forem na realidade uma
+utilizando o estado de operação para os equipamentos em cada instante de
+tempo. Se o equipamento $i$ e o equipamento $j$ forem na realidade uma
 \gls{fsm}, espera-se $r_{ij}\approx1$, onde $r_{ij}$ indica a
-frequência de operação do aparelho $j$ quando $i$ está operando,
+frequência de operação do equipamento $j$ quando $i$ está operando,
 associando, assim, $j$ com a operação $i$ (o corte utilizado é de
 0,8). Já para as \gls{c2}, são criados todos os modelos que
-juntos somam aproximadamente zero e seus centróides tem frequência de
+juntos somam aproximadamente zero e seus centroides tem frequência de
 eventos também próximos. Esses modelos são então validados
 temporalmente, e junto com as \glspl{c3} são comparados com um
 possível catálogo antigo a fim de atualizá-lo. Em seguida, uma rede
-neural é treinada com os padrões encontrados para os aparelhos (o
+neural é treinada com os padrões encontrados para os equipamentos (o
 autor cita como exemplo: tempo médio de consumo, consumo médio, número
 de estados) para encontrar esses padrões na residência.
 
@@ -1075,22 +1338,22 @@ Essa abordagem é aprimorada em
 que ao invés de encontrar todos possíveis modelos de \gls{fsm},
 faz a otimização das possíveis máquinas através de algoritmo genético.
 Nessa abordagem não há a discriminação para a criação de \gls{c2} ou
-\gls{c3}, a abordagem única utiliza $N_{ap}$ (o número de aparelhos
-deve ser maior que o número de centróides, no entanto, não é
+\gls{c3}, a abordagem única utiliza $N_{ap}$ (o número de equipamentos
+deve ser maior que o número de centroides, no entanto, não é
 especificado um bom valor a ser utilizado) \glspl{fsm} para os quais e o
 algoritmo genético fica encarregado de alterar valores binários em uma
-matriz $\mathbf{X}$ representando se um determinado centróide
-pertence, ou não, à \gls{fsm}. É possível que um mesmo centróide
+matriz $\mathbf{X}$ representando se um determinado centroide
+pertence, ou não, à \gls{fsm}. É possível que um mesmo centroide
 pertença a mais de uma \gls{fsm}. São utilizados três critérios para
 otimização: 
 
 \begin{itemize}
 \item minimização do valor absoluto de potência da soma dos
-centróides pertencentes a \gls{fsm}; 
+centroides pertencentes a \gls{fsm}; 
 \item o item anterior, mas levando em conta a frequência de
-eventos em cada centróide; 
-\item e minimização do número de centróides em
-cada \gls{fsm} (priorizando aparelhos com menos estados).
+eventos em cada centroide; 
+\item e minimização do número de centroides em
+cada \gls{fsm} (priorizando equipamentos com menos estados).
 \end{itemize}
 
 Uma adaptação do algoritmo de \emph{Viterbi} é utilizada para encontrar os
@@ -1105,7 +1368,7 @@ ao consumido nos caminhos percorridos; mas não dá detalhes de quais
 empregou) e apenas visitados uma vez em cada ciclo. Para isso, é
 realizada uma otimização em dois tempos. Primeiro, encontra-se o
 melhor caminho para aqueles que obedecem as restrições (consumo de
-potência positiva e permanencia em um estado por um tempo não muito
+potência positiva e permanência em um estado por um tempo não muito
 longo), juntando os estados da máquina em um caminho de operação com a
 melhor qualidade em relação aos parâmetros escolhidos. Os parâmetros
 podem ser iniciados com os valores da mediana para todos os eventos
@@ -1119,15 +1382,15 @@ Q_{shannon} = - \Delta{e_{i}} \log{|\Delta{e_{i}}|}
 \end{equation}
 
 Os melhores caminhos operativos para as \glspl{fsm} ainda precisam ser
-resolvidos quanto aos centróides que pertencem a mais de um aparelho.
+resolvidos quanto aos centroides que pertencem a mais de um equipamento.
 Para isso, \cite{nilm_baranski_summary_2004_21} cita resumidamente um
 algoritmo de força bruta que irá investigar para cada sobreposição
 qual caminho tem a melhor qualidade.
 
 Os autores revelam que o método necessita de 5 a 10 dias para
-encontrar os modelos dos utensílios típicos, enquanto dados diários
-são suficientes para atualizar o catálogo de utensílios detectados em
-cada residência. Os resultados mostram que os aparelhos de maiores
+encontrar os modelos dos equipamentos típicos, enquanto dados diários
+são suficientes para atualizar o catálogo de equipamentos detectados em
+cada residência. Os resultados mostram que os equipamentos de maiores
 consumo, como geladeira, aquecedor elétrico (de fluxo) e fogão podem
 ser detectados com eficiência.
 
@@ -1141,9 +1404,9 @@ apenas para a técnica de agrupamento, que não utilizam as informações
 de tempo nem o pico atingido no transitório, contudo, podem utilizar a
 \gls{q} se o medidor da residência realizar essa medida. Além disso, o
 agrupamento é realizado em tempo real, atualizando a média e desvio
-padrão de cada centróide conforme os eventos ocorrem. Se o evento não
-for atribuído a nenhum centróide, um novo centróide é criado. Ainda, o
-método utiliza outra otimização para fazer a identificação do aparelho
+padrão de cada centroide conforme os eventos ocorrem. Se o evento não
+for atribuído a nenhum centroide, um novo centroide é criado. Ainda, o
+método utiliza outra otimização para fazer a identificação do equipamento
 que alterou o estado operativo, um algoritmo de otimização de mochila
 (do inglês \emph{Knapsack problem}), enquanto a abordagem anterior
 citou a utilização de redes neurais na referência
@@ -1151,27 +1414,27 @@ citou a utilização de redes neurais na referência
 \citeauthor*{nilm_baranski_genetic_base_2003_19}
 praticamente não levaram o assunto em consideração, a descrição dos
 artigos desses autores gira em torno do tema de modelagem dos
-aparelhos, mas tirando a informação aqui citada, não há outra
+equipamentos, mas tirando a informação aqui citada, não há outra
 informação sobre como se tratou o reconhecimento dos estados
 operativos através dos modelos.}.
 
 Entretanto a maior contribuição do trabalho
-em questão é uma nova arquitetura, distruibuída, para o \gls{nilm}.
+em questão é uma nova arquitetura, distribuída, para o \gls{nilm}.
 Nesse caso, diferente dos medidores eletromecânicos disponíveis para
 \citeauthor*{nilm_baranski_summary_2004_21}, o trabalho opera com
 medidores inteligentes (os medidores das redes inteligentes descritos
-na Subsessão~\ref{ssec:ret_tec}) para a coleta de
+na Subseção~\ref{ssec:ret_tec}) para a coleta de
 dados. Os medidores inteligentes também servem como pontos de
 processamento local, mas devido às limitações de processamento, apenas
-a deteção e identificação dos eventos é realizado no mesmo. Por isso,
+a detecção e identificação dos eventos é realizado no mesmo. Por isso,
 a geração das \glspl{fsm} é realizada em uma central, com maior
 capacidade de processamento, no qual este envia os eventos de
-transição para que aquela os processe e retorne um catálogo com as
+transitório para que aquela os processe e retorne um catálogo com as
 \glspl{fsm} e seus padrões a serem encontrados. O catálogo é chamado
 de tabela estática. Assim, o medidor fica encarregado apenas de
 comparar, localmente, os distúrbios encontrados com o catálogo,
-identificando assim os estados operativos dos aparelhos. O estados
-operativos de cada aparelho é chamado de tabela dinâmica, e é
+identificando assim os estados operativos dos equipamentos. O estados
+operativos de cada equipamento é chamado de tabela dinâmica, e é
 preenchida por um algoritmo adaptado para otimização do problema da
 mochila. A etapa de criação da
 tabela estática, chamada de aprendizagem, é realizada devido a
@@ -1185,7 +1448,7 @@ requisitar um novo treinamento de acordo com um dos critérios:
 está superior a um patamar;
 \item uma \gls{fsm} muda de estado frequentemente, onde os patamares
 aplicados para determinar se a mudança de estado é frequente dependem
-do aparelho (é mais aceitável observar mudanças frequentes no ar
+do equipamento (é mais aceitável observar mudanças frequentes no ar
 condicionado ou aquecedor do que em um carregador de bateria
 veicular);
 \item mais de um determinado número de \glspl{fsm} alteram de estado
@@ -1200,7 +1463,7 @@ outras considerações são feitas em relação ao processo de
 aprendizagem.
 
 Os resultados reportados são em comparação com um \gls{nilm}
-centralizado. O trabalho reservou-se a detectar aparelhos com consumo
+centralizado. O trabalho reservou-se a detectar equipamentos com consumo
 superior a 1000 \acs{watt}. O \gls{nilm} centralizado recebe uma
 tabela estática otimizada para todo o período, enquanto o \gls{dnilm}
 recebe uma tabela treinada para o primeiro dia, podendo atualizá-la de
@@ -1211,28 +1474,28 @@ acurácia entre o \gls{dnilm} e o \gls{nilm} centralizado ficaram entre
 \item \emph{Otimização dos estados operativos}
 
 O problema para a otimização da tabela dinâmica --- construção
-temporal dos estados operativos dos aparelhos --- foi abordado por
+temporal dos estados operativos dos equipamentos --- foi abordado por
 \citet*{nilm_genetic_2013} (aparentemente sem conhecimento do trabalho
 de \citeauthor{nilm_bergman_distribuido_2011}). Ao invés de um
 algoritmo de força bruta adaptado, aplicou-se um algoritmo genético
 para realizar a otimização do problema da mochila. O artigo limitou-se
 a estudar a performance do algoritmo em resolver o problema da mochila
 e, por isso, considerou-se que são conhecidos os momentos de transição
-e os consumos de cada aparelho.
+e os consumos de cada equipamento.
 
 A referência utilizou simulações de 2 horas, gerando aleatoriamente o
-tempo de operação dos aparelhos e suas potências. Foram simuladas
-diversas condições, variando o número de aparelhos, transições, a
+tempo de operação dos equipamentos e suas potências. Foram simuladas
+diversas condições, variando o número de equipamentos, transições, a
 presença de ruído e de equipamentos desconhecidos. As observações
 foram: 
 
 \begin{itemize}
 \item quanto maior o \gls{nt} e \gls{nap}, menor é a eficiência de
-detecção. Casos com pequenos números de \gls{nt} e \gls{nap} obteram
+detecção. Casos com pequenos números de \gls{nt} e \gls{nap} obtiveram
 100\% de eficiência de detecção;
 \item o algoritmo se comportou bem na presença de ruído, onde houve
 pouca deterioração na eficiência de detecção;
-\item no entanto, a presença de aparelhos desconhecidos ou aparelhos
+\item no entanto, a presença de equipamentos desconhecidos ou equipamentos
 com sobreposição de potências deterioram bruscamente a performance do
 algoritmo.
 \end{itemize}
@@ -1262,11 +1525,11 @@ estatística para melhorar a capacidade de seu \gls{nilm}. O autor
 observa que os estudos \cite{nilm_farinaccio_16ssamp_1999_17,
 nilm_marceau_16ssamp_improved_1999_18} também utilizaram a estatística
 de uso, servindo, provavelmente, de inspiração para o seu trabalho.
-Será tratado da abordagem desse autor com detalhes pois essas
-referências parecem ser as mais próximas de possibilidar o \gls{nilm}
-em um programa de \gls{ee} em larga escala.
+Será tratado da abordagem desse autor com detalhes pois os trabalhos
+fornecidos pelo mesmo parecem serem a mais próximas de possibilitar o
+\gls{nilm} em um programa de \gls{ee} em larga escala.
 
-Devido à ausência da \acl{q}, a sobreposição dos centróides ocorrerá
+Devido à ausência da \acl{q}, a sobreposição dos centroides ocorrerá
 com frequência maior, aumentando as ocorrências de erros decorrentes
 de \gls{c6}. O autor criou o método \gls{vast} para empregar a informação
 estatística no processo de discriminação, Etapa~\ref{itm:etapa3}.
@@ -1275,93 +1538,93 @@ encontram no levantamento bibliográfico
 \cite{nilm_bouloutas_viterbi_ext_1991_11,
 nilm_hart_fsm_viterbi_1993_12,nilm_baranski_genetic_base_2003_19,
 nilm_baranski_genetic_detalhado_2004_20,nilm_baranski_summary_2004_21},
-onde o objetivo é modelar as \glspl{fsm} presentes na rede, a ideia é
-modelar os estados operativos dos equipamentos como sendo dependentes,
-além de seu próprio estado operativo, no estado operativo de outros
-equipamentos. Indo além, criar essa dependência para auxiliar aonde a
-informação é precária, ou seja, quando há sobreposição de potência.  O
-estudo observa que, normalmente, isso só ocorre para trios de
-equipamentos, ou seja, supondo que os aparelhos da residência estejam
-distribuídos em ordem crescente de consumo, o aparelho $i$ só deverá
-ter sobreposição de consumo com o aparelho $i-1$ e $i+1$. Assim, ao
-invés do algoritmo de \emph{Viterbi} de força bruta que tornaria a
-aplicação inviável conforme o número de aparelhos (ou estados
-operativos) aumentasse, já que todos os estados dos outros aparelhos
-podem influenciar no aparelho $i$, somente será utilizado os estados
-dos aparelhos $i-1$ e $i+1$ para determinar o seu estado operativo.
-Com isso, reduz-se a complexidade da versão original de
+onde o objetivo é modelar as \glspl{fsm} presentes na rede, a ideia,
+aqui, é modelar os estados operativos dos equipamentos como sendo
+dependentes, além de seu próprio estado operativo, no estado operativo
+de outros equipamentos. Indo além, criar essa dependência para
+auxiliar aonde a informação é precária, ou seja, quando há
+sobreposição de potência.  O estudo observa que, normalmente, isso só
+ocorre para trios de equipamentos, ou seja, supondo que os equipamentos
+da residência estejam distribuídos em ordem crescente de consumo, o
+equipamento $i$ só deverá ter sobreposição de consumo com o equipamento
+$i-1$ e $i+1$. Assim, ao invés do algoritmo de \emph{Viterbi} de força
+bruta que tornaria a aplicação inviável conforme o número de equipamentos
+(ou estados operativos) aumentasse, já que todos os estados dos outros
+equipamentos podem influenciar no equipamento $i$, somente será utilizado os
+estados dos equipamentos $i-1$ e $i+1$ para determinar o seu estado
+operativo.  Com isso, reduz-se a complexidade da versão original de
 \emph{Viterbi}, que é exponencial conforme o número de estados
 possíveis, para uma complexidade linear.
 
-%Um exemplo dado pelo autor, supondo que para o trio de aparelhos com
-%sobreposição, os aparelhos $i-1$ e $i+1$ tipicamente permanecem
+%Um exemplo dado pelo autor, supondo que para o trio de equipamentos com
+%sobreposição, os equipamentos $i-1$ e $i+1$ tipicamente permanecem
 %desligados durante 1 hora, enquanto essa duração para $i$ é de 10
-%horas. Quando o aparelho $i$ está desligado, a probabilidade de um
-%evento de transição positiva corresponder ao aparelho $i$ sendo ligado
+%horas. Quando o equipamento $i$ está desligado, a probabilidade de um
+%evento de transição positiva corresponder ao equipamento $i$ sendo ligado
 %irá depender, quando apenas levando em consideração o tempo, se os
-%outros dois aparelhos estão ligados ou desligados, e neste caso, por
-%quanto tempo cada aparelho está desligado.
+%outros dois equipamentos estão ligados ou desligados, e neste caso, por
+%quanto tempo cada equipamento está desligado.
 
-Para tornar mais simples a tarefa, considera-se que os aparelhos $i-1$
+Para tornar mais simples a tarefa, considera-se que os equipamentos $i-1$
 e $i+1$ também serão independente entre si, sendo necessário, assim,
-determinar para cada aparelho apenas dois pares de cadeias de
-\emph{Markov} (exclusive o aparelho de menor e maior consumo, que
+determinar para cada equipamento apenas dois pares de cadeias de
+\emph{Markov} (exclusive o equipamento de menor e maior consumo, que
 terão apenas uma cadeia): $\{i-1,i\}$ e $\{i,i+1\}$. O preenchimento das
 matrizes com as probabilidades de transição é feita com a informação
 obtida \emph{a priori}, aplicando as estatísticas de tempo ligado e
-desligado, distribuições dos momentos em que os aparelhos trocam de
+desligado, distribuições dos momentos em que os equipamentos trocam de
 estado operativo no dia e as distribuições dos eventos de transições
-para cada aparelho. Outras características podem ser utilizadas, tais
+para cada equipamento. Outras características podem ser utilizadas, tais
 como: as distribuições para as informações de tempo e amplitude para o
-pico de ligamentos (influênciado por
+pico de acionamentos (influenciado por
 \cite{nilm_baranski_genetic_base_2003_19,
 nilm_baranski_genetic_detalhado_2004_20,nilm_baranski_summary_2004_21})
-e características ``finas'' específicas de cada aparelho (o autor deu
+e características ``finas'' específicas de cada equipamento (o autor deu
 exemplos em \cite{nilm_zeifman_statistical_naive_enduses_2013} e serão
 citados mais adiante neste tópico). Essas probabilidades podem ainda
 ser melhoradas considerando distribuições para períodos diurnos ou
 noturnos e sazonalidade.
 
-Como o ciclo de observações sofre de alterações como falta
-de transições (no caso de perda de alvo para um evento de transição)
-ou a presença de intrusos (tanto falso positivo, ou quanto a presença
-da transição de um evento é causado na cadeia $\{i-1,i\}$ é causado
-pelo um aparelho $i+1$, por exemplo), é necessário que a matriz de
+Como o ciclo de observações sofre de alterações como falta de
+transições (no caso de perda de alvo para um evento de transitório) ou a
+presença de intrusos (tanto falso positivo, ou quanto a presença de
+transitório é causado na cadeia $\{i-1,i\}$ por um equipamento
+$i+1$, por exemplo), é necessário que a matriz de
 probabilidade considere mudanças não esperadas para garantir a solução
 do problema. Por exemplo, no caso de um intruso, é necessário dar a
-possibilidade dos aparelhos continuarem no mesmo estado reconhecendo
-sua presença, enquanto também é necessário dar a possibilidade de um aparelho
+possibilidade dos equipamentos continuarem no mesmo estado reconhecendo
+sua presença, enquanto também é necessário dar a possibilidade de um equipamento
 $i$, que estava desligado, modificar seu estado para ligado, enquanto
-o evento de transição foi de desligamento, caso que ocorreria
-excepcionalmente para um evento de transição perdido de ligamento para
-o aparelho $i$ e o evento sendo julgado ser intruso. Obviamente essas
+o evento de transitório foi de desacionamento, caso que ocorreria
+excepcionalmente para um evento de transitório perdido de acionamento para
+o equipamento $i$ e o evento sendo julgado ser intruso. Obviamente essas
 probabilidades serão pequenas, sendo utilizadas constantes para
 preencher essas possibilidades. Essas constantes podem utilizar taxas
 esperadas de perdas de alvo, falso positivos ou intrusão por outro
-aparelho, entretanto a determinação dos valores parece estar deixada
-em aberto.
+equipamento, entretanto a determinação dos valores parece estar deixada
+em aberto pelo autor.
 
 O algoritmo calcula, então, a probabilidade máxima de observar um
-estado após cada evento de transição para todas observações das
+estado após cada evento de transitório para todas observações das
 cadeias. Ao chegar no final delas, é escolhido a configuração com
 maior probabilidade e então se rastreia a sequência de transições no
 sentido oposto até chegar no estado inicial dos sistemas (algoritmo de
 \emph{Viterbi}\footnote{A última versão do código utilizou um modelo
 adaptado para a cadeia de \emph{Markov} de segunda ordem.}). A fusão
-para as duas cadeias de \emph{Markov} de um mesmo aparelho $i$ é feita
+para as duas cadeias de \emph{Markov} de um mesmo equipamento $i$ é feita
 utilizando o conceito de máxima verossimilhança, empregando a
-configuração de maior probabilidade final para esse aparelho.
+configuração de maior probabilidade final para esse equipamento.
 
-Para descobrir os aparelhos e suas estatísticas, o algoritmo realiza a
+Para descobrir os equipamentos e suas estatísticas, o algoritmo realiza a
 coleta de dados por um longo período de tempo (ex. duas semanas) e,
-em seguida, realiza o agrupamento dos dados por centróides (foi
+em seguida, realiza o agrupamento dos dados por centroides (foi
 utilizado \acs{isodata}, mas o próprio autor pretende empregar
-outras técnicas). Para corrigir possíveis problemas com os centróides,
+outras técnicas). A fim de se corrigir possíveis problemas com os centroides,
 são feitas operações de separação e agrupamento dos mesmos de acordo
-com regras que indicam a necessidade das mesmas. Os centróides finais
+com regras que indicam a necessidade das mesmas. Os centroides finais
 positivos e negativos são casados com a mesma abordagem utilizada por
 \citeauthor*{nilm_hart_1992_8} (ver o passo~3 desse autor na
-p.~\pageref{text:passo3}, limitando-se a parte para \gls{c3}). A
+pp.~\pageref{text:passo3}, limitando-se a parte para \gls{c3}). A
 montagem das \glslink{cdf}{cdfs} com as características de tempo é
 realizada através do modelo empírico --- constrói a \acs{cdf}
 através dos dados amostrados, sem ajuste ---, enquanto para as
@@ -1378,7 +1641,7 @@ estatística também é atualizada conforme mais dados são recolhidos.
 Assim, o método não necessita de treinamento, identificando os modelos
 de carga e suas propriedades. O autor considera depois comparar a
 informação encontrada com as estatísticas de uso e consumo típicas
-para identificar o aparelho, mas havendo comunicação com o usuário, é
+para identificar o equipamento, mas havendo comunicação com o usuário, é
 possível que o próprio realize a identificação, dando a comparação
 apenas como sugestão. Outra consideração é trabalhar com trios de
 cargas ao invés de duplas, já que alguns casos essa configuração
@@ -1387,21 +1650,21 @@ daqueles imediatamente subsequentes, reduzindo a presença de intrusos
 nas cadeias de \emph{Markov}.
 
 O autor empregou dados simulados e reais para provar a eficácia de seu
-algoritmo comparando sua capacidade com um classificador \emph{Naïve
-Bayes}, obtendo resultados em termos de \acs{medidaf}
-(\ref{eq:fmeasure}) na ordem de 0,83 a 0,97 em relação à medição
-paralela, em geral superiores ao classificador de \emph{Bayes}. Nos
-dados simulados, o autor demonstra que as outras abordagens
-normalmente empregadas para 1~\acs{hz} são deficientes para as
-configurações de sobreposição de consumo, enquanto sua versão consegue
-reconstrução praticamente perfeita. Entretanto, atualmente o algoritmo
-só atende aparelhos modelados por \gls{c3}.
+algoritmo, onde foi comparada a capacidade do mesmo em relação a um
+classificador \emph{Naïve Bayes}, obtendo resultados em termos de
+\acs{medidaf} (\ref{eq:fmeasure}) na ordem de 0,83 a 0,97 em relação à
+medição paralela, em geral superiores ao classificador de
+\emph{Bayes}. Nos dados simulados, o autor demonstra que as outras
+abordagens normalmente empregadas para 1~\acs{hz} são deficientes para
+as configurações de sobreposição de consumo, enquanto sua versão
+consegue reconstrução praticamente perfeita. Entretanto, atualmente o
+algoritmo só atende equipamentos modelados por \gls{c3}.
 
 Já no estudo mais recente
 \cite{nilm_zeifman_statistical_naive_enduses_2013}, o autor não
 empregou o \gls{vast}. Como nas abordagens \cite{nilm_farinaccio_16ssamp_1999_17,
 nilm_marceau_16ssamp_improved_1999_18}, limitou-se a identificar os
-aparelhos de maior uso-final. No caso, os aparelhos de interesse foram:
+equipamentos de maior uso-final. No caso, os equipamentos de interesse foram:
 \begin{enumerate*}[label=\itshape\alph*\upshape)]
 \item ar condicionado;
 \item aquecedores de ambiente;
@@ -1409,7 +1672,7 @@ aparelhos de maior uso-final. No caso, os aparelhos de interesse foram:
 \item \label{itm:iluminacao} iluminação;
 \item geladeira;
 \item secadores de roupa elétricos;
-\item \label{itm:aparelhoeletronico} aparelhos eletrônicos;
+\item \label{itm:equipamentoeletronico} equipamentos eletrônicos;
 \end{enumerate*} que representam em média 80\% do consumo residencial,
 no caso, para os \gls{eua}. Nesse configuração, utilizou-se o conceito
 de máxima entropia para selecionar modelos estatísticos mais adequados
@@ -1418,24 +1681,24 @@ as distribuições Beta são as mais indicadas por esse conceito. Foram
 feitas considerações em relação a iluminação, que tem dependência em
 relação aos ambientes de uso. Ainda, para melhorar a performance,
 adiciona-se como característica as assinaturas específicas dos
-aparelhos. O exemplo é a televisão em comparação com uma lâmpada, onde
+equipamentos. O exemplo é a televisão em comparação com uma lâmpada, onde
 aquele varia o seu consumo conforme flutuações na imagem e som,
 enquanto este tem o consumo bastante estável. Essas
-características ``finas'' dos aparelhos podem ser modeladas
+características ``finas'' dos equipamentos podem ser modeladas
 matematicamente e empregadas em conjunto com o conhecimento prévio de
-utilização dos aparelhos. Já para o caso dos secadores de roupa
+utilização dos equipamentos. Já para o caso dos secadores de roupa
 elétricos (uma \gls{fsm}), foi utilizado duas distribuições Beta, uma
 para cada estado.
 
 Os autores utilizaram o classificador \emph{Naïve Bayes} com base nas
 distribuições conjuntas resultantes obtidas para os sete uso-finais
 indicados, adicionados de uma classe ``outros''.  Os resultados
-empregaram a \acs{medidaf}, obtendo valores de acurária para os
+empregaram a \acs{medidaf}, obtendo valores de acurácia para os
 uso-finais mais desafiantes na ordem de 0,65 e 0,70, sendo os mesmos
-os itens \ref{itm:iluminacao} e \ref{itm:aparelhoeletronico},
+os itens \ref{itm:iluminacao} e \ref{itm:equipamentoeletronico},
 respectivamente. Já quando utilizando a informação de características
 finais, essas mesmas acurácias se elevam para 0,92 e 0,90. Para os
-outros aparelhos, os resultados ficaram na margem de 0,9, atingindo a
+outros equipamentos, os resultados ficaram na margem de 0,9, atingindo a
 melhor marca para os aquecedores de água doméstica: 0,99.
 
 \end{enumerate}
@@ -1447,13 +1710,13 @@ A abordagem para os \glspl{nilm} operando com aquisição de dados
 obtidos com alta amostragem possibilita a obtenção de características
 possivelmente mais discriminantes devido à alta resolução. A maior
 granularidade na amostragem permite o acesso aos harmônicos e formas
-de onda do sinal, chamadas de características microscópicas. Valhe
+de onda do sinal, chamadas de características microscópicas. Vale
 ressaltar aqui que a utilização de taxas de amostragem alta no
 sistema de aquisição não implica na extração de características
 microscópicas. Por exemplo, ao extrair a diferença de consumo de
 potência ativa entre o pré e pós transitório com 100 M\acs{hz},
-isso não define essa características como microscópica porque ela
-ainda poderia ser obtida com menor granularidade.
+isso não define essas características como microscópicas caso elas
+possam ser obtidas com frequência.
  
 Devido à maior amostragem, é inerente que os autores, em muitos casos,
 buscaram empregar técnicas de processamento de sinais para o
@@ -1462,7 +1725,7 @@ abordagem. Outras abordagens vão além da \gls{fft}, procurando outras
 maneiras de representar a informação, em alguns casos trabalhando até
 mesmo com a informação crua, sem tratamento. A criatividade dos
 autores leva a tona uma gama de características para descrever o sinal
-e buscar através de diversas técnicas as assinataras dos aparelhos. As
+e buscar através de diversas técnicas as assinaturas dos equipamentos. As
 características e técnicas empregadas pelos diversos autores para essa
 amostragem é tratada a seguir.
 
@@ -1472,14 +1735,15 @@ Quando explorando as características no domínio da frequência, o
 teorema de \emph{Nyquist-Shannon} formula que a frequência de
 amostragem deve ser no mínimo duas vezes superior à frequência do
 maior harmônico a ser estudado. Já no domínio do tempo, uma regra de
-boa-prática formula que a amostragem deve ser no mínimo de cinco vezes
-a frequência de interesse (no caso, o mínimo para representar a
-fundamental no Brasil é utilizando amostragem em 300~\acs{hz}).
-Entretanto, é preciso ter em mente que certos distúrbios só poderão
-ser observados em frequências maiores, em especial a caracterização
-dos regimes transitórios, sendo necessários nesses casos frequências
-bem maiores. As frequências utilizadas pelos autores variaram nas
-ordens de $\sim$100\acs{hz} até M\acs{hz}.
+boa-prática \cite{nilm_matthews_overview_2008_22} formula que a
+amostragem deve ser no mínimo de cinco vezes a frequência de interesse
+(no caso, o mínimo necessário para representar a fundamental no Brasil é
+uma amostragem em 300~\acs{hz}). Entretanto, é preciso ter em
+mente que certos distúrbios só poderão ser observados em frequências
+maiores, em especial a caracterização dos regimes transitórios, sendo
+necessários nesses casos frequências bem maiores. As frequências
+utilizadas pelos autores variaram nas ordens de $\sim100$ \acs{hz} até
+$\sim1$ M\acs{hz}.
 
 \begin{enumerate}[label=\textbf{2.\arabic*},wide=\parindent]
 \item \textbf{Harmônicos e \gls{fft}}
@@ -1497,15 +1761,15 @@ desagregar cargas lineares.
 \begin{itemize}[wide=\parindent]
 \item \emph{Harmônicos para identificação de \acs{c4}}
 
-O grupo que trabalhou com o intuíto de levar o \gls{nilm} para o setor
+O grupo que trabalhou com o intuito de levar o \gls{nilm} para o setor
 comercial e industrial \cite{nilm_norford_leeb_medianfilt_1996_13,
 nilm_leeb_spectral_envelope_1995_23} utilizava amostragem em
 frequências superiores a 8~k\acs{hz} para construir o envelope
 espectral do sinal \cite{nilm_laughman_continuous_variables_2003_9}. O
 grupo se referia dessa maneira ao envelope pois ele era construído
 através da resposta da \gls{fft}. Como foi dito durante o levante
-desses trabalhos, o grupo subdividia os transitórios em sessões-v que
-eram utilizadas para classificar os utensílios. 
+desses trabalhos, o grupo subdividia os transitórios em seções-v que
+eram utilizadas para classificar os equipamentos. 
 
 Uma vez que a decomposição harmônica já estava sendo extraída, os
 trabalhos posteriores procuraram empregar essa informação para tratar
@@ -1517,9 +1781,9 @@ em cenários previamente conhecidos. Um dos cenários incluiu inclusive
 a aplicação do \gls{nilm} em um carro \cite{nilm_shaw_2008_26}.
 Foi observado nas \glspl{c4} estudadas a presença de correlação entre
 sua demanda e os harmônicos de potência aparente. Assim, é ajustado
-uma função polinômial utilizando \gls{mse} para determinar a sua
-mudança de consumo. A função polinômial é utilizada e comparada com as
-envelope espectral das sessões-v para determinar se a mudança foi
+uma função polinomial utilizando \gls{mse} para determinar a sua
+mudança de consumo. A função polinomial é utilizada e comparada com as
+envelope espectral das seções-v para determinar se a mudança foi
 causada por alterações no estado operativo da \gls{c4}.
 
 Apesar do método se comportar bem para as aplicações propostas,
@@ -1527,7 +1791,7 @@ há a necessidade de fazer o levantamento caso a caso, sendo
 interessante apenas para a aplicação no setor comercial e industrial
 de grande porte, onde dificilmente será possível aplicar um \gls{nilm}
 genérico devido as diversas peculiaridades das cargas presentes. Além
-disso, não se sabe como a presença de outros aparelhos irão afetar a
+disso, não se sabe como a presença de outros equipamentos irão afetar a
 correlação, podendo limitar sua aplicação.
 
 \item \emph{Extração harmônica ciclo a ciclo}
@@ -1536,56 +1800,56 @@ correlação, podendo limitar sua aplicação.
 A abordagem de \citet{nilm_srinivasan_nn_2006_27} alterou a estratégia
 do \gls{nilm} ao não realizar a extração dos eventos de transitório.
 Ao invés disso, ele realiza diretamente para cada ciclo a desagregação
-da informação de consumo por aparelho. 
+da informação de consumo por equipamento. 
 
 Para isso, utilizou-se técnicas de aprendizado
 de máquina (\glspl{rna} com as arquiteturas \acs{mlp} e
 \acs{rbf}, além de \acs{svm}) treinadas com a informação das
 componentes harmônicas impares até o 15$^o$ harmônico. O caso
-analisado continha oito aparelhos. Em cada possível combinação
-operativa desses aparelhos ($2^{N_{ap}}=256$), aquisitou-se dados para
+analisado continha oito equipamentos. Em cada possível combinação
+operativa desses equipamentos ($2^{N_{ap}}=256$), obtiveram-se dados para
 treinar e testar as técnicas aplicadas. Nessa configuração, o método
 obteve reconstrução praticamente perfeita para a \gls{mlp} e
 \gls{rbf}. Em seguida, para melhorar a aplicabilidade dos métodos,
-utilizou-se as amostras coletadas com apenas um dos aparelhos ligados
+utilizou-se as amostras coletadas com apenas um dos equipamentos ligados
 por vez que foram, então, somadas para reproduzir os outros estados
 operativos. Nessas condições, houve deterioração para quatro
-equipamentos para taxas em torno de 70\%, enquanto os outros aparelhos
+equipamentos para taxas em torno de 70\%, enquanto os outros equipamentos
 continuaram com taxas em próximas a 100\%, tanto para a \gls{mlp} e
 \gls{rbf} (com algumas discrepâncias entre as duas). Também se testou
-condições com 10 aparelhos. Para esse caso, como seriam necessárias
+condições com 10 equipamentos. Para esse caso, como seriam necessárias
 medições em 1024 situações, utilizou-se o método de obter apenas as
-operações de cada aparelho sozinho, e somá-las para obter as outras
-configurações. Outras configurações testadas incluiram adição de
+operações de cada equipamento sozinho, e somá-las para obter as outras
+configurações. Outras configurações testadas incluíram adição de
 ruído e teste para rede com topologia trifásica, onde se apresentou
-que o método é robusto para essas configurações. A \gls{svm} não teve
+que o método é robusto para essas configurações. O \gls{svm} não teve
 respostas compatíveis com as da \gls{mlp} e \gls{rbf} para as diversas
 configurações testadas.
 
-Todavia, conforme o número de aparelhos cresce, a quantidade de
+Todavia, conforme o número de equipamentos cresce, a quantidade de
 combinações necessárias para treinar a rede cresce exponencialmente.
-Uma residência com cerca de 30 a 50 aparelhos (valores típicos
+Uma residência com cerca de 30 a 50 equipamentos (valores típicos
 citados por \cite{nilm_zeifman_review_2011}) necessitariam do
 treinamento para números na ordem de $10^7$ a $10^{15}$ configurações
 --- isso sem considerar possíveis estados que serão adicionados por
-aparelhos \glspl{c2}  ---, onde possivelmente diversas dessas configurações
+equipamentos \glspl{c2}  ---, onde possivelmente diversas dessas configurações
 seriam similares e, por isso, o método não conseguiria reproduzir as
 capacidades para os exemplos citados. Além disso, é necessário saber
-\emph{a priori} todos aparelhos pertencentes na residencia, assim como
+\emph{a priori} todos equipamentos pertencentes na residencia, assim como
 o autor não levantou como as respostas seriam afetadas devido à
-presença de aparelhos não-conhecidos. \textlabel{Mais adiante, também
+presença de equipamentos não-conhecidos. \textlabel{Mais adiante, também
 é necessário estimar o consumo por 
-aparelho}{text:transf_info_discr_energia}, assunto deixado em aberto
+equipamento}{text:transf_info_discr_energia}, assunto deixado em aberto
 pelo autor.  Para isso, é possível realizar a identificação de
 transitórios em cima da informação de discriminação, como considerando
-uma janela para a qual se o aparelho mudar de estado operativo por um
+uma janela para a qual se o equipamento mudar de estado operativo por um
 tempo maior àquele da janela, então se confirma a mudança operativa e
-calcula o consumo desse aparelho no novo estágio através da diferença
+calcula o consumo desse equipamento no novo estágio através da diferença
 pós e pré-transitório. Possíveis adaptações podem ser feitas para
 obter melhor resolução em energia. Uma abordagem mais elegante seria
 realizar as duas etapas em paralelo e comparar as informações obtidas
 em cada uma para validar se houve realmente a mudança de estado. Já
-com o intuíto de tornar essa tarefa trivial, pode-se evitar a
+com o intuito de tornar essa tarefa trivial, pode-se evitar a
 utilização da Etapa~\ref{itm:etapa2} e simplesmente empregar um valor
 de consumo estimado para cada equipamento.
 
@@ -1594,7 +1858,7 @@ de consumo estimado para cada equipamento.
 
 \citet*{nilm_patel_2007_29,nilm_gupta_patel_2010_30} encontraram
 características com capacidade discriminantes \emph{sui generis}. A
-metodologia utilizada permite diferenciar aparelhos iguais mas em
+metodologia utilizada permite diferenciar equipamentos iguais mas em
 diferentes cômodos. De acordo com os autores, em alguns casos é
 possível identificar qual interruptor de uma lâmpada \emph{three-way}
 teve seu estado alterado. Para isso, ao invés de utilizar o consumo
@@ -1603,28 +1867,28 @@ de dados. No caso, seu sistema pode ser conectado em qualquer tomada
 da residência, aonde serão analisados a \gls{emi} causado por
 chaveamentos, sendo necessário medir somente a \emph{tensão}. 
 
-As características internas do aparelho, bem como a configuração da
-rede elétrica entre o aparelho e o medidor, alteram em como o ruído
+As características internas do equipamento, bem como a configuração da
+rede elétrica entre o equipamento e o medidor, alteram em como o ruído
 será observado. Os ruídos podem ser gerados continuamente ou apenas
 durante os eventos de transitório. Exemplos de equipamentos que geram
 ruídos contínuos são: equipamentos com funcionamentos a base de motores
 (como secadores de cabelo, ventiladores) que irão gerar ruídos de
 tensão em frequências síncronas àquelas da rede causados pelo
-chaveamento das escovas dos motores (os aparelhos desse tipo que não
+chaveamento das escovas dos motores (os equipamentos desse tipo que não
 tiverem escova, não vão produzir \emph{emi} continuamente); e os
-aparelhos eletrônicos com fontes baseadas a chaveamento, nesse caso
-gerando ruído sincrono ao oscilador de sua fonte. Já eventos de ruído
-\gls{emi} podem ser observados ao colocar um aparelho na tomada,
+equipamentos eletrônicos com fontes baseadas a chaveamento, nesse caso
+gerando ruído síncrono ao oscilador de sua fonte. Já eventos de ruído
+\gls{emi} podem ser observados ao colocar um equipamento na tomada,
 alterar o estado de um interruptor ou ligar uma televisão.
 
 Na primeira abordagem \cite{nilm_patel_2007_29}, o objetivo foi
 encontrar os ruídos transitórios de chaveamentos na rede. São gerados
 2048 pontos igualmente espaçados com os resultados da decomposição da
-\gls{fft} (apenas magnetude) no alcance de 0 a 50 k\gls{hz}. Essa
-informação é repassada para uma janela deslisante que cálcula a média
+\gls{fft} (apenas magnitude) no alcance de 0 a 50 k\acs{hz}. Essa
+informação é repassada para uma janela deslizante que calcula a média
 para 1 $\mu$s de dados. Com os resultados das janelas, é tirada a
 distância Euclidiana em relação a janela anterior, e se esse valor
-superar um limiear considera o início de um transitório. O transitório
+superar um limiar considera o início de um transitório. O transitório
 será registrado até a distância Euclidiana ter outra mudança drástica.
 A resolução de 1 $\mu$s é importante pois alguns transitórios tem
 duração de apenas alguns poucos $\mu$s. Tendo o transitório isolado,
@@ -1643,17 +1907,17 @@ continuamente na rede \cite{nilm_gupta_patel_2010_30}. Os autores
 perceberam que os transitórios contínuos não são dependentes da
 configuração da rede, onde os equipamentos terão as mesmas
 características independente das residenciais e tomadas em questão.
-Nesse caso, o espectro análisado de \emph{Fourier} é de
+Nesse caso, o espectro analisado de \emph{Fourier} é de
 36-500k\acs{hz} para a mesma quantidade de pontos igualmente
 espaçados. A mesma ideia de janela móvel e corte através de um patamar
 é realizada para essa abordagem, no entanto, a frequência de geração
-de vetores é de 244 a cada segundo, sendo utilizados 25 deles para
-calcular a média da janela deslisante (a frequência resultante é bem
+de vetores é de 244 \acs{hz}, sendo utilizados 25 deles para
+calcular a média da janela deslizante (a frequência resultante é bem
 menor que aquela utilizada para estudar eventos de transitório). 
 A extração de características é realizada em cima da diferença entre o
 espectro do ruído atual e anterior, aonde são ajustados uma Gaussiana.
 As características são a média, amplitude e variância, que são
-comparadas utilizando a técnica de vizinho mais próximo. A acurária
+comparadas utilizando a técnica de vizinho mais próximo. A acurácia 
 reportada é de 91,75\%.
 
 Apesar das boas capacidades, ainda há uma série de dúvidas quanto a
@@ -1667,10 +1931,10 @@ eventos tem deposição de energia pequena devido a seu longo espectro
 de frequência. Percebe-se que a grande sensibilidade das
 características presentes nos transitórios traz um problema inverso
 àqueles carregados pelas \glspl{c6}: ao simplesmente trocar
-o aparelho de tomada altera como o mesmo é visto pelo \gls{nilm}.
+o equipamento de tomada altera como o mesmo é visto pelo \gls{nilm}.
 Como levantado por \cite{nilm_zeifman_review_2011}, a segunda
 abordagem é mais robusta, no entanto, diversas questões ficam em
-aberto. Ela é limitada para aparelhos que tenham chaveamento, por
+aberto. Ela é limitada para equipamentos que tenham chaveamento, por
 exemplo, fornos e secadores de roupas elétricos não puderam ser
 identificados. Os autores não consideraram como a presença de
 \gls{emi} nos vizinhos, em especial para o caso de apartamentos, irá
@@ -1679,7 +1943,7 @@ necessário considerar todas as mudanças de fontes chaveadas que forem
 realizadas pelos fabricantes, assim como as diferenças entre as fontes
 utilizadas por eles. A sobreposição de assinaturas \gls{emi} também
 irá ocorrer, sendo necessário tratar esse problema. Enfim, os
-autores apenas se preocuparam em identificar os aparelhos, não sendo
+autores apenas se preocuparam em identificar os equipamentos, não sendo
 obtido o consumo desagregado dos mesmos.
 
 \item \emph{Fourier como função de ajuste para Vizinho mais Próximo}
@@ -1696,10 +1960,10 @@ medidores disponíveis no mercado estadunidense que apresentavam
 discrepâncias de 10-20\% entre si, enquanto a taxa reportada era de
 3\%. O seu sistema de aquisição de dados atual coleta amostras na
 frequência de 100 k\acs{hz} utilizados para gerar características
-em 20 \gls{hz}. Devido às dificuldades para rotular os momentos
+em 20 \acs{hz}. Devido às dificuldades para rotular os momentos
 exatos para o treinamento das técnicas, eles criaram um detector
 \emph{wireless} de eventos de transitório, diretamente colocado no
-cabo do aparelho.
+cabo do equipamento.
 
 Ele utiliza um modelo probabilístico para a detecção de eventos
 alimentando um discriminador de vizinho mais próximo utilizando função
@@ -1717,7 +1981,7 @@ possibilidade que a última oferece de resolução tanto de frequência
 como temporal. Para isso, a \gls{tw} reduz o tamanho da janela
 conforme há o aumento das frequências para permitir resolução
 temporal. A decomposição é realizada em funções chamadas
-\emph{wavelets} ao invés de senóides. A \gls{tw} tem diversas
+\emph{wavelets} ao invés de senoides. A \gls{tw} tem diversas
 aplicações em Sistemas de Potências, o levantamento realizado por
 \cite{wavelet_overview} em 2002 mostra que as aplicações mais comuns
 eram proteção, qualidade de energia e detecção de transitório. A
@@ -1732,12 +1996,12 @@ um estudo (\citet*{nilm_chan_2000_31}) realizado em
 \citeyear{nilm_chan_2000_31} que mostrou a capacidade
 de aplicação da \gls{tw} para a identificação de cargas não-lineares.
 Entretanto, esse estudo não se aprofundou no tema, apenas levantando a
-capacidade da \gls{tw} de diferenciar três aparelhos, seguindo uma
+capacidade da \gls{tw} de diferenciar três equipamentos, seguindo uma
 ideia similar àquela explicada para
 \citeauthor{nilm_srinivasan_nn_2006_27}\footnote{No caso, o estudo de
 \citeauthor{nilm_chan_2000_31} foi realizado depois.}. Para isso, 
 explorou-se os níveis de detalhes da \gls{tw} discreta para todas as
-combinações operativas dos três aparelhos, salientando que essa
+combinações operativas dos três equipamentos, salientando que essa
 informação era discriminante e seria possível aplicar \acs{rna}
 para discriminar essa informação, ainda que isso não tenha sido
 realizado.
@@ -1745,21 +2009,21 @@ realizado.
 Um trabalho no Brasil, realizado por \citet*{nilm_itajuba_rodrigues},
 seguiu exatamente essa metodologia. A taxa de amostragem empregada foi
 de 15.360 k\acs{hz}, onde se testou duas configurações, uma aonde
-os aparelhos elétricos operavam isolados na rede e outra com as
+os equipamentos elétricos operavam isolados na rede e outra com as
 diversas combinações operativas. Os testes foram feitos com três e
-quatro aparelhos e obteram capacidade de identificação de 100\%. Em
+quatro equipamentos e obtiveram capacidade de identificação de 100\%. Em
 seguida, o trabalho mostrou a importância da \gls{tw} quando em
 comparação com a \gls{fft}, onde a \gls{fft} obteve 90\% mesmo
 utilizando 16 componentes do espectro (linearmente espaçado) de
 frequência, enquanto a \gls{tw} foi decomposta para 7 níveis de
 detalhes. Entretanto, essa abordagem sofre das mesmas desvantagens
 referidas para o trabalho de \citeauthor*{nilm_srinivasan_nn_2006_27}
-(ver p.~\pageref{nilm:harmonico_ciclo_ciclo}).
+(ver pp.~\pageref{nilm:harmonico_ciclo_ciclo}).
 
 Apesar de no exterior ter sido encontrado apenas um estudo preliminar
 mostrando a possibilidade de utilizar \gls{tw}
 \cite{nilm_chan_2000_31}, um outro trabalho brasileiro também seguiu o
-caminho do emprego de \gls{tw} para a identificação de aparelhos. O
+caminho do emprego de \gls{tw} para a identificação de equipamentos. O
 trabalho de \citet{nilm_coppe_nascimento} utilizou uma amostragem em
 256~\acs{hz}. É empregado um detector de eventos onde se calcula
 o incremento de corrente em relação a amostra passada, no caso de o
@@ -1767,7 +2031,7 @@ valor ultrapassar o patamar de 32 m\acs{a}, é criado um evento de
 transitório com 8 ciclos e um total de 2048 pontos a serem analisados.
 
 Uma pré-classificação é realizada utilizando o \emph{hardware} para
-equipamentos com valores específicos de \gls{dp} e \gls{dq}. Caso não
+equipamentos com valores específicos de \acs{dp} e \acs{dq}. Caso não
 seja um dos equipamentos de simples discriminação, modifica-se a
 informação em uma série de etapas, nesta ordem: aplica-se Transformada
 de \emph{Hilbert} no módulo da corrente, \gls{tw} com cinco níveis e
@@ -1789,7 +2053,7 @@ discriminação.
 Os resultados para acionamentos individuais reportados pelo autor
 foram de 99,7\% para a seleção na primeira etapa e 88,8\% na segunda.
 Foi realizado um ensaio para verificar o comportamento do algoritmo em
-casos empilhados, porém o mesmo foi trivial, apenas
+casos empilhados, porém o mesmo foi um teste inicial,
 adicionando uma lâmpada incandescente --- sem dinâmica de consumo --- 
 antes de acionar os outros equipamentos.  Assim, não é possível
 deduzir a capacidade do método para a aplicação em condições reais,
@@ -1797,11 +2061,11 @@ onde é necessário a robustez das técnicas aplicadas para ao
 acúmulo de diversos equipamentos, injetando ruídos e dificultando
 a desagregação da informação. O autor identificou, também, que é
 necessário trabalhar no detector de eventos transitórios, que talvez
-tenham sido o motivo para a deterioção da eficácia dos motores no
+tenham sido o motivo para a deterioração da eficácia dos motores no
 teste empregado. Ainda, as condições operativas normais em uma
 residência podem revelar a presença de falsos positivos, sendo também
 um levantamento necessário pelo trabalho. Por fim, os autores
-preocuparam-se apenas com a capacidade de identificação dos aparelhos,
+preocuparam-se apenas com a capacidade de identificação dos equipamentos,
 sendo necessário, pela perspectiva de aplicação do \gls{nilm}, ainda o
 passo de transformar essa informação qualitativamente para termos de
 consumo.
@@ -1818,44 +2082,44 @@ leitores já tiveram a oportunidade de observar essas curvas no
 osciloscópio, caso oposto, diversas curvas podem ser observadas 
 na referência \cite{nilm_lam_2007_33}.}. As curvas são formadas ao
 distribuir as amostragens temporais de corrente contra tensão no plano
-catersiano. No caso de cargas lineares, elas formam elipses, podendo
-transformar-se em uma reta caso o aparelho seja puramente resistivo.
+cartesiano. No caso de cargas lineares, elas formam elipses, podendo
+transformar-se em uma reta caso o equipamento seja puramente resistivo.
 Nesse caso, o sentido de rotação da curva dependente se a carga é
 indutiva ou capacitiva, mais precisamente estando relacionada ao
 ângulo de carga. De acordo com a presença de harmônicos, pode ocorrer
 distorções nas elipses de modo que as mesmas enlacem a si mesmas em n
-pontos de interseção.  Assim, o estudo propos diversas características
+pontos de interseção.  Assim, o estudo propôs diversas características
 a serem extraídas dessas curvas, cada uma representando
-informações que permitam discernir as características dos aparelhos
+informações que permitam discernir as características dos equipamentos
 entre si.
 
-São utilizados os valores normalizados para que todos os aparelhos
+São utilizados os valores normalizados para que todos os equipamentos
 tenham a mesma escala, removendo as discrepâncias causadas por
-utensílios de diferentes marcas. A fim de estudar a capacidade
-discriminativa, a metodologia empregada foi a geração de dendograma
+equipamentos de diferentes marcas. A fim de estudar a capacidade
+discriminativa, a metodologia empregada foi a geração de dendrograma
 para compreender a taxonomia resultante e compará-la com aquelas
-normalmente obtidas quando utilizando variáveis padrões, no caso o
+normalmente obtidas quando utilizando variáveis padrão, no caso o
 autor considerou: valor eficaz da corrente em um ciclo; potência
 reativa; \gls{fp}; número total de harmônicos impares; número total de
 harmônicos pares.  O estudo também comparou com a taxonomia obtida ao
-realizar \gls{svd} da corrente de um período. Os
+realizar \gls{svd} da corrente em um período. Os
 primeiros 24 autovetores foram utilizados como representação da
 informação, contendo 99\% da energia, para serem formados os
 agrupamentos.
 
 Os resultados da separação taxonômica está na
-Tabela~\ref{tab:taxonomias_lam}, (ver p.~\pageref{tab:taxonomias_lam},
+Tabela~\ref{tab:taxonomias_lam}, (ver pp.~\pageref{tab:taxonomias_lam},
 estando mais adiante simplesmente para agrupar as taxonomias com as do
 \gls{cepel} em um único lugar neste trabalho).  Constatou-se a
 presença de grupos mais representativos para as curvas I-V em relação
 aos outros dois casos, obtendo grupos bem definidos para os tipos
 resistivos, motores e eletrônicos. A representação com variáveis
-padrões teve dificuldade em distinguir entre os aparelhos eletrônicos.
-Ocorreu também a união de aparelhos resistivos, eletrônicos e
-aparelhos de operação através de motores. Já no caso da decomposição,
-os aglomerados formados permitiram a classificação dos aparelhos em
+padrão teve dificuldade em distinguir entre os equipamentos eletrônicos.
+Ocorreu também a união de equipamentos resistivos, eletrônicos e
+equipamentos de operação através de motores. Já no caso da decomposição,
+os aglomerados formados permitiram a classificação dos equipamentos em
 relação ao formato de suas ondas, no entanto, não é possível inferir
-como a afinidade dos aparelhos foi gerada.
+como a afinidade dos equipamentos foi gerada.
 
 \item \textbf{Ondas sem processamento}
 
@@ -1866,10 +2130,10 @@ alterando a lógica quando em comparação com esses outros métodos. Ao
 tratar o problema como sendo de otimização, foi resolvido o caso 
 do paradoxo da quantidade de configurações para o treinamento das
 técnicas supervisionada. O próprio autor observa que outros autores
-japôneses tentaram resolver o problema da mesma maneira --- através de
+japoneses tentaram resolver o problema da mesma maneira --- através de
 redes neurais --- ressaltando a quantidade de dados necessários por
 essa abordagem. A técnica consiste-se em ajustar a melhor configuração
-das ondas cruas de corrente --- sem pré-processamento --- que se
+das ondas cruas de corrente --- sem preprocessamento --- que se
 justaponha àquela observada pela medição centralizada. Isso é
 realizado através de Programação por Inteiros (tradução própria de
 \emph{Integer Programming}), modelando tanto \gls{c1}, \gls{c2} quanto
@@ -1879,22 +2143,22 @@ amostragem de 40 k\acs{hz}.
 
 A abordagem foi avaliada em uma residência, onde os residentes
 realizaram suas tarefas normalmente, mas anotando os momentos em que
-eles utilizavam os aparelhos durante 6 dias. Os resultados mostraram
-que a fase~2 com 7 aparelhos obteve taxas de detecção na ordem de
-96,8\%, enquanto a fase~1 com 15 aparelhos, sendo eles diversas
-lâmpadas, obteve para essa acurária, valor de 79,0\%. É esperado para
+eles utilizavam os equipamentos durante 6 dias. Os resultados mostraram
+que a fase~2 com 7 equipamentos obteve taxas de detecção na ordem de
+96,8\%, enquanto a fase~1 com 15 equipamentos, sendo eles diversas
+lâmpadas, obteve para essa acurácia, valor de 79,0\%. É esperado para
 esse método a mesma dificuldade operativa das abordagens
 \cite{nilm_srinivasan_nn_2006_27,nilm_itajuba_rodrigues}, já que a
 quantidade de configurações possíveis cresce exponencialmente com o
-número de estados possíveis nos aparelhos da residência. Como o
+número de estados possíveis nos equipamentos da residência. Como o
 próprio autor observa, os erros na fase~2 foram causados por
 configurações onde os estados de consumo agregado são semelhantes, no
 caso ``Torradeira + Secador (Apenas Ventilação)'' $\approx$ ``Secador
 de Cabelo (Com aquecimento no fraco)''. Segundo o crescimento de
-aparelhos, é esperado que a ocorrência desses casos se torne maior. Os
+equipamentos, é esperado que a ocorrência desses casos se torne maior. Os
 autores planejam trabalhar em uma contramedida para possibilitar a
 modelagem de \gls{c4}, bem como conseguir uma maneira automática para
-unir aparelhos similares. Para isso, aqui se nota que utilizar um
+unir equipamentos similares. Para isso, aqui se nota que utilizar um
 patamar de corte em \ref{eq:similaridade} parece ser suficiente. Outra
 questão ressaltada por \cite{nilm_zeifman_review_2011} é que a
 utilização das ondas cruas pode ter reduzido a eficácia da abordagem,
@@ -1911,10 +2175,10 @@ definindo matematicamente diversas grandezas que muitos autores
 tentaram exprimir por palavras. No entanto, a maior contribuição foi
 mostrar como combinar as técnicas presentes na vasta extensão de
 abordagens já realizadas ao tema. A primeira questão já foi
-explicitada na Subsessão~\ref{ssec:modelos_carga} quando se referindo
+explicitada na Subseção~\ref{ssec:modelos_carga} quando se referindo
 às \glspl{c6}, sendo o ponto de similaridade entre as características.
 A seleção de características que não apresentem similaridade para os
-mesmos aparelhos possibilita que as técnicas de discriminação possam
+mesmos equipamentos possibilita que as técnicas de discriminação possam
 obter padrões relevantes para a solução do problema. O mesmo pode ser
 dito quanto a capacidade de complementação das técnicas empregadas na
 Etapa~\ref{itm:etapa3}, os autores propuseram a \gls{cr} em
@@ -1993,7 +2257,7 @@ tal tarefa, e cita \cite{information_fusion_basir_2007_40} como
 exemplo. Outra abordagem possível é o emprego de uma \gls{rna}.
 
 Em \cite{nilm_liang_pt2_2010_40} os autores criaram um simulador de
-Monte-Carlo, capaz de gerar situações de operação simultânea de aparelhos,
+Monte-Carlo, capaz de gerar situações de operação simultânea de equipamentos,
 ruído devido a dinâmica de carga (\gls{c5}) ou fontes externas de
 ruído, dando uma capacidade maior para as possibilidades dos
 testes das técnicas a serem empregadas pelos \gls{nilm}. Com base nos
@@ -2015,12 +2279,12 @@ custo benefício computacional;
 ruído que as opções singulares;
 \item as simulações para o ar condicionado mostraram que sua presença
 deteriora a eficácia do desagregador;
-\item há deterioção conforme a maior demanda na rede, bem como uma
-presença maior de aparelhos operando;
+\item há deterioração conforme a maior demanda na rede, bem como uma
+presença maior de equipamentos operando;
 \item quanto maior for o incremento de potência em relação à demanda
 da rede, maior será a facilidade do \gls{nilm} desagregar essa
 informação; e
-\item a análise por similaridade permitiu identificar os aparelhos com
+\item a análise por similaridade permitiu identificar os equipamentos com
 maior confusão.
 \end{enumerate}
 
@@ -2030,7 +2294,7 @@ considerações de \cite{nilm_liang_pt2_2010_40}, realizou o estudo
 de unir o seu método para baixas amostragens 
 \cite{nilm_zeifman_vast_2011} com a combinação de múltiplos métodos
 para altas amostragens. Baseado nos estudos de seu levantamento
-bibliográfico, o autor utilizou amostragens de 500~k\gls{hz} para
+bibliográfico, o autor utilizou amostragens de 500~k\acs{hz} para
 trabalhar com análise de transitórios. O detector de transitório
 observa por mudanças estatisticamente significantes na forma de onda,
 que ao serem encontradas causam a coleta de diversas formas de onda
@@ -2040,15 +2304,15 @@ decorrente do transitório. Essa informação alimenta duas técnicas para
 discriminação: uma utilizando os componentes harmônicos e outra os
 dados crus para alimentar uma técnica multivariável. Calcula-se o
 valor de \acs{pdf} para os dados de entrada em relações às
-\acs{pdf}s obtidas experimentalmente para todos os aparelhos. A
+\acs{pdf}s obtidas experimentalmente para todos os equipamentos. A
 classificação final de cada algoritmo é o valor máximo de
 \acs{pdf}.
 
 Um teste simples foi realizado para comparar os dois métodos. Foram
-alterado estados operativos de quatro aparelhos, obtendo desagregação
+alterados estados operativos de quatro equipamentos, obtendo desagregação
 perfeita para o caso das ondas cruas, e um erro para a decomposição
 harmônica. O método combinado também obteve reconstrução perfeita.
-Em seguida, coletaram-se dados para 8 horas com os quatro aparelhos,
+Em seguida, coletaram-se dados para 8 horas com os quatro equipamentos,
 obtendo novamente 1 erro para a decomposição harmônica e 100\% para os
 outros dois casos. O autor retrata que seria ainda possível combinar
 essa informação com o \gls{vast}, que também apresenta saída
@@ -2082,22 +2346,22 @@ Em \cite{seminilm_berges_multisensor_2010}, os autores mostram a
 intensão de seguir uma nova abordagem. A ideia é utilizar a informação
 de múltiplos sensores no ambiente, como iluminação, som etc. e
 correlacionar a informação por eles obtidas automaticamente com o
-consumo de aparelhos, permitindo, por exemplo, desagregar o consumo de
+consumo de equipamentos, permitindo, por exemplo, desagregar o consumo de
 uma lâmpada na cozinha com a de um banheiro devido à um sensor de
 iluminação nesse ambiente.
 
-Um projeto na Suiça por \cite{seminilm_ihome_tomek_2012}, utiliza
+Um projeto na Suíça por \cite{seminilm_ihome_tomek_2012}, utiliza
 diversos submedidores de energia conectados via \emph{wireless} a uma
-central. A ideia é reduzir o acumulo de aparelhos no sinal a ser
+central. A ideia é reduzir o acumulo de equipamentos no sinal a ser
 desagregado ao colocar os medidores mais próximos ao consumo,
-facilitando assim a identificação dos aparelhos. Cada módulo de
+facilitando assim a identificação dos equipamentos. Cada módulo de
 submedição realiza medições em 3,2~k\acs{hz} de tensão e corrente, que
 são utilizados para gerar a \acl{p}, \acl{q} e os harmônicos impares
-de corrente com indices de 1-11. Quando é detectado um evento de
-transição, a informação é repassada para uma central, que procura no
-catálogo o aparelho que melhor se corresponde com a transição.
+de corrente com índices de 1-11. Quando é detectado um evento de
+transitório, a informação é repassada para uma central, que procura no
+catálogo o equipamento que melhor se corresponde com o transitório.
 Reporta-se eficiência de detecção de 95\% para submedidores com um
-único aparelho. 
+único equipamento. 
 
 Uma outra abordagem bastante interessante realizada por
 \citet*{seminilm_fhmm_empiricalnmeter_2013}, altera o conceito
@@ -2106,14 +2370,14 @@ reduzir a necessidade monetária associada com custos em
 sensores fazendo a seleção ótima do número de sensores ao mesmo tempo
 que se maximiza a capacidade em desagregar a informação. Para isso,
 eles criaram uma regra heurística para encontrar o conjunto ótimo de
-aparelhos a serem monitorados por submedição. Os dados foram obtidos
+equipamentos a serem monitorados por submedição. Os dados foram obtidos
 na frequência de amostragem de 1~\acs{hz} para o medidor central,
-e $\frac{1}{3}$~\acs{hz} para os medidores por aparelho. Essa
+e $\frac{1}{3}$~\acs{hz} para os medidores por equipamento. Essa
 informação foi reduzida para uma taxa de 1 amostra a cada 20 segundos
 através de um filtro de mediana. Também se utiliza o
 algoritmo de \emph{Viterbi} para modelar as \gls{fsm}, no caso
 utilizando \gls{hmm}. Conseguiu-se experimentalmente eficiências na
-ordem de 95\% por aparelho em termos de \acs{medidafenergia}
+ordem de 95\% por equipamento em termos de \acs{medidafenergia}
 (\ref{eq:fmeasure_en}). Em um trabalho futuro, os autores também
 desejam utilizar outros sensores no ambiente, como em
 \cite{seminilm_berges_multisensor_2010}.
@@ -2121,33 +2385,33 @@ desejam utilizar outros sensores no ambiente, como em
 \subsection{Discussão}
 \label{ssec:nilm_discussao}
 
-A primeira questão que chama atenção no levantamento bibliográfico é a
+A primeira questão que chama atenção no levantamento bibliográfico é o
 quesito de escala. O \gls{nilm} deve ser robusto para a aplicação
-independente da quantidade de aparelhos disponíveis na residência do
-consumidor. Naturalmente irá ocorrer a presença de aparelhos
+independente da quantidade de equipamentos disponíveis na residência do
+consumidor. Naturalmente irá ocorrer a presença de equipamentos
 desconhecidos, bem como de \gls{c5} que, conforme o acúmulo de
-diversos aparelhos, irá tornar a rede um ambiente muito mais complexo
+diversos equipamentos, irá tornar a rede um ambiente muito mais complexo
 para operação das técnicas. É justamente nesse ambiente que as
 abordagens devem ser analisadas, demonstrando como será o seu
 comportamento nas condições adversas presentes nas redes elétricas
 residenciais.
 
 Geralmente os \glspl{nilm} utilizam eventos de transitório para buscar
-por alterações no estado operativo dos aparelhos na rede ---
+por alterações no estado operativo dos equipamentos na rede ---
 Etapa~\ref{itm:etapa2}. Essa estratégia reduz a análise de informação
 pelo discriminador, uma vez que a busca por padrões só é realizada
 quando distúrbios são encontrados na rede. Apesar disso, as técnicas
 empregadas para encontrar os eventos devem ser capazes de separar
-distúrbios causados por ruídos daqueles causados pelos aparelhos, uma
+distúrbios causados por ruídos daqueles causados pelos equipamentos, uma
 vez que a eficiência do \gls{nilm} será diretamente afetada pela sua
 capacidade. Isso também evidência que os discriminadores precisam ser
 robustos à presença de intrusos, tanto causado por ruídos ou por
-aparelhos desconhecidos. Poucos estudos trataram a capacidade do
+equipamentos desconhecidos. Poucos estudos trataram a capacidade do
 detector de transitório ou como um transitório falso é tratado pelo
 discriminador.
 
 Outra capacidade desejada nos \glspl{nilm} é a criação dos modelos
-de consumo dos aparelhos de maneira automática. Diversos
+de consumo dos equipamentos de maneira automática. Diversos
 autores fizeram mão de modificações do algoritmo de \emph{Viterbi}
 \cite{nilm_bouloutas_viterbi_ext_1991_11,
 nilm_hart_fsm_viterbi_1993_12,nilm_baranski_genetic_base_2003_19,
@@ -2161,7 +2425,7 @@ de \glspl{c2} e \glspl{c3}, no entanto, por modelar utilizando o
 comportamento mais provável, está técnica não permite observar
 \gls{c2b} e \gls{c4}. É compreensível que tal tarefa não seja possível
 de ser realizada cegamente, justamente por não existir um padrão a ser
-identificado. Possivelmente esses aparelhos terão seus estados
+identificado. Possivelmente esses equipamentos terão seus estados
 parcialmente modelados por \glspl{c3} e/ou \gls{c2}, sendo necessário
 intervenção humana para corrigir sua modelagem. As \glspl{c4}
 representam um desafio ainda maior para os \glspl{nilm}, podendo ser
@@ -2183,43 +2447,43 @@ modelos para alimentar diretamente o treinamento de técnicas
 supervisionadas.
 
 Além do mais, há uma discussão em relação a como transformar a
-informação dos modelos construídos cegamente em aparelhos. Os casos
+informação dos modelos construídos cegamente em equipamentos. Os casos
 observados \cite{nilm_hart_1992_8,nilm_bergman_distribuido_2011,
 nilm_zeifman_vastext_approach_2012} tendem a comparar as informações
 obtidas com um catálogo, mas como observado por
 \cite{nilm_matthews_overview_2008_22}, a melhor estratégia ao tema
 seria ter uma plataforma de comunicação com o consumidor, deixando a
 tarefa de identificação para o mesmo. O catálogo poderia ser utilizado
-como valor inicial ou sugerido para o aparelho, e se nenhum valor
-fosse encontrado no catálogo, um valor temporario como
+como valor inicial ou sugerido para o equipamento, e se nenhum valor
+fosse encontrado no catálogo, um valor temporário como
 ``desconhecido01'' poderia ser utilizado até o usuário modificar seu
 valor. Com todas as facilidades oferecidas pelas \glspl{ict}, a
 comunicação com o usuário pode ser realizada por uma interface
 \emph{web}, um aplicativo para \emph{smart phones} ou alterar os
-mostradores domiciliares para permitir iteração com o consumidor.
+mostradores domiciliares para permitir interação com o consumidor.
 
-Nesse caso também seria interessante a identificação de novos
-aparelhos conforme a utilização da rede. A identificação de aparelhos
+Nesse caso, também seria interessante a identificação de novos
+equipamentos conforme a utilização da rede. A identificação de equipamentos
 não mais em uso pode ser benéfica para técnicas que sofrem com 
-\gls{c6}, reduzindo a possibilidade de confusão se um aparelho não
+\gls{c6}, reduzindo a possibilidade de confusão se um equipamento não
 estiver mais sendo utilizado. Aproveitando a possibilidade de
 comunicação com o consumidor, o projeto pode permitir do mesmo
-alterar possíveis erros na modelagem dos aparelhos, unindo ou
+alterar possíveis erros na modelagem dos equipamentos, unindo ou
 separando estados de \gls{fsm} erroneamente identificados. Isso também
 pode ser expandido para o caso de erros de discriminação dos
-aparelhos. Já para o caso das abordagens onde o \gls{nilm} não tem a
-aptidão para modelar automaticamente os aparelhos, fica evidente a
-necessidade de priorizar os aparelhos de maior uso-final para, assim,
+equipamentos. Já para o caso das abordagens onde o \gls{nilm} não tem a
+aptidão para modelar automaticamente os equipamentos, fica evidente a
+necessidade de priorizar os equipamentos de maior uso-final para, assim,
 maximizar sua reconstrução de energia. Ainda assim, o sucesso da
 técnica depende de alta eficiência, onde a intervenção do consumidor
 não pode ser um ponto necessário no projeto. Em especial para o caso
 da aplicação da técnica como um programa de \gls{ee}, onde a tarefa do
-\gls{nilm}, além de desagregar energia é informar o consumidor sobre
+\gls{nilm}, além de desagregar energia, é informar o consumidor sobre
 como utilizar a energia de maneira sustentável através da redução do
 consumo e resposta em demanda.
 
 Do ponto de vista técnico, o emprego das abordagens devem ser
-realizados tendo em mente que a tarefa principal do \gls{nilm}
+realizadas tendo em mente que a tarefa principal do \gls{nilm}
 é a desagregação da informação de energia, independente de como a
 técnica empregada entenda o problema. Por exemplo, técnicas de separação
 cega de fontes irão ver o problema como um problema de desmistura de
@@ -2230,11 +2494,11 @@ aquilo que é oferecido.  As técnicas têm seus próprios parâmetros para
 informar o quão bem realizaram suas tarefas, no entanto, pela
 perspectiva do \gls{nilm} e do consumidor, a eficiência deve ser
 informada em termos da capacidade de reconstruir a energia por
-aparelho. Isso tornar ainda mais evidente quando o \gls{nilm} opera
+equipamento. Isso se torna ainda mais evidente quando o \gls{nilm} opera
 em tempo real, de tal modo que sua eficiência deve analisar
 \emph{temporalmente} o acerto de energia identificando erros devido à
-redundância ou subestimação do consumo por aparelho como foi tratado
-na Subsessão~\ref{ssec:nilm_eff_calc}.
+redundância ou subestimação do consumo por equipamento como foi tratado
+na Subseção~\ref{ssec:nilm_eff_calc}.
 
 Quanto à extração de características e técnicas empregadas, observam-se
 três vertentes. Buscando a impregnação do método, uma vertente
@@ -2256,9 +2520,9 @@ nilm_zeifman_statistical_naive_enduses_2013}. Essa vertente apresenta
 a configuração de menor embargo financeiro e pode aproveitar de uma
 infraestrutura que está sendo disponibilizada pela rede elétrica
 inteligente, os medidores inteligentes (no Brasil, sujeito a possíveis
-restrições descritas na Subsessão~\ref{ssec:ret_tec}).  Os autores de
+restrições descritas na Subseção~\ref{ssec:ret_tec}).  Os autores de
 \cite{nilm_bergman_distribuido_2011} realizaram uma arquitetura
-distribuida para permitir desagregar informação de consumo sem
+distribuída para permitir desagregar informação de consumo sem
 qualquer alteração da estrutura fornecida nos \gls{eua}.
 \cite{nilm_baranski_genetic_base_2003_19,
 nilm_baranski_genetic_detalhado_2004_20,nilm_baranski_summary_2004_21}
@@ -2275,20 +2539,20 @@ levantamentos de dados por institutos
 \cite{nilm_zeifman_statistical_naive_enduses_2013}. No último caso, a
 técnica irá se concentrar nos equipamentos de maior uso-final para
 maximizar a capacidade de reconstrução de energia total. Por outro
-lado, não se sabe no momento se é possível seguir esse caminho no
+lado, não se sabe, no momento, se é possível seguir esse caminho no
 Brasil uma vez que são necessários dados recentes e representativos
 das diversas regiões do país. Como foi articulado na
-Sessão~\ref{sec:ee_dificuldades}, a concepção inicial para o
-\gls{nilm} no Brasil foi justamente o intuíto de facilitar a coleta e
+Seção~\ref{sec:ee_dificuldades}, a concepção inicial para o
+\gls{nilm} no Brasil foi justamente o intuito de facilitar a coleta e
 precisão de dados, reduzindo o peso das \glspl{pph}. Nada obstante, o
 levantamento de estatística na própria residência, como mostrado por
 \cite{nilm_zeifman_vastext_approach_2012,nilm_zeifman_statistical_vastext_1stws_2012},
 parece ser suficiente para atender os pontos necessários para a
 aplicação dessa tecnologia em um programa de \gls{ee}. A única questão
 dessa abordagem seria como rotular os modelos encontrados com os
-nomes dos aparelhos, assunto debatido previamente nesta subsessão.
+nomes dos equipamentos, assunto debatido previamente nesta subseção.
 
-Outra vertente, ao procurar por melhores capacidade de discriminação,
+Outra vertente, ao procurar por melhores capacidades de discriminação,
 seguiu o caminho de elevar a taxa de amostragem \cite{
 nilm_zeifman_vast_hisample_pdfmerge_2011,nilm_liang_pt1_2010_34,
 nilm_liang_pt2_2010_40,nilm_patel_2007_29,nilm_gupta_patel_2010_30,
@@ -2303,9 +2567,9 @@ levaram aos autores geralmente a se contentarem em utilizar apenas uma
 técnica para a desagregação do consumo. Em alguns casos \cite{
 nilm_patel_2007_29,nilm_gupta_patel_2010_30}, a
 resolução das características é tão fina que as próprias propriedades
-da rede interferem nos padrões dos aparelhos. Logo, os discriminadores 
-teriam a incoveniência de ter ser alimentados com a informação para
-cada residência, bem como a utilização de um catalogo global seria
+da rede interferem nos padrões dos equipamentos. Logo, os discriminadores 
+teriam a inconveniência de ser alimentados com a informação para
+cada residência, bem como a utilização de um catálogo global seria
 impossível, limitando a aplicação dessa abordagem se não houver
 uma maneira automática de realizar esse processo. 
 
@@ -2330,23 +2594,23 @@ abordagens que operam desse modo \cite{nilm_srinivasan_nn_2006_27,
 nilm_itajuba_rodrigues,nilm_suzuki_2011_35}. As abordagens de
 \cite{nilm_srinivasan_nn_2006_27,nilm_itajuba_rodrigues} trabalham com
 todos os possíveis estados operativos da rede (combinação de todos os
-estados operativos possíveis para os aparelhos), tornando essas
+estados operativos possíveis para os equipamentos), tornando essas
 abordagens frágeis para a aplicação quando a quantidade de estados na
-rede é grande uma vez que é necessário treinar as técnicas
-supervisionadas (no caso \gls{rna}) com um número de padrões que
-cresce exponencialmente proporcional ao número total de estados dos
-aparelhos. Já a abordagem de \cite{nilm_suzuki_2011_35}, por trabalhar
-o problema através de otimização, conseguiu uma maior possibilidade
-prática para a aplicação de sua técnica, ainda estando sujeito à
-possiveis problemas de patamares de consumo parecidos que possam ser
-determinados por diversas combinações de aparelhos diferentes. Além
-disso, não se sabe como a presença de aparelhos desconhecidos afetarão
-essas abordagens. Ainda ficou em aberto como determinar o consumo dos
-aparelhos através da informação retornada pela etapa de discriminação,
-sugestões foram realizadas na p.~\pageref{text:transf_info_discr_energia}.
-Finalmente, os resultados mostram que para configurações onde há
-poucos aparelhos conhecidos essas técnicas solucionam o problema
-bem-sucedidamente.
+rede é grande, uma vez que é necessário treinar as técnicas
+supervisionadas (no caso foram aplicadas \glspl{rna}) com um número de
+padrões que cresce exponencialmente proporcional ao número total de
+estados dos equipamentos. Já a abordagem de \cite{nilm_suzuki_2011_35},
+por trabalhar o problema através de otimização, conseguiu uma maior
+possibilidade prática para a aplicação de sua técnica, ainda estando
+sujeito à possíveis problemas de patamares de consumo parecidos que
+possam ser determinados por diversas combinações de equipamentos
+diferentes. Além disso, não se sabe como a presença de equipamentos
+desconhecidos afetarão essas abordagens. Ainda ficou em aberto como
+determinar o consumo dos equipamentos através da informação retornada
+pela etapa de discriminação, sugestões foram realizadas na
+pp.~\pageref{text:transf_info_discr_energia}.  Finalmente, os
+resultados mostram que para configurações onde há poucos equipamentos
+conhecidos essas técnicas solucionam o problema bem-sucedido.
 
 Uma possibilidade --- e \emph{quiçá} tendência --- para essa vertente é a
 combinação de múltiplas características e técnicas para o
@@ -2358,14 +2622,14 @@ ainda um fato pouco explorado. Alguns autores chegaram a
 utilizar/considerar as medidas macroscópicas para auxiliar no processo
 discriminativo em conjunto com as medidas microscópicas. Por exemplo, 
 \cite{nilm_coppe_nascimento} empregou uma etapa de pré-seleção para os
-aparelhos que mais se destacavam nas características macroscópicas
+equipamentos que mais se destacavam nas características macroscópicas
 facilitando no processo discriminativo. Nessa mesma abordagem, como se
-utilizou apenas da magnetude da corrente como característica
+utilizou apenas da magnitude da corrente como característica
 microscópica, observou-se que a adição da variação do \gls{fp} era
 benéfico para a discriminação. Porém, geralmente as características
 microscópicas conseguem representar as características macroscópicas,
 sendo necessário buscar por outras características microscópicas
-representativas. Além disso, o emprego de multiplas técnicas
+representativas. Além disso, o emprego de múltiplas técnicas
 independentes em paralelo (em cima, ou não, das mesmas características)
 permite uma melhor discriminação, já que poderá acontecer
 complementação das lacunas individuais de cada técnica. Há uma
@@ -2373,12 +2637,12 @@ variedade de possibilidades para a fusão dos resultados apresentados em
 paralelo pelos discriminadores, que além de \glspl{rna}, podem ser
 realizadas como proposto por \cite{nilm_liang_pt1_2010_34} ou
 \cite{nilm_zeifman_review_2011} (ver
-p.~\pageref{text:uniao_tecnicas}). No entanto, é importante frisar que
+pp.~\pageref{text:uniao_tecnicas}). No entanto, é importante frisar que
 isso também trará uma maior carga computacional ao \gls{nilm}, de
-formar que a quantidade de características e técnicas aplicadas será
+forma que a quantidade de características e técnicas aplicadas será
 limitada pela capacidade de processamento disponível, particularmente
 quando operando em tempo real. Ressalta-se aqui que, além da discussão
-para aplicação de multiplas características microscópicas e técnicas,
+para aplicação de múltiplas características microscópicas e técnicas,
 o emprego de estatística do uso, característica até o momento
 \emph{sui generis} na vertente explorando características
 macroscópicas, também pode ser realizada em quaisquer topologias do
@@ -2395,14 +2659,14 @@ seminilm_berges_multisensor_2010}. O objetivo para essa configuração
 pode ser descrito como minimizar o custo com sensores sem deteriorar a
 capacidade de desagregação. Essas abordagens podem optar por
 submedidores mais próximos ao nível de consumo, reduzindo o
-acúmulo de operação de aparelhos que, intrinsecamente, torna a tarefa mais
+acúmulo de operação de equipamentos que, intrinsecamente, torna a tarefa mais
 simples; utilizar outros sensores que deem sensibilidade para a
-discriminação, como correlacionar o nível sonóro, de iluminação e
-movimento com certos aparelhos; ou submedição diretamente nos
-aparelhos que as técnicas empregadas tiverem maior dificuldade. Porém,
+discriminação, como correlacionar o nível sonoro, de iluminação e
+movimento com certos equipamentos; ou submedição diretamente nos
+equipamentos que as técnicas empregadas tiverem maior dificuldade. Porém,
 deve-se considerar a estética quando na utilização de submedidores,
 onde os consumidores tenderão a rejeitar configurações que reduzam a
-harmônia do ambiente em seus domicilios. Isso também é verdade para
+harmônia do ambiente em seus domicílios. Isso também é verdade para
 qualquer configuração que reduza a privacidade ou façam-nos ter a
 sensação de que isso possivelmente irá ocorrer. Uma outra percepção em
 vista das dificuldades das abordagens que operam ciclo a ciclo 
@@ -2410,13 +2674,13 @@ vista das dificuldades das abordagens que operam ciclo a ciclo
 nilm_itajuba_rodrigues,nilm_suzuki_2011_35}, uma maneira de superar a
 dificuldade do crescimento exponencial seria através da aplicação de
 submedidores atuando em cima de uma informação agregada até um número
-máximo de aparelhos.
+máximo de equipamentos.
 
 Portanto, as técnicas devem ser robustas para aplicação em residências
-com a presença de aparelhos desconhecidos e para os momentos onde
-haverá maior operação, causando a operação simultânea de diversos aparelhos
+com a presença de equipamentos desconhecidos e para os momentos onde
+haverá maior operação, causando a operação simultânea de diversos equipamentos
 que, possivelmente, injetarão ruídos na rede através de sua dinâmica.
-Devido a presença de aparelhos deconhecidos, um aspecto desejável para
+Devido a presença de equipamentos desconhecidos, um aspecto desejável para
 o \gls{nilm} é conseguir detectá-los de maneira automática e de algum
 modo possibilitar a correlação dos modelos identificados com seus
 nomes. Outra questão é como obter informação discriminante garantindo
@@ -2434,19 +2698,19 @@ mesmo tempo, maximizam a eficiência e minimizam o custo do projeto.
 \section[A Metodologia no CEPEL]{A Metodologia no \acs{cepel}}
 \label{sec:nilm_cepel}
 
-Esta sessão se dedica à descrição do projeto no \gls{cepel} e as
+Esta seção se dedica à descrição do projeto no \gls{cepel} e as
 colaborações realizadas pela \acs{coppe} no mesmo. Os trabalhos de
 autores precedentes ao presente trabalho é realizado na
-Subsessão~\ref{ssec:cepel_anteriores}. A contribuição realizada pelo
+Subseção~\ref{ssec:cepel_anteriores}. A contribuição realizada pelo
 grupo de engenheiros do \gls{cepel} posterior ao último trabalho em
 colaboração com a \acs{coppe} encontra-se na
-Subsessão~\ref{ssec:met_cepel}, sendo essa metodologia a base
-para o trabalho atual. Na Subsessão~\ref{ssec:caracteristicas} é
+Subseção~\ref{ssec:met_cepel}, sendo essa metodologia a base
+para o trabalho atual. Na Subseção~\ref{ssec:caracteristicas} é
 realizada considerações quanto a escolha da \gls{fex} em relação a
-discriminação, levantamento deixado para contribuir para a escolha das
-mesmas em trabalhos futuros. Ver-se-á nesta sessão que há uma série de
+discriminação, levantamento deixado para contribuir na escolha das
+mesmas em trabalhos futuros. Ver-se-á nesta seção que há uma série de
 dificuldades a serem abordadas antes de retornar a questão de
-discriminação dos aparelhos.
+discriminação dos equipamentos.
 
 \subsection{Estudos Anteriores}
 \label{ssec:cepel_anteriores}
@@ -2455,10 +2719,10 @@ Os estudos envolvendo a aplicação de técnicas não-invasivas para a
 desagregação do consumo no \gls{cepel} tiveram seu início com o estudo de
 \citet*{nilm_cepel_aguiar}, em \citeyear{nilm_cepel_aguiar}. Esse
 estudo, bem como os seus sucessores:
-\citet*{nilm_cepel_bezerra} (\citeyear{nilm_cepel_bezerra}) e 
+\citet{nilm_cepel_bezerra} (\citeyear{nilm_cepel_bezerra}) e 
 \citet*{nilm_cepel_alvaro} (\citeyear{nilm_cepel_alvaro}), utilizaram a
 informação da envoltória da onda de corrente no regime transitório
-para identificar o acionamento dos aparelhos domiciliares. Diferente
+para identificar o acionamento dos equipamentos domiciliares. Diferente
 dos trabalhos realizados pelo mesmo grupo de
 \citeauthor*{nilm_hart_1992_8} para o setor comercial e industria
 \cite{nilm_norford_leeb_medianfilt_1996_13,
@@ -2472,14 +2736,14 @@ de muitos equipamentos disponíveis para os trabalhos
 \cite{nilm_norford_leeb_medianfilt_1996_13,
 nilm_leeb_spectral_envelope_1995_23} tem características lentas (ordem
 de segundos a poucos minutos), tanto que os autores tiveram que
-explorar o conceito de sessões-v (ver
-p.~\pageref{nilm:pot_real_trans}), enquanto os explorados no setor
+explorar o conceito de seções-v (ver
+pp.~\pageref{nilm:pot_real_trans}), enquanto os explorados no setor
 residencial apresentam toda a informação relevante de
 transitório em até 1~segundo (\cite{nilm_cepel_aguiar} observou para
-seus aparelhos analisados 417~ms). Como foi notado por diversos autores
+seus equipamentos analisados 417~ms). Como foi notado por diversos autores
 \cite{nilm_hart_1992_8,nilm_sultanem_1991_10,
-nilm_cole_data_extraction_1998_14,nilm_cole_extra_info_surge_1998_15}
-há um lento transitório em alguns equipamentos que tenuamente alteram
+nilm_cole_data_extraction_1998_14,nilm_cole_extra_info_surge_1998_15},
+há um lento transitório em alguns equipamentos que tenuemente alteram
 seu consumo --- por exemplo, devido ao aquecimento de motores ---, mas
 aqui se refere essencialmente a informação discriminante do
 transitório.
@@ -2491,15 +2755,15 @@ utilizou 16 pontos da envoltória (normalizados por 100~\acs{a})
 espaçados não-linearmente para conseguir uma melhor representação da
 informação do transitório --- distribuiu-se os pontos para obter uma
 maior granularidade próxima ao transitório, que gradualmente vão se
-esparçando conforme eles ficam distantes do centro ---, o valor de
+esparsando conforme eles ficam distantes do centro ---, o valor de
 corrente em regime permanente (normalizados por 50~\acs{a}) e
 ângulo de carga. Apesar de todas as limitações técnicas, o método
 conseguiu eficiência de classificação superiores à 90\%, mas sofrendo
 deterioração para o grupo de eletrônicos. 
 
-Já \citet*{nilm_cepel_bezerra}, trabalhou em cima de um sistema
+Já \citet{nilm_cepel_bezerra}, trabalhou em cima de um sistema
 de aquisição mais adequado, onde sua melhor configuração empregou 60 amostras
-da envoltória que são transformados utilizando \gls{pcd}, resultando
+da envoltória que são transformadas utilizando \gls{pcd}, resultando
 em 98\% de eficiência de classificação.  Esse autor também realizou
 outros estudos, sendo eles:
 \begin{enumerate*}[label=\itshape\alph*\upshape)] 
@@ -2517,7 +2781,7 @@ Finalmente, o sistema de aquisição disponível para
 \citet*{nilm_cepel_alvaro} possibilitou a análise de uma gama
 maior de equipamentos, sendo capaz observar equipamentos com
 consumo superior à 150~m\acs{a}, enquanto
-\citet*{nilm_cepel_aguiar} operava somente para utensílios consumindo
+\citet*{nilm_cepel_aguiar} operava somente para equipamentos consumindo
 mais de 1~\acs{a}. Houve também uma melhoria no
 levantamento do banco de dados, havendo uma amostragem bastante
 superior aos trabalhos anteriores, com um total de 1324 acionamentos
@@ -2533,20 +2797,20 @@ de 30~\%.
 Apesar da evolução dos trabalhos, diversos pontos podem ser
 levantados. Primeiro, a principal característica utilizada pelos
 estudos só é discriminante para os acionamentos de eventos, não
-podendo utilizar a mesma na identificação de padrões de desligamentos
+podendo utilizar a mesma na identificação de padrões de desacionamentos
 ou mudanças para estados de menor consumo, que na maioria dos casos
 são apenas uma queda abrupta no consumo.  Além disso, não é possível
 inferir se essa informação também seria discriminante para mudanças de
 estado positivas, já que os estudos não trataram o caso de \gls{c2}
 --- sendo uma outra dificuldade a ser tratada. Não bastasse, os
-estudos trataram apenas de casos de aparelhos sendo acionados
-isoladamente. Como foi notado na Subsessão~\ref{ssec:nilm_discussao},
+estudos trataram apenas de casos de equipamentos sendo acionados
+isoladamente. Como foi notado na Subseção~\ref{ssec:nilm_discussao},
 a maior dificuldade para os \glspl{nilm} ocorrem devido à
 operação simultânea de equipamentos na rede, em especial quando eles
 se constituem de \gls{c5}. Os esforços para realizar a
 Etapa~\ref{itm:etapa2} envolveram apenas a detecção de acionamentos,
 bem como o trabalho de \cite{nilm_cepel_alvaro} não considera a
-questão de classificação do desligamento. Indo adiante, a taxonomia
+questão de classificação do desacionamento. Indo adiante, a taxonomia
 levantada pelos autores realiza a discriminação em grupos bastante
 genéricos de equipamentos.  Não se sabe até que ponto essa informação
 pode contribuir para a desagregação do consumo de energia residencial,
@@ -2554,7 +2818,7 @@ em especial para a aplicação em programa de \gls{ee}, onde os
 consumidores desejam saber o consumo por equipamento. Continuando, a
 técnica se mostrou ineficiente para um grupo de equipamentos cada vez
 mais presente nas residências, os eletrônicos, sem ser possível saber
-o porquê isso ocorre. Por fim, não se tratou o tema de aparelhos
+o porquê isso ocorre. Por fim, não se tratou o tema de equipamentos
 desconhecidos, sendo ainda necessário considerar como adaptar o método
 para identificar novos padrões recorrentes.
 
@@ -2564,7 +2828,7 @@ empenhou-se no sentido de melhorar a capacidade de detecção de eventos
 de transitório, como será visto a seguir. Quanto à questão do
 problema da envoltória como característica para discriminação, serão
 realizadas considerações mais adiante, na
-Subsessão~\ref{ssec:caracteristicas}.
+Subseção~\ref{ssec:caracteristicas}.
 
 \subsection{Metodologia de Partida do Trabalho}
 \label{ssec:met_cepel}
@@ -2580,7 +2844,7 @@ determinados empiricamente e um outro utilizando correlação entre o
 sinal e formas de onda pré-determinadas. Exceto o último, que não teve
 bons resultados, eles não são aplicáveis para detecção de decréscimo
 de demanda causado pelos equipamentos, sendo necessário adaptar os
-detectores empíricos para os casos de desligamento, ou criar um novo
+detectores empíricos para os casos de desacionamento, ou criar um novo
 filtro. 
 
 \begin{figure}[h!t]
@@ -2594,17 +2858,18 @@ trabalho.}
 \end{figure}
 
 
-A opção tomada pelo grupo do \acs{cepel} foi a segunda, onde
-\citet*{rel_cepel_detevt} decidiram utilizar a derivada de Gaussiana
-baseando-se na literatura de processamento de imagens para a detecção
-de bordas. Um esboço da metodologia empregada pelo \acs{cepel} está
-disposto na Figura~\ref{fig:cepel_transitorio}. No caso, a diferença é
-que ao invés de operar em cima de \emph{pixels}, os valores são
-amostras de corrente, bem como em apenas uma dimensão.  Para realizar
-a convolução, aplicou-se um \acs{fir} com uma janela inicialmente com
-o mesmo número de amostras que havia sendo utilizado, de 150 amostras
-em 60~\acs{hz}, o que implica em 2,5~s.  Valhe ressaltar que na
-verdade é o desvio padrão da Gaussiana que determina o tamanho
+A opção tomada pelo grupo do \acs{cepel} foi a segunda, a equipe
+formada por \citet*{rel_cepel_detevt} decidiu utilizar a derivada de
+Gaussiana, baseando-se na literatura de processamento de imagens para a
+detecção de bordas. Um esboço da metodologia empregada pelo
+\acs{cepel} está disposto na Figura~\ref{fig:cepel_transitorio}. No
+caso, a diferença na aplicação na derivada de Gaussiana é que, ao
+invés de operar em cima de \emph{pixels}, os valores são amostras de
+corrente e, por isso, a mesma opera em apenas uma dimensão. Para realizar a
+convolução, aplicou-se um \acs{fir} com uma janela inicialmente com o
+mesmo número de amostras que havia sendo utilizado, de 150 amostras a
+uma taxa de 60~\acs{hz}, o que implica em 2,5~s. Vale ressaltar que
+na verdade é o desvio padrão da Gaussiana que determina o tamanho
 relevante da janela, já que ao se distanciar do centro os valores irão
 tender a zero --- o mesmo sendo verdade para sua derivada ---, sendo
 assim, o número de 150 amostras é apenas um corte para a quantidade
@@ -2616,26 +2881,68 @@ sensibilizando mas com sinal oposto, nesse caso já criando uma nova
 região sensibilizada. Para determinar o centro do transitório,
 simplesmente é realizado o cálculo do ponto de inflexão da resposta do
 filtro, e se houver mais de um, o ponto de inflexão com maior valor
-absoluto é utilizado.
+absoluto é utilizado. Esse processo está ilustrado na
+Figura~\ref{fig:resp_fir}.
 
-%Foi proposto uma evolução gradual de dificuldade para a avaliação do
-%método e uma sequência de etapas para evoluir no sentido de obter um
-%\gls{nilm} capaz de desagregar o consumo, e não apenas identificar
-%equipamentos. A configuração mais simples incluiu a coleta de dados de
-%aparelhos operando individualmente, para depois adicionar
-%configurações com empilhamentos dois a dois, seguindo para
-%configurações mais complexas, adicionando \gls{c4}, \gls{c5} e
-%\gls{c6} de maneira gradual até chegar em condições reais. A validação
-%do filtro de derivada de Gaussiana foi realizada em cima de
-%configurações mais simples, havendo acúmulo em configurações
-%simples e dados limpos. 
+\FloatBarrier
 
-A fim de avaliar a eficácia, o relatório utilizou de novos dados, onde
-algumas configurações já apresentavam operação justaposta de aparelhos
+\begin{figure*}[p!]
+  \begin{center}
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/exemplo_regioes_candidatos.pdf}
+      \caption{Exemplo de resposta do \acs{fir}, de regiões sensibilizadas e dos candidatos
+resultantes proposta pelo \acs{cepel}. Na subfigura superior está a
+envoltória de corrente, que é utilizada como entrada do \acs{fir} e
+tem sua resposta representada na subfigura inferior. Observe que a
+resposta do \acs{fir} ao ultrapassar o limiar de 0,003 gera uma região
+sensibilizada, representada em verde e vermelho, respectivamente para
+um candidato a acréscimo e decréscimo de consumo. Os candidatos são
+gerados no centro do transitório, o ponto de inflexão da resposta do
+filtro com maior valor absoluto, que estão circulados em amarelo na
+imagem.}
+      \label{fig:resp_fir}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/exemplo_fex.pdf}
+      \caption{A realização da \acs{fex}. O cálculo é feito para todas as
+variáveis \acs{di}, \acs{dp}, \acs{dq}, \acs{dd} e \acs{ds}.}
+      \label{fig:cepel_fex}
+    \end{subfigure}
+    \hfill
+  \end{center}
+\end{figure*}
+
+\begin{figure*}[p!]
+  \begin{center}
+    \ContinuedFloat
+    \begin{subfigure}[c]{\textwidth}
+      \includegraphics[width=\textwidth]{imagens/evento_ruidoso.pdf}
+      \caption{Exemplo de remoção de eventos ruidosos. A eliminação
+desses candidatos é importante para a redução do falso alarme. No
+caso, os candidatos possuem valores de \acs{di} menores ao limiar de
+0,1, não sendo aceitos por esse motivo.}
+      \label{fig:ex_ruidoso}
+    \end{subfigure}
+  \end{center}
+\caption[Gráficos descrevendo a operação da metodologia proposta pelo
+\acs{cepel}.]{Gráficos descrevendo a operação da metodologia proposta
+pelo \acs{cepel}. Os gráficos foram gerados utilizando o ambiente de
+análise implementado por este trabalho descrito no
+Capítulo~\ref{chap:framework}.}
+\label{fig:cepel_metodologia_operacao}
+\end{figure*}
+
+\FloatBarrier
+
+A fim de avaliar a eficácia, o relatório utilizou de novos dados
+(descritos na Seção~\ref{sec:base_de_dados}), onde
+algumas configurações já apresentavam operação justaposta de equipamentos
 operando em diversos estados, no entanto sem ruído. A ideia aplicada
 foi de gradualmente aumentar a dificuldade a ser estudada e adaptar a
 abordagem até chegar em condições similares àquelas encontradas nas
-residências brasileiras. A análise para as condições límpidas revelou
+residências brasileiras. A análise para as condições com pouca
+presença de ruído (conjuntos de dados NI00***) revelou
 que a derivada de Gaussiana obteve melhor eficiência que os filtros
 apresentados no trabalho anterior, sendo a técnica escolhida desde
 então para a detecção de eventos de transitório.  A versão do
@@ -2645,26 +2952,33 @@ o pré e o pós-transitório para as variáveis macroscópicas disponíveis.
 No caso, elas são \acf{di}, \acf{dp}, \acf{dq}, \acf{dd} e \acf{ds},
 obtidos através de \ref{eq:deltasMacro}.
 
-Os valores determinados inicialmente pelo \gls{cepel} para determinar
-os valores de pré e pós transitório são a média de 10 amostras
-afastados de 140 pontos em relação ao centro do transitório. A
-variável \acs{di} é empregada para realizar um corte linear para um
-valor mínimo em que o candidato a evento --- o centro selecionado da
-região sensibilizada pelo filtro --- com o intuíto de remover
-possíveis regiões sensibilizadas por ruído. Também se realiza um outro
-corte levando em conta a proximidade de candidatos a evento de
-transitório. Caso os mesmos estejam próximos entre si abaixo de um
-valor mínimo de amostras, os eventos temporalmente posteriores ao
-primeiro evento são rejeitados. Ainda foi considerado se o corte por
-ruído deveria ser realizado antes do corte temporal, caminho (I) na
+Ao acompanhar a Figura~\ref{fig:cepel_fex}, dedicada para a ilustração
+desse processo, observa-se que os valores determinados inicialmente
+pelo \gls{cepel} para obter os valores de pré e pós transitório são a
+média de 10 amostras afastados de 140 pontos em relação ao centro do
+transitório. A variável \acs{di} é empregada para realizar um corte
+linear para um valor mínimo ($\delta_{min} = 0,003$) em que o
+candidato a evento --- o centro selecionado da região sensibilizada
+pelo filtro --- com o intuito de remover possíveis regiões
+sensibilizadas por ruído, Figura~\ref{fig:ex_ruidoso} (\acs{di}$_{min}
+= 0,1$ A). Também se realiza um outro corte levando em conta a
+proximidade de candidatos a evento de transitório. Caso os mesmos
+estejam próximos entre si abaixo de um valor mínimo de amostras, os
+eventos temporalmente posteriores ao primeiro evento são rejeitados
+($n_{min} = 150$ amostras). Um exemplo pode ser observado na
+Figura~\ref{fig:resp_fir}, aonde o candidato proveniente da região
+sensibilizada negativa foi eliminado por estar próximo ao candidato da
+região positiva. Ainda foi considerado se o corte por ruído deveria
+ser realizado antes do corte por evento próximo, caminho (I) na
 Figura~\ref{fig:cepel_transitorio}; vice-versa, caminho (II); ou
 apenas um dos cortes, caminhos (III) e (IV). O \gls{cepel} conseguiu
-excelentes resultados para a configuração sem ruído, entretanto, havia
-uma grande dificuldade quanto a como determinar os valores de corte,
-bem como visualizar o comportamento do algoritmo para entender suas
-nuances. Ao testar em configurações ruídosas, não era possível
-determinar exatamente o que estava ocorrendo nem como saber quais
-outros valor poderia amezinariam os problemas.
+excelentes resultados para a configuração sem ruído (os resultados
+estão disponíveis no capítulo de resultados na
+Tabela~\ref{tab:resultados}), entretanto, não havia uma maneira
+sistemática para a determinação os valores de corte, bem como
+visualizar o comportamento do algoritmo para entender suas nuances. Ao
+analisar a metodologia em novas configurações, o processo para análise
+sofria com a falta de infraestrutura.
 
 \begin{subequations} \label{eq:deltasMacro}
 \begin{equation} \label{eq:dI}
@@ -2684,7 +2998,6 @@ outros valor poderia amezinariam os problemas.
 \end{equation}
 \end{subequations}
 
-
 Cabe definir o que são as características representadas em
 \ref{eq:deltasMacro} com mais detalhes. As mesmas são bastante
 conhecidas e amplamente utilizadas em análise de sistemas elétricos
@@ -2692,12 +3005,12 @@ operando em condições não-senoidais \cite{akagi2007instantaneous},
 sendo definidas para sistemas \emph{monofásicos} no domínio da
 frequência por \ref{eq:ipqds}. Também se define uma grandeza já
 mencionada anteriormente no texto, o \gls{fp}, através de \ref{eq:fp}.
-Uma observação importante quanto ao \acs{dd}, o mesmo é obtido
-exatamente como a equação \ref{eq:dD} formula, ou seja, ele não é uma
+Uma observação importante quanto ao \acs{d}, o mesmo é obtido
+exatamente como a equação \ref{eq:d}, ou seja, ele não é uma
 variável amostrada, e sim \emph{estimada}. É importante notar que de
 acordo com \ref{eq:d} essa variável só pode assumir valores positivos,
-diferente de \acs{dq} que assume valores em ambas direções, sendo na
-realidade a única característica que apresenta essa característica.
+diferente de \acs{dq} que assume valores em ambas direções, sendo, na
+realidade, a única característica que apresenta essa propriedade.
 Obviamente, erros de medição irão ocorrer, de modo que o valor de
 \acs{d} pode acabar sendo pertencente ao conjunto de números complexo.
 Para evitar isso, nesses casos o valor de \acs{d} é determinado como
@@ -2713,13 +3026,6 @@ pois:
 não se está interessado na mesma, apenas na capacidade delas de
 servirem como característica para a detecção de eventos e
 discriminação, este trabalho focando na primeira parte;
-%\item a rede elétrica de uma residência dificilmente irá se configurar
-%no pior caso de representação das variáveis em questão, um sistema
-%trifásico desbalanceado e não-senoidal; e
-%\item a rede elétrica de uma residência pode ser estudada como redes
-%monofásicas independentes, salve equipamentos bifásicos que
-%geralmente são equilibrados, podendo serem modelados como duas cargas
-%em paralelo iguais nas duas redes;
 \item essas variáveis são representações possíveis de serem obtidas com
 medidores de baixo custo. 
 \end{enumerate}
@@ -2764,8 +3070,8 @@ fundamental);
 tensão;
 \item[$\theta_n$] é o ângulo de defasagem entre tensão e corrente para 
 n-ésima componente da decomposição harmônica;
-\item[$P_n$] é a potência ativa para o n-ésima harmônico;
-\item[$Q_n$] é a potência reativa para o n-ésima harmônico;
+\item[$P_n$] é a potência ativa para o n-ésimo harmônico;
+\item[$Q_n$] é a potência reativa para o n-ésimo harmônico;
 \end{description}
 
 \begin{equation} \label{eq:fp}
@@ -2774,7 +3080,7 @@ FP = \frac{P}{S}
 
 Em especial quanto ao segundo item, há um interesse por parte do
 \gls{cepel} de procurar uma solução menos complexa, mesmo
-que isso deteriore --- até niveis aceitáveis --- a capacidade do
+que isso deteriore --- até níveis aceitáveis --- a capacidade do
 \gls{nilm}, mas que resulte em uma resposta mais rápida em tempo de
 projeto. Por esse mesmo motivo, o \gls{cepel} considera a utilização
 de medidores presentes no mercado, dando preferência para os de baixo
@@ -2787,27 +3093,30 @@ configuração, e outros na outra.
 
 As variáveis anteriormente citadas --- adicionadas de suas envoltórias
 --- são as que estão disponíveis atualmente para serem utilizadas (em
-amostragem de 60~\acs{hz}).
-Este trabalho foca na detecção de eventos, buscando nessa informação
-para identificá-los, e não entrando em detalhes sobre a classificação.
-Na subsessão a seguir serão feitas algumas considerações com o intuíto
-de auxiliar trabalhos futuros na escolha de características. Como é possível
-perceber, há uma série de dúvidas a serem tratadas antes de chegar no
-mérito da discriminação. Assim, focou-se em fornecer uma
-plataforma para dar maleabilidade ao projeto e laborar a generalização
-do detector de eventos para as condições de ruído que irão estar
-presentes nas redes elétricas domicialiares. Em especial, pretende-se
-que isso seja realizado de maneira automática, encontrando uma boa
-configuração sem ser necessário realizar exaustivos testes em busca da
-mesma, independente da estrutura dos dados sendo testados. A
-plataforma se consiste de um ambiente de análise \emph{a posteriori},
-estando descrito no Capítulo~\ref{chap:framework}. 
-%Em seguida, serão
-%descritos a metodologia (Capítulo~\ref{chap:metodologia}), a base de
-%dados (Sessão~\ref{sec:base_de_dados}) e os resultados
-%(Capítulo~\ref{chap:resultados}).
-Os resultados para a aplicação do ambiente de análise pode ser
-encontrada no Capítulo~\ref{chap:resultados}.
+amostragem de 60~\acs{hz}).  Este trabalho foca na detecção de
+eventos, buscando nessa informação para identificá-los, e não entrando
+em detalhes sobre a classificação.  Na subseção a seguir serão feitas
+algumas considerações com o intuito de auxiliar trabalhos futuros na
+escolha de características. Como é possível perceber, há uma série de
+dúvidas a serem tratadas antes de chegar no mérito da discriminação.
+Assim, focou-se em fornecer uma plataforma para dar maleabilidade ao
+projeto e laborar a generalização do detector de eventos para as
+condições de ruído que irão estar presentes nas redes elétricas
+domiciliares. Em especial, pretende-se que isso seja realizado de
+maneira automática, encontrando uma boa configuração sem ser
+necessário realizar exaustivos testes em busca da mesma, independente
+da estrutura dos dados sendo testados. A plataforma consiste-se de um
+ambiente de análise \emph{a posteriori}, estando descrito no
+Capítulo~\ref{chap:framework}. O conjunto de dados disponibilizados
+pelo \acs{cepel} e o modo como o ambiente será aplicado para a
+detecção de eventos de transitório estão disponíveis no
+Capítulo~\ref{chap:metodologia}. Os seus resultados podem ser
+encontrados no Capítulo~\ref{chap:resultados}. Porém, antes de chegar
+nessas questões, a seguir serão realizadas considerações quanto à
+escolha das características discriminantes, uma vez que as
+características anteriormente utilizadas pelos estudos em conjunto com
+o \acs{cepel} possuem informação discriminante apenas para mudanças de
+estados com acréscimo no consumo.
 
 \subsection{Quanto à Escolha das Características Discriminantes}
 \label{ssec:caracteristicas}
@@ -2815,15 +3124,15 @@ encontrada no Capítulo~\ref{chap:resultados}.
 Como foi observado anteriormente, há dúvidas quanto a utilização da
 envoltória de corrente como característica discriminante. A primeira
 consideração tratada leva em conta a taxonomia empregada para
-discriminação, sendo essa muito abrangente. Esta subsessão começa
+discriminação, sendo essa muito abrangente. Esta subseção começa
 tratando exatamente esse assunto.
 
 O levantamento da taxonomia permite ter uma concepção do comportamento
 da distribuição dos dados nas características utilizadas. Elas
 oferecem um ponto de partida para evitar erros causados por \gls{c6},
-ou seja, é possível estimar quais aparelhos terão padrões parecidos
+ou seja, é possível estimar quais equipamentos terão padrões parecidos
 utilizando tais características, começando assim, com uma configuração
-onde esses aparelhos representam apenas uma única informação a ser
+onde esses equipamentos representam apenas uma única informação a ser
 discriminada. Obviamente, a aglutinação de partículas não resolve o
 problema quanto à discriminação específica para os elementos
 aglutinados, mas possibilita obter uma informação com qualidade, ainda
@@ -2832,25 +3141,25 @@ necessário procurar por características mais finas ou utilizar um
 discriminador especializado para realizar a segregação posteriormente.
 Em outros casos, a aglutinação pode ser realizada apenas para reduzir
 a dimensão do problema, procurando apenas encontrar assinaturas que
-permitam generalizar os aparelhos elétricos em grupos mais
+permitam generalizar os equipamentos elétricos em grupos mais
 abrangentes que são suficientes para a abordagem em questão. No ponto
 de vista do \gls{nilm} quando aplicado com o objetivo de explorar a
 \gls{ee} e/ou melhorar a precisão das informações das \glspl{pph}, a
 generalização não é desejada já que é necessário a informação por
-aparelho.
+equipamento.
 
 A taxonomia encontrada pelos estudos do \gls{cepel}
-foi determinada empíricamente observando a forma das envoltórias e
+foi determinada empiricamente observando a forma das envoltórias e
 estão na Tabela~\ref{tab:taxonomias_cepel}. Apenas como referência
 para outros autores, foi adicionado também um outro levantamento
-empírico realizado por \citet*{nilm_cepel_aguiar}, baseando nas
+empírico realizado por \citet*{nilm_cepel_aguiar}, que se baseou nas
 considerações de \cite{nilm_sultanem_1991_10}, para o plano
-$I\times\theta$ (sendo $\theta$ o ângulo de carga). As principais
+$I\times\theta$ (sendo $\theta$ o ângulo de fase). As principais
 diferenças nas taxonomias entre os estudos no \gls{cepel} foram devido
 às mudanças no sistema de aquisição de dados\footnote{A aglutinação
-realizada por \citeauthor*{nilm_cepel_bezerra} para aparelhos
-resistivos e de ventilação foi realizada com o intuíto de comparar o
-seu método com outro utilizado pelo \gls{cepel}.}. Percebe-se, que
+realizada por \citeauthor{nilm_cepel_bezerra} para equipamentos
+resistivos e de ventilação foi realizada com o intuito de comparar o
+seu método com outro utilizado pelo \gls{cepel}.}. Percebe-se que,
 apesar de haver avanços na capacidade discriminante dos grupos, eles
 ainda permanecem bastante genéricos, em especial para a aplicação do
 \gls{nilm} em um programa de \gls{ee}. Avanços poderiam ser realizados
@@ -2859,46 +3168,46 @@ inferir qual seria a capacidade de discriminação para os diversos
 grupos, nem até que ponto a envoltória pode ser discriminante para
 disponibilizar informação desagregada de consumo.
 
-Indo além da questão da taxonomia empregada nas envoltórias, as mesmas 
-só fornecem informação discriminante para os acionamentos. Outro fato que
-aqui deve ser levado em conta é o aspecto levantado na
-Subsessão~\ref{ssec:cepel_anteriores}, onde se percebeu a dificuldade
-da abordagem para discriminação do grupo de aparelhos eletrônicos.
-As considerações feitas por \citeauthor*{nilm_cepel_alvaro} revelam
-que há dissimilaridade entre os padrões encontrados nos aparelhos.
+Outro fato que aqui deve ser levado em conta é o aspecto levantado na
+Subseção~\ref{ssec:cepel_anteriores}, onde se percebeu a dificuldade
+da abordagem para discriminação do grupo de equipamentos eletrônicos.  As
+considerações feitas por \citeauthor*{nilm_cepel_alvaro} revelam que
+há dissimilaridade entre os padrões encontrados nos equipamentos.
 Infelizmente o autor não detalhou a causa para a dissimilaridade, não
-podendo saber se isso foi devido à aglutinação dos aparelhos
-eletrônicos ser indevida por eles terem padrões diferentes, dificultando o
-discriminador de encontrar um padrão para esse grupo, ou se os
-acionamentos desses aparelhos ocorrem de maneira não bem-definida, por
-isso não sendo possível encontrar um padrão. O único fato revelado é
-que há dissimilaridade entre os acionamentos nesse grupo.
+sendo possível saber se isso foi devido à aglutinação dos equipamentos
+eletrônicos ser indevida por eles terem padrões diferentes,
+e assim causando uma maior dificuldade ao discriminador para encontrar
+um padrão nesse grupo, ou se os acionamentos desses equipamentos ocorrem
+de maneira não bem-definida, por isso não sendo possível encontrar um
+padrão. O único fato revelado é que há dissimilaridade entre os
+acionamentos nesse grupo.
 
 Independente da resposta para a questão anterior, as envoltórias podem
 ser consideradas como características macroscópicas quando levando em
 questão a \emph{informação contida em um período de onda}, sendo um nível
 intermediário entre a informação de alteração no nível de consumo e
-aquela contida dentro dos ciclos de onda. Percebe-se que os aparelhos
+aquela contida dentro dos ciclos de onda. Percebe-se que os equipamentos
 eletrônicos, por serem não-lineares, tem grande parte de sua
 informação discriminante dentro do ciclo de onda. Essas
 características --- na literatura foram utilizados harmônicos obtidos da
 decomposição por \gls{fft}, níveis de detalhes das \glspl{tw}, curvas
 I-V e, até mesmo, as ondas cruas --- poderiam ser utilizadas para
-explorar a capacidade de discriminação dos aparelhos eletrônicos e
-outras cargas não-lineares. Essa informação também estará disponível
-independente de ser um acionamento ou não, sendo
+explorar a capacidade de discriminação dos equipamentos eletrônicos e
+outras cargas não-lineares. Diferente da limitação das envoltórias,
+onde a informação discriminante está disponível apenas para
+acionamentos, a informação discriminante para essas características
+está disponível em todos os casos, aonde é
 necessário apenas extrair a informação da diferença causada pela
-mudança de estado dos aparelhos em pós e pré-transitório para as
-características utilizadas, servindo como fatores discriminantes em
-todos os eventos de transitório. Um exemplo seria a própria taxonomia
-levantada por \citet{nilm_lam_2007_33} (para mais detalhes ver
-p.~\pageref{nilm:curvas_iv}) onde se percebe a distribuição dos
-aparelhos eletrônicos em um grupo bem definido (Grupo~7) e alguns
-outros aparelhos com grupos únicos para si. Valhe ter em mente que os
-autores não estavam interessados em generalizar por aparelho, somente
-mostrar que é possível encontrar grupos de aparelhos com
-características elétricas que façam sentido fisicamente, e mesmo
-assim, alguns aparelhos tiveram assinaturas \emph{sui generis}.
+mudança de estado dos equipamentos em pós e pré-transitório. Um exemplo
+seria a própria taxonomia levantada por \citet{nilm_lam_2007_33} (para
+mais detalhes ver pp.~\pageref{nilm:curvas_iv}), onde se percebe a
+distribuição dos equipamentos eletrônicos em um grupo bem definido
+(Grupo~7) e alguns outros equipamentos com grupos únicos para si. Vale
+ter em mente que os autores não estavam interessados em generalizar
+por equipamento, somente mostrar que é possível encontrar grupos de
+equipamentos com características elétricas que façam sentido fisicamente,
+e mesmo assim, alguns equipamentos tiveram assinaturas \emph{sui
+generis}.
 
 \begin{table}[p]
 \resizebox{\textwidth}{!}{
@@ -2915,19 +3224,19 @@ por \citet*{nilm_cepel_aguiar}} } \\
 \multicolumn{1}{c}{1} & Equipamentos de refrigeração em geral - refrigeradores,
 freezers e condicionadores de ar \\
 \multicolumn{1}{c}{2} & Equipamentos para aquecimento (resistivos) - chuveiros,
-boilers, ferros de passar roupas, fornos em geral \\
+\emph{boilers}, ferros de passar roupas, fornos em geral \\
 \multicolumn{1}{c}{3} & Equipamentos de agitação/movimento/mistura -
 liquidificadores, batedeiras, máquinas de lavar, furadeiras \\
 \multicolumn{1}{c}{4} & Equipamentos de ventilação - ventiladores e
 circuladores \\
 \multicolumn{1}{c}{5} & Equipamentos eletrônicos - televisores, microcomputadores,
-aparelhos de som, videocassetes \\
+equipamentos de som, videocassetes \\
 \multicolumn{1}{c}{6} & Lâmpadas incandescentes \\
 \multicolumn{1}{c}{7} & Lâmpadas fluorescentes \\
 
 \hline \hline 
 \parbox[c]{16cm}{\centering \emph{Envoltória de corrente 
-por \citet*{nilm_cepel_bezerra}}} \\
+por \citet{nilm_cepel_bezerra}}} \\
 \hline \hline 
 \multicolumn{1}{c}{1} & Equipamentos de refrigeração em geral - refrigeradores,
 freezers e condicionadores de ar \\
@@ -2936,7 +3245,7 @@ ventilação \\
 \multicolumn{1}{c}{3} & Equipamentos de agitação/movimento/mistura -
 liquidificadores, batedeiras, máquinas de lavar, furadeiras \\
 \multicolumn{1}{c}{4} & Equipamentos eletrônicos - televisores, microcomputadores,
-aparelhos de som, videocassetes \\
+equipamentos de som, videocassetes \\
 \multicolumn{1}{c}{5} & Lâmpadas incandescentes \\
 \multicolumn{1}{c}{6} & Lâmpadas fluorescentes \\
 \multicolumn{1}{c}{7} & Microondas \\
@@ -2948,13 +3257,13 @@ por \citet*{nilm_cepel_alvaro}}} \\
 \multicolumn{1}{c}{1} & Equipamentos de refrigeração em geral - refrigeradores,
 freezers e condicionadores de ar \\
 \multicolumn{1}{c}{2} & Equipamentos para aquecimento (resistivos) - chuveiros,
-boilers, ferros de passar roupas, fornos em geral \\
+\emph{boilers}, ferros de passar roupas, fornos em geral \\
 \multicolumn{1}{c}{3} & Equipamentos de agitação/movimento/mistura -
 liquidificadores, batedeiras, máquinas de lavar, furadeiras \\
 \multicolumn{1}{c}{4} & Equipamentos de ventilação - ventiladores e
 circuladores \\
 \multicolumn{1}{c}{5} & Equipamentos eletrônicos - televisores, microcomputadores,
-aparelhos de som, videocassetes \\
+equipamentos de som, videocassetes \\
 \multicolumn{1}{c}{6} & Lâmpadas incandescentes \\
 \multicolumn{1}{c}{7} & Lâmpadas fluorescentes de reator eletrônico \\
 \multicolumn{1}{c}{8} & Lâmpadas fluorescentes de reator
@@ -3000,10 +3309,10 @@ Todas foram determinadas empiricamente.}
 - computadores \emph{desktop}, monitores \emph{LCD} \\
 \multicolumn{1}{c}{2} & \emph{CD players}, geladeiras, carregadores de
 bateria, desumidificadores \\
-\multicolumn{1}{c}{3} & Mistura de aparelhos resistivos, eletrônicos e
+\multicolumn{1}{c}{3} & Mistura de equipamentos resistivos, eletrônicos e
 com motores - jarros elétrico, lâmpadas fluorescentes de reator
 eletrônico, lâmpadas incandescentes, ventiladores, computadores
-portateis, projetores, televisão de plasma, liquidificadores,
+portáteis, projetores, televisão de plasma, liquidificadores,
 exaustores \\
 \multicolumn{1}{c}{4} & Lâmpadas fluorescentes de reator
 eletromecânicos, desumidificador \\
@@ -3011,17 +3320,17 @@ eletromecânicos, desumidificador \\
 de cabelo (potência média), aquecedores, ar condicionado, fogão de
 indução (potência média) \\
 \multicolumn{1}{c}{6} & Cargas resistivas de potência elevada e outros
-aparelhos ligeiramente não-lineares - ferro de passar, aquecedor de
+equipamentos ligeiramente não-lineares - ferro de passar, aquecedor de
 cabelo (potência alta), fogão de indução (potência alta) \\
 \multicolumn{1}{c}{7} & Aspiradores de pó e forno microondas \\
 \multicolumn{1}{c}{8} & Aspiradores de pó \\
-\multicolumn{1}{c}{9} & Termoventilador (alta potência) \\
+\multicolumn{1}{c}{9} & Termo-ventilador (alta potência) \\
 \multicolumn{1}{c}{10} & Computadores \emph{desktop} e impressora a jato
 de tinta em \emph{stand by} \\
 \multicolumn{1}{c}{11} & Computadores \emph{desktop} e projetores \\
 \multicolumn{1}{c}{12} & Lâmpadas de econômia de energia, computadores
 \emph{desktop}, impressora de tinta a jato em \emph{stand by},
-televisores, \emph{video cassette}, \emph{scanner}, impressora a
+televisores, \emph{video cassete}, \emph{scanner}, impressora a
 \emph{laser} em \emph{stand by}, \emph{DVD player} ativo, televisores
 \emph{stand by} \\
 \multicolumn{1}{c}{Outros} & Secadores de cabelo operando na metade de
@@ -3049,12 +3358,12 @@ eletromagnético, geladeiras, desumidificadores \\
 \\
 \multicolumn{1}{c}{5} & Forno microondas\\
 \multicolumn{1}{c}{6} & Lâmpadas fluorescentes com reator eletrônico,
-computadores portateis, forno de indução \\
+computadores portáteis, forno de indução \\
 \multicolumn{1}{c|}{6.1} & Lâmpadas fluorescentes com reator eletrônico \\
 \multicolumn{1}{c|}{6.2} & Computadores portáteis \\
 \multicolumn{1}{c|}{6.3} & Fornos de indução \\
 \multicolumn{1}{c}{7} & Computadores \emph{desktop}, televisores,
-\emph{video cassette}, \emph{scanner}, impressoras a \emph{laser},
+\emph{video cassete}, \emph{scanner}, impressoras a \emph{laser},
 carregadores de bateria de telefones celulares \\
 \multicolumn{1}{c}{8} & Aparelhos em modo \emph{stand by} -
 computadores \emph{desktop}, monitores LCD, forno de indução \\
@@ -3064,7 +3373,7 @@ computadores \emph{desktop}, monitores LCD, forno de indução \\
 \parbox[c]{19cm}{\centering\gls{svd}} \\ 
 \hline \hline 
 
-\multicolumn{1}{c}{1} & Mistura de aparelhos resistivos, indutivos e
+\multicolumn{1}{c}{1} & Mistura de equipamentos resistivos, indutivos e
 outras ligeiramente não-lineares \\
 \multicolumn{1}{c|}{1.1} & Lâmpadas incandescente, aquecedores, ar
 condicionado \\
@@ -3085,9 +3394,9 @@ celulares \\
 \hline \hline \hline
 \end{tabular} } 
 \caption[Taxonomias determinadas por LAM et al.: curvas I-V,
-decomposiçao SVD e variáveis padrões 
-]{Taxonomias determinadas através de dendograma por
-\citet{nilm_lam_2007_33} (ver p.~\pageref{nilm:curvas_iv}), tradução
+decomposição SVD e variáveis padrões 
+]{Taxonomias determinadas através de dendrograma por
+\citet{nilm_lam_2007_33} (ver pp.~\pageref{nilm:curvas_iv}), tradução
 própria. O grupo \emph{Outros} determina equipamentos com um grupo
 único para si. Em alguns casos, o autor realizou a separação em
 subgrupos, aqui indicados por uma barra vertical para facilitar a
@@ -3108,18 +3417,18 @@ frequências maiores à 60~\acs{hz} permitem a obtenção da informação
 contida dentro do ciclo, possibilitando o acesso às informações
 descritas no parágrafo anterior e, assim, uma maior capacidade de
 discriminação. Nota-se que, como levantado na
-p.~\pageref{nilm:multiplas_tecnicas}, a escolha não precisa se limitar
+pp.~\pageref{nilm:multiplas_tecnicas}, a escolha não precisa se limitar
 a uma única característica ou técnica, podendo abranger-se para um
 conjunto delas para obter melhor capacidade discriminativa. Nessa
 alternativa, pode-se também explorar a envoltória das ondas uma vez que
 elas mostram uma capacidade de, no mínimo, auxiliar na discriminação
-de cargas lineares para os eventos de transitório de aparelhos durante
-o acionamento. Essa capacidade pode extender-se para as
+de cargas lineares para os eventos de transitório de equipamentos durante
+o acionamento. Essa capacidade pode estender-se para as
 cargas não-lineares, porém não será tratado neste trabalho se isso
 é verdadeiro, limitando-se aqui em apenas mostrar que a questão
 está aberta. Além disso, a informação de estatística de uso, como foi
 visto na discussão realizada para o levantamento bibliográfico (ver
-Subsessão~\ref{ssec:nilm_discussao}) é bastante discriminante e pode
+Subseção~\ref{ssec:nilm_discussao}) é bastante discriminante e pode
 auxiliar tanto na vertente de baixas amostragens, onde seu uso chega a
 ser praticamente uma necessidade, ou quanto ao optar por uso de
 diversas características, que mesmo não sendo necessária, a sua
@@ -3130,8 +3439,8 @@ nilm_zeifman_statistical_vastext_1stws_2012,
 nilm_zeifman_vast_hisample_pdfmerge_2011,
 nilm_zeifman_statistical_naive_enduses_2013}. Finalmente, existe a
 possibilidade de utilizar submedidores, seja para reduzir a operação
-justaposta dos aparelhos a uma quantidade aceitável, ou para obter
-diretamente a informação desagregada de aparelhos complexos e
+justaposta dos equipamentos a uma quantidade aceitável, ou para obter
+diretamente a informação desagregada de equipamentos complexos e
 importantes em termos de uso-final
 \cite{seminilm_ihome_tomek_2012,seminilm_fhmm_empiricalnmeter_2013,
 seminilm_berges_multisensor_2010}.

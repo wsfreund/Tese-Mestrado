@@ -5,13 +5,13 @@ meio ambiente devido ao processo de industrialização, leva, em seu
 discurso, a questão das limitações tanto em termos de recursos
 presentes na natureza, ou quanto da sua capacidade de absorver resíduos
 de processos em ordens cada vez mais intensas. Sua vertente
-predominante traz a ideia do desenvolvimento sustentável que busca
-regular a demanda de recursos do meio ambiente, permitindo o
-desenvolvimento sem que haja deterioração do mesmo para as gerações
-futuras.
+predominante traz a ideia do desenvolvimento sustentável, que busca
+regular a demanda de recursos do meio ambiente, de modo que seja
+possível o desenvolvimento sem que haja sua deterioração para as
+gerações futuras.
 
 Adicionalmente, há uma correlação entre os impactos ambientais e a
-necessidade energética, onde os motivos prevalescentes para suas
+necessidade energética, onde os motivos prevalecentes para suas
 causas têm como fator de destaque a sua vinculação à cadeia da
 energia, desde a produção ao uso final. Entretanto, essa dependência
 não é decorrente apenas da intensidade, mas da eficiência energética
@@ -20,43 +20,55 @@ capacidade de produzir os mesmos resultados finais realizando o menor
 consumo possível de energia.
 
 A eletricidade tem uma participação cada vez maior na matriz
-energética mundial devido à sua maior versabilidade, eficiência,
+energética mundial devido à sua maior versatilidade, eficiência,
 limpeza, segurança e conveniência, quando comparada com as outras
 fontes energéticas. A eficiência energética do ponto de vista da
-eletricidade traz uma série de vantagens, além de beneficios
+eletricidade traz uma série de vantagens, além de benefícios
 ambientais:
 
 \begin{itemize}
-\item reduz ou posterga as necessidades de investimentos em geração, transmissão 
-e distribuição de energia elétrica; 
-\item reduz o custo de energia para o consumidor final; 
-\item contribui para a confiabilidade do sistema elétrico; 
-\item traz o aumento da atividade econômica com a redução da intensividade
-energética. 
+\item reduz ou posterga as necessidades de investimentos em geração, transmissão
+e distribuição de energia elétrica;
+\item reduz o custo de energia para o consumidor final;
+\item contribui para a confiabilidade do sistema elétrico;
+\item traz o aumento da atividade econômica com a redução da
+intensidade energética.
 \end{itemize}
 
 Além disso, o crescimento do consumo nos grandes centros urbanos tem
 levado ao surgimento de uma nova rede elétrica --- as redes elétricas
 inteligentes ---, que procura descentralizar a geração devido à
-exigência excessiva da capacidade de transmissão e distribuição, de
-forma que a demanda sobrecarrega as suas linhas em regiões que nem
-sempre podem corresponder às necessidades através da instalação mais
-linhas. 
+exigência excessiva da capacidade de transmissão e distribuição da
+versão usual centralizada. Dependendo da regulamentação dos medidores
+inteligentes --- os medidores das novas redes elétricas ---, uma série
+de novas possibilidades podem ser exploradas, como:
+
+\begin{itemize}
+\item maior versatilidade de operação e planejamento das redes
+elétricas devido à maior informação presente; 
+\item tarifação variável conforme a demanda na rede, incentivando os
+consumidores a deslocarem cargas não-essenciais para operarem em
+horários fora de ponta de forma a reduzir ou postergar a necessidade
+de investimentos na expansão da rede --- deslocamento de carga;
+\item o retorno da informação do consumo em tempo real nas residências pode ser
+explorado para obter eficiência energética, assunto melhor
+debatido a seguir.
+\end{itemize}
 
 \section{Motivação}
 
 Uma tecnologia que tem adquirido maior interesse como forma de aliviar
 a pressão de consumo nos grandes centros urbanos e de atingir maior
-eficiência energética é o \gls{nilm}, seja no mundo coorporativo --- atraindo
+eficiência energética é a \gls{nilm}, seja no mundo corporativo --- atraindo
 empresas como \emph{Intel} e \emph{Belkin} --- como no meio acadêmico,
-em especial nos paises desenvolvidos. 
+em especial nos países desenvolvidos.
 
-O monitoramento não-invasivo se utiliza de um único medidor central no
+O monitoramento não-invasivo utiliza-se de um único medidor central no
 fornecimento de energia da residência para identificar o consumo dos
-aparelhos através dos distúrbios causados na rede elétrica pelos
+equipamentos através dos distúrbios causados na rede elétrica pelos
 mesmos. Para isso, empregam-se técnicas de processamento
 de sinais, inteligência computacional e estatística para identificar
-os padrões dos distúrbios e correlacioná-los com o aparelho de origem.
+os padrões dos distúrbios e correlacioná-los com o equipamento de origem.
 Dependendo da metodologia aplicada no \acs{nilm}, isso pode ser
 realizado de maneira cega, ou seja, encontrando padrões recorrentes
 na rede elétrica e os identificando quando eles se repetem.
@@ -72,18 +84,22 @@ quantidade de representações, independentes entre si;
 sistema de aquisição de dados, é possível transformá-la em
 características que serão utilizadas pelas etapas seguintes para obter
 o consumo desagregado por equipamento;
-\item Identificação de distúrbios devido à mudança de operação de um
-aparelho: essa tarefa normalmente é realizada ao buscar na informação
-disponível um distúrbio causado pela mudança da operação de um
-aparelho elétrico;
-\item Identificação do aparelho e seu estado de consumo: nessa etapa, se
-processam as características do consumo de forma a reconhecer os
-padrões. Geralmente essa tarefa ocorre somente quando é identificado
-um distúrbio na rede, reduzindo o processamento dos dados.
+\item Detecção de eventos de transitório na rede devido à mudança de
+operação de um equipamento: quando o \acs{nilm} utiliza a informação no
+transitório na operação dos equipamentos para identificar a operação do
+equipamento e estimar o seu consumo --- configuração mais comum ---, é
+necessário detectar esses momentos e diferenciá-los de
+ruídos causados por demais oscilações no consumo da rede;
+\item Identificação da operação do equipamento e seu consumo:
+nessa etapa, processam-se as características do consumo de forma a
+reconhecer os padrões para estimar o consumo dos
+equipamentos. Geralmente essa tarefa ocorre somente quando é
+identificado um distúrbio na rede, reduzindo o processamento dos
+dados.
 \end{itemize}
 
 As aplicações do \acs{nilm} são diversas, como monitoramento da
-qualidade de energia, diagnóstico de carga, identificação de aparelhos
+qualidade de energia, diagnóstico de carga, identificação de equipamentos
 defeituosos ou com consumo excessivo de energia. No que se refere à
 eficiência energética, o mesmo pode auxiliar destas maneiras:
 
@@ -91,47 +107,50 @@ eficiência energética, o mesmo pode auxiliar destas maneiras:
 \item Auxiliar na obtenção de dados para estudos de eficiência
 energética de eletricidade: no caso do setor residencial, os estudos
 de eficiência energética precisam de dados com informação desagregada
-por aparelho para obter melhor precisão e direcionar os esforços para
+por equipamento para obter melhor precisão e direcionar os esforços para
 sua obtenção. Atualmente, o levantamento para o setor residencial é
 realizado através de pesquisas de posse e hábito de consumo, havendo
 tanto uma demora para a sua obtenção, quanto sofre de certa degeneração
-devido a sua imprecisão. Essa tecnologia pode auxiliar no processo de
-obtenção dessa informação, melhorando a precisão e agilizando o
-processo de obtenção de dados recentes;
+devido à sua imprecisão. Essa tecnologia pode auxiliar no processo de
+obtenção dessa informação, melhorando a precisão e agilizando a
+obtenção de dados recentes;
 \item Fornecer o retorno de informação de consumo desagregado por
-aparelho para o consumidor: diversas pesquisas nos países
+equipamento para o consumidor: diversas pesquisas nos países
 desenvolvidos mostram que retornar uma informação mais detalhada para
-o consumidor, além daquela contida na conta de energia é favorável
-para incentivá-lo a tomar ações para redução do consumo e
-consequentemente melhor eficiência energética. Esses
+o consumidor --- além daquela contida na conta de energia --- é favorável
+no sentido de incentivá-lo a tomar ações para redução do consumo e,
+consequentemente, melhor eficiência energética. Esses
 estudos indicam que quanto maior for a quantidade de informação
-disponível, melhor será essa capacidade, sendo o melhor caso a
-informação de consumo desagregado por aparelho em tempo-real,
-justamente a capacidade da tecnologia. Porém, nesse caso, não apenas se
-faz necessário somente o retorno da informação de consumo da mesma,
+disponível melhor será essa capacidade, sendo o melhor caso a
+informação de consumo desagregado por equipamento em tempo-real,
+justamente a capacidade dessa tecnologia. Porém, nesse caso, não apenas se
+faz somente necessário o retorno da informação de consumo da mesma,
 mas também o envolvimento de outras áreas do conhecimento como
 psicologia e \emph{design} da informação para que seu emprego seja
 eficiente e motive o consumidor para tomar ações sustentáveis no uso
 de energia.
 \end{itemize}
 
-O \acs{nilm} pode se aproveitar das redes elétricas inteligentes para
-obter a informação desagregada, facilitando a impregnação do método e
-assim, maximizando seu potencial de eficiência energética ao atender
-ambos casos anteriores com maior escala. Porém, isso está sujeito a limitação
+O \acs{nilm} pode aproveitar-se das redes elétricas inteligentes para
+obter a informação desagregada através da utilização dos medidores
+inteligentes --- subordinado à capacidade de fornecer informação dos
+mesmos, onde uma taxa mínima de 1~\acs{hz} é indicada nesse sentido.
+Isso facilitaria a impregnação do método e, com isso, maximizaria seu
+potencial de eficiência energética ao atender ambos itens anteriores
+em maior escala. Porém, isso está sujeito a limitação
 da escolha da configuração dos medidores inteligentes no Brasil, de
 forma que o projeto do \acs{nilm}, apesar de ser desejável sua
 impregnação, deve ser realizado sem a certeza de poder utilizar a
-estrutura provida pelos medidores inteligentes.
+futura estrutura provida pelas redes elétricas inteligentes no país.
 
 A pluralidade de técnicas aplicadas na tecnologia envolvendo o tema
 revelam que o seu projeto, apesar de parecer simples, na verdade
-engloba diversos desafios. O maior desafio encontrado pelos autores é
-expandir a técnica para a aplicação em condições reais de operação das
-redes elétricas residenciais, aonde irão estar presentes diversos
-aparelhos operando simultaneamente, alguns deles com dinâmica no seu
-consumo tornando complexa a identificação dos padrões deixados na rede
-por outros equipamentos.
+engloba diversos desafios. O maior desafio geralmente encontrado pelos
+autores é expandir a técnica para a aplicação em condições reais de
+operação das redes elétricas residenciais, aonde estarão presentes
+diversos equipamentos operando simultaneamente, alguns deles com dinâmica
+no seu consumo, o que torna complexa a identificação dos padrões
+deixados na rede por demais equipamentos.
 
 \section{Objetivo}
 
@@ -139,110 +158,139 @@ O \acs{cepel} vem atuando no desenvolvimento de um \acs{nilm}. Este
 trabalho tem como objetivo auxiliar no progresso desse dispositivo,
 sendo desenvolvido em parceria com o \acs{cepel}.
 
-O trabalho foi realizado com o intuíto de centralizar e uniformizar,
-na medida do possível, a informação relevante para o projeto dessa
-tecnologia para facilitar seu desenvolvimento no Brasil quando levando
-em conta o tema de eficiência energética. Para isso foi realizado um
-extenso levantamento bibliográfico desde as origens das questões de
-eficiência energética às diversas técnicas aplicadas para realizar a
-desagregação do consumo, informação essa que não estava clara ou de
-fácil acesso.
-
 A principal intenção de aplicação da tecnologia pelo \acs{cepel} é
-para o auxilio nas pesquisas de posse e hábito de eletrodomésticos, e
-por isso o trabalho irá focar no setor residencial. Outro motivo para
+para o auxilio nas \glspl{pph} no setor residencial. Outro motivo para
 focar apenas nesse setor é a maior dificuldade de aplicação no setor
 comercial e industrial, que apresentam redes elétricas com um nível de
-desafio maior do que aquelas do setor residencial. Não obstante a rede
-residencial já apresenta obstáculos suficientes a serem superados,
-como a aplicação do \acs{nilm} para as condições de operação mais
-ativas da mesma. Nesses momentos há uma maior quantidade de
-equipamentos operando, o que, possivelmente, irá adicionar dinâmica no
-consumo da rede, dificultando a identificação dos eventos de transição
-dos estados de operação dos aparelhos, onde poderá ocorrer a geração
-de falsos eventos devido a essa dinâmica. Essa dinâmica também irá
-tornar a identificação de padrões mais complexa, aonde a discriminação
-terá de ocorrer com distorções em seus padrões.
+desafio mais elevado quando comparado ao setor residencial. Não
+obstante, a rede residencial já apresenta obstáculos suficientes a
+serem superados, em especial nas condições de operação mais ativas da
+mesma. Nesses momentos, há uma maior quantidade de equipamentos
+operando, o que adiciona, potencialmente, dinâmica no consumo da rede
+e, com isso, torna a tarefa a detecção dos eventos de transitório
+dos estados de operação dos equipamentos não trivial pois há uma menor
+relação sinal-ruído. Essa dinâmica também tornará a identificação de
+padrões dos eletrodomésticos mais complexa, aonde o discriminador terá
+de lidar com distorções em seus padrões. 
+
+O trabalho atual irá expandir a metodologia proposta pelo \acs{cepel}
+para operação nessas condições, propondo uma abordagem sistemática que
+permita o ajuste da técnica aplicada de acordo com as condições
+presentes nas redes elétricas residenciais, limitando-se ao estudo da
+capacidade da metodologia proposta em detecção de eventos de
+transitório. Porém, como será visto a seguir, o trabalho trouxe
+diversas outras contribuições.
 
 \section{Contribuições do Trabalho}
 
-Como foi dito, o \acs{nilm} constitui-se de diversas etapas, sendo
-necessário tratar de todas elas para que o projeto seja aplicável.
-Cada uma delas apresenta um grande nível de dificuldade, de tal modo
-que nem sempre é possível tratar de ambos temas em um único trabalho.
-Para dar continuidade ao projeto, é necessário haver um ambiente
-único que agregue as diversas abordagens utilizadas por autores
-diferentes que contribuam para o projeto, de forma que não
-seja perdida informação durante a evolução do mesmo. Esse ambiente
-foi implementado levando em conta, além da questão anterior, as
-dificuldades encontradas no desenvolvimento da tecnologia por outros
-autores.
+Durante o levantamento bibliográfico, percebeu-se um forte apelo no
+exterior às questões de eficiência energética que vão além do intuito
+de aplicação do \acs{nilm} nas \glspl{pph}. Diversos estudos nos
+Estados Unidos e Europa Ocidental citam a capacidade do consumidor de
+economizar energia ao retornar sua informação de consumo de energia
+elétrica. Com o objetivo de compreender melhor como isso pode ser
+realizado, este trabalho procurou explorar em maiores detalhes essas
+questões, trazendo uma compilação dos estudos que parecem ser de maior
+relevância envolvendo esse tema.
 
-O trabalho em questão irá tratar da etapa de identificação de
-distúrbios devido à mudança de operação de um aparelho --- eventos de
-transitório ---, mas, como se verá ao longo de seu corpo, diversas
-considerações serão realizadas para auxiliar em futuros trabalhos.
-Para tratar dessa etapa, é proposto um algoritmo genético que irá
-realizar a otimização dos parâmetros empregados na metodologia
-proposta pelo \acs{cepel}. A abordagem do \acs{cepel} foi extendida e
-implementada em um ambiente de análise. Foram fornecidos dados pelo
-\acs{cepel} com cenários de aplicação prática, contendo operação
-simultânea de aparelhos com dinâmica de consumo.
+Como a própria questão das \glspl{pph} estão
+relacionadas com a eficiência energética, ficou evidente a necessidade
+de trazer no corpo do trabalho um levantamento da origem do tema ---
+discurso ambiental e ecologia --- e o que tem sido feito no mundo e no
+Brasil nesse sentido para tornar o assunto de mais fácil acesso para
+os leitores, que podem não estar familiarizados com o tema e
+importância das questões ambientais envolvidas.
 
-Com o intuíto de estudar as características dos distúrbios,
-utilizou-se \gls{som} para representá-las e compreender seu
-comportamento. Essa técnica foi analisada tanto quando atuando como um
-detector de eventos ou como um meio de aperfeiçoar, quanto através de
-um método para validar as respostas da metodologia proposta.
+Além disso, o \acs{nilm} vem sido desenvolvido desde 1992, sendo
+possível encontrar uma vasta quantidade de metodologias propostas por
+diversos autores. O trabalho centralizou e uniformizou, na medida do
+possível, a informação relevante para o projeto dessa tecnologia para
+facilitar seu desenvolvimento pelo \acs{cepel} e por demais autores
+quando levando em conta o tema de eficiência energética.
+
+Já quanto à metodologia aplicada, como foi dito, o \acs{nilm}
+constitui-se de diversas etapas, sendo necessário tratar de todas elas
+para que o projeto seja aplicável. Cada uma delas precisa ser estudada
+e compreendida, de tal modo que nem sempre é possível tratar de
+todos os pontos em um único trabalho. O \acs{cepel} propôs uma nova
+abordagem para a detecção de eventos de transitório na operação dos
+equipamentos, que utiliza como núcleo um filtro de derivada de Gaussiana.
+Essa abordagem será explorada e estendida pelo trabalho, porém,
+limitar-se-á à questão de detecção de eventos de transitório --- apenas
+uma das etapas necessárias para a operação do \acs{nilm}. Indo além, é
+importante notar que o objetivo do trabalho é estudar o comportamento
+da metodologia proposta pelo \acs{cepel} e sua extensão realizada no
+trabalho em cenários de aplicação prática. Os conjuntos de dados com
+essas condições foram fornecidos pelo próprio \acs{cepel}.
+
+A evolução da metodologia proposta pelo \acs{cepel} foi realizada em
+termos de estruturação e sistematização. Também no levantamento
+bibliográfico se percebeu a capacidade de complementação das técnicas
+aplicadas, de forma que um ambiente único de análise não apenas
+permite uma melhor compreensão das técnicas e rapidez no
+desenvolvimento do projeto, mas também de explorar a capacidade de
+suplementar outras técnicas, o que permite ao \gls{nilm} explorar uma
+maior quantidade de equipamentos e/ou eficiência de desagregação do
+consumo por equipamento.
+
+O ajuste dos parâmetros realizados pela metodologia do \acs{cepel} era
+feito empiricamente, aonde se viu a necessidade de sistematizar o
+processo. Foi implementado um sistema de otimização através de um
+algoritmo genético de estratégia evolutiva para auxiliar no ajuste dos
+parâmetros. 
 
 \section{Estrutura Capitular}
 
-Os Capítulos \ref{chap:ee} e \ref{chap:ee_retorno} condensam a
+Os Capítulos \ref{chap:ee} e \ref{chap:ee_retorno} compilam a
 informação sobre as aplicações do \acs{nilm} para eficiência
-energética. O Capítulo~\ref{chap:ee} irá tratar a origem do tema de
-eficiência energética (Sessão~\ref{sec:ee_origem}) e prosseguir até as
+energética. O Capítulo~\ref{chap:ee} tratará a origem do tema de
+eficiência energética (Seção~\ref{sec:ee_origem}) e prosseguir até as
 suas necessidades para sua melhor obtenção no Brasil
-(Sessão~\ref{sec:ee_dificuldades}), em especial ao que concerne
-energia elétrica para o setor residencial --- as pesquisas de posse e
-hábito de eletrodomésticos.
+(Seção~\ref{sec:ee_dificuldades}), em especial ao que concerne
+energia elétrica para o setor residencial.
 
-Por outro lado, o Capítulo~\ref{chap:ee_retorno} trata de como
-expandir o potencial de eficiência energética através de um novo
-programa abrangendo o tema. Antes de tratá-lo, é realizado
-considerações de como são obtidos os potenciais de eficiencia
-energética para o setor residencial, podendo ser considerado como uma
-extensão do Capítulo~\ref{chap:ee}. Somente na
-Sessão~\ref{sec:ee_res_exp} é tratado como expandir esse potencial
-através do retorno de informação para o consumidor. É realizado um
-resumo das diversas informações obtidas ao observar estudos no
-exterior envolvendo o tema.
+Por outro lado, o Capítulo~\ref{chap:ee_retorno} trata da expansão do
+potencial de eficiência energética através de um novo programa
+abrangendo o tema. Antes de tratá-lo, é realizado considerações de
+como são obtidos os potenciais de eficiência energética para o setor
+residencial na Seção~\ref{sec:ee_setor_residencial}. Somente em
+seguida, na Seção~\ref{sec:ee_res_exp}, é tratado como expandir esse
+potencial através do retorno de informação para o consumidor. É
+feito uma compilação das informações relevantes obtidas ao
+observar estudos no exterior envolvendo o tema.
 
-O Capítulo~\ref{cap:nilm} irá realizar uma introdução sobre a
-tecnologia na Sessão~\ref{sec:nilm_aspec_gerais}, para então realizar
-um extenso levantamento da informação envolvida do ponto de vista de
+O Capítulo~\ref{cap:nilm} realizará uma introdução sobre a tecnologia
+na Seção~\ref{sec:nilm_aspec_gerais}, para então trazer um extenso
+levantamento da informação envolvida do ponto de vista de
 desenvolvimento, identificando os aspectos já resolvidos, as
 dificuldades e as tendências para o seu futuro na
-Sessão~\ref{sec:nilm_mundo}. Em sequência, as técnicas aplicadas pelo
-\acs{cepel} e os trabalhos em colaboração com a \acs{coppe} serão
-tratados na Sessão~\ref{sec:nilm_cepel}, aonde serão realizado o
-levante das dificuldades e necessidades do projeto.
+Seção~\ref{sec:nilm_mundo}. Em sequência, as técnicas aplicadas pelo
+\acs{cepel} e os trabalhos anteriores em colaboração com a \acs{coppe}
+serão tratados na Seção~\ref{sec:nilm_cepel}, aonde será realizado o
+levante das dificuldades e necessidades do projeto. Nessa seção,
+também está disponível a metodologia original do \acs{cepel} na
+Subseção~\ref{ssec:met_cepel}.
 
-As informações levantadas na Sessão~\ref{sec:nilm_cepel} serão
-resumidas e discutidas na Sessão~\ref{sec:motivacao_framework} do
-Capítulo~\ref{chap:framework}. Esse capítulo dedica-se à descrição do
-ambiente desenvolvido com o objetivo de melhorar a capacidade de
-análise e unificar o projeto para garantir sua continuidade. Na
-Sessão~\ref{sec:otimizacao} é descrito o principal módulo desse
-ambiente, que será utilizado na metodologia final do trabalho para a
-otimização dos parâmetros para condições ruidosas simuladas em
-situações controladas.
+As informações levantadas na Seção~\ref{sec:nilm_cepel} serão
+resumidas e discutidas na Seção~\ref{sec:motivacao_framework} do
+Capítulo~\ref{chap:framework}. Esse capítulo se dedica à descrição do
+ambiente desenvolvido com o objetivo de melhorar a capacidade e
+sistematizar a análise, bem como unificar o projeto para facilitar sua
+continuidade. As alterações da metodologia original podem ser
+encontradas ao longo desse capítulo, no entanto, na
+Seção~\ref{sec:otimizacao} é descrita a principal ampliação realizada
+na metodologia original, o Módulo de Otimização dos Parâmetros. 
 
-O Capítulo~\ref{chap:metodologia} irá detalhar a base de dados
-(Sessão~\ref{sec:base_de_dados}), bem como tratar a metodologia para a
-aplicação do algoritmo genético (Sessão~\ref{sec:aplic_es}), e a
-apresentação da informação necessária para o entendimento do \acs{som}
-(Sessão~\ref{ssec:som}). Os resultados para a metodologia empregada
-por este trabalho estão no Capítulo~\ref{chap:resultados}. As
-conclusões do trabalho encontram-se no Capítulo~\ref{chap:conclusao}.
+O Capítulo~\ref{chap:metodologia} irá descrever as condições simuladas
+na base de dados fornecida pelo \acs{cepel}
+(Seção~\ref{sec:base_de_dados}), contendo tanto condições mais simples
+com apenas acionamentos e desacionamentos, quanto condições mais
+próximas às reais nas redes elétricas residenciais, com operação
+simultânea de diversos equipamentos e dinâmica no consumo de alguns
+equipamentos. Também é apresentado a metodologia para a aplicação do
+algoritmo genético para ajuste dos parâmetros
+(Seção~\ref{sec:aplic_es}). Os resultados para a metodologia empregada
+por este trabalho estão no Capítulo~\ref{chap:resultados}. A conclusão
+do trabalho encontra-se no Capítulo~\ref{chap:conclusao}.
 
 \glsunsetall

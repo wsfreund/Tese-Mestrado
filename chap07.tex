@@ -1,197 +1,355 @@
 \chapter{Resultados}
 \label{chap:resultados}
 
-O capítulo em questão contém os resultados para a metodologia aplicada
-e sua discussão. São utilizados os três conjuntos de dados descritos em
-~\ref{sec:base_de_dados}. Na Sessão~\ref{sec:otim_es} trata-se a otimização
-automática dos parâmetros através do algoritmo genético de estratégia
-evolutiva exposto na Sessão~\ref{ssec:es} e com a metodologia
-determinada na Sessão~\ref{sec:aplic_es}. Em seguida, será tratado o
-estudo da representação do espaço das características extraídas para o
-mesmo através de \acs{som}. Ele será aplicado como um detector de
-eventos ou aplicado em série para atuar após o filtro de derivada de
-Gaussiana na Subsessão~\ref{sec:som_e_es}.
+O capítulo em questão contém os resultados e discussão da proposta de
+otimização automática dos parâmetros do filtro de núcleo de Gaussiana
+%e da aplicação de \gls{som}, ambos com o intuíto de realizar a
+para a
+detecção de eventos. %No primeiro caso, serão utilizados os três
+Serão utilizados os três
+conjuntos de dados descritos Seção~\ref{sec:base_de_dados} que serão
+otimizados pelo algoritmo genético de estratégia evolutiva exposto na
+Seção~\ref{ssec:es}. A metodologia empregada está descrita na
+Seção~\ref{sec:aplic_es}. 
 
 \section{Otimização Automática dos Parâmetros}
 \label{sec:otim_es}
 
-Antes de realizar a análise por otimização, foi feita a determinação
-dos parâmetros do detector de eventos através da capacidade de
-visualização que o ambiente de análise permitia. Os resultados para
+Determinou-se, antes de realizar a análise por otimização, os
+parâmetros do detector de eventos através da capacidade de
+visualização que o ambiente de análise permite. Os resultados para
 essa análise serão referidos como \emph{Ajuste Manual}, determinados
-pelo autor deste trabalho. Já os resultados para o ajuste manual
-realizado pelo \acs{cepel} antes da para a uma base de dados sem ruído
-será referida através de \emph{Ajuste Anterior}.
+pelo autor deste trabalho. Já os resultados para o ajuste realizado
+pelo \acs{cepel}, realizado para a uma base de dados sem ruído, será
+referida por CEPEL.
 
-Assim, executou-se o algoritmo de duas maneiras, uma escolhendo
-$\gamma_{fa}=-0,9$ --- referido como \emph{\acs{es} $1/0,9$} --- e 
-na segunda para $\gamma_{fa}=-2$ --- referido como \emph{\acs{es}
-$1/2$} (ver \ref{eq:regra_pontuacao}). Nos dois casos $\gamma_{det}=1$
-e $\gamma_{rem}=-0,05$. A ideia inicial para ter escolhido um valor
-não intuitivo de -0,9 foi a tentativa de dar uma ligeira vantagem para a
-detecção. Já o valor de $-2$ foi utilizado posteriormente com o
-intuíto de reduzir o falso alarme. 
+Executou-se o algoritmo de duas maneiras, a configuração \acs{es} $1/0,9$
+onde foi feita a escolha de $\gamma_{fa}=-0,9$ e a configuração
+\acs{es} $1/2$, onde empregou-se $\gamma_{fa}=-2$. Em ambos casos, os
+parâmetros de detecção e de eventos removidos foram utilizados com os
+respectivos valores: $\gamma_{det}=1$ e $\gamma_{rem}=-0,05$. Esses
+parâmetros são utilizados pela equação~\ref{eq:regra_pontuacao}. A
+ideia inicial para ter escolhido um valor não intuitivo de -0,9 na
+primeira configuração foi a tentativa de gerar uma ligeira vantagem para
+a detecção nesse indíviduo. Já o valor de $-2$ foi utilizado
+posteriormente com o intuíto de reduzir o falso alarme. 
 
 \begin{table}[ht!]
 \resizebox{\textwidth}{!}{
-\begin{tabular}{>{\centering}m{3cm}>{\centering}m{2cm}cccccccc}
+\begin{tabular}{>{\centering}m{3cm}>{\centering}m{1.3cm}cccccccccc}
 \hline \hline \hline
-\multicolumn{2}{c}{\parbox[t]{5cm}{\centering Conjunto de Dados}} &
-\multicolumn{2}{c}{\textbf{\acs{es} $\mathbf{1/0,9}$}} & 
-\multicolumn{2}{c}{\textbf{\acs{es} $\mathbf{1/2}$}} & 
-\multicolumn{2}{c}{\textbf{Ajuste Manual}} & 
-\multicolumn{2}{c}{\textbf{A. Anterior}} \tabularnewline \hline
+\multicolumn{2}{c}{\parbox[t]{4.3cm}{\centering Conjunto de Dados}} &
+\multicolumn{2}{c}{\textbf{\acs{es}}} & 
+\multicolumn{2}{c}{\textbf{Manual}} & 
+\multicolumn{2}{c}{\textbf{CEPEL}} &
+\multicolumn{2}{c}{\textbf{ES 2}} &
+\multicolumn{2}{c}{\textbf{ES 3}} 
+\tabularnewline \hline
 & & 
 DET & FA & 
 DET & FA & 
-DET & FA &
+DET & FA & 
+DET & FA & 
 DET & FA \\
 \hline\hline
-\multirow{2}{3cm}{\centering\emph{Temporizado}
-\footnotesize{(149~eventos)}} & {Ocorr.} & 
-148 & 39 & 148 & 42 & 147 & 28 & 147 & 259\\
- & {Taxa (\%)} & 
-99,3 & 26,2 & 99,3 & 28,19 & 98,7 &18,8 & 98,7 & 173,8  \\
-\hline
+\multirow{2}{3cm}{\centering\emph{NI00168}
+\footnotesize{(39~eventos)}} & \scriptsize{Ocorr.} & 
+38 & 0 & 
+33 & 0 & 
+39 & 0 &
+36 & 0 &
+39 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+97,4  & 0,0 &  
+86,8  & 0,0 & 
+100,0 & 0,0 &
+92,3  & 0,0 &
+100,0 & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00171}
+\footnotesize{(48~eventos)}} & \scriptsize{Ocorr.} & 
+47 & 1 & 
+42 & 0 & 
+48 & 2 &
+43 & 0 &
+39 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+97,9  & 2,1 &  
+89,4  & 0,0 &
+100,0 & 4,2 &
+89,6  & 0,0 &
+83,0  & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00173}
+\footnotesize{(20~eventos)}} & \scriptsize{Ocorr.} & 
+20 & 1 & 
+19 & 1 & 
+20 & 0 &
+20 & 1 &
+20 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 5,0 & 
+95,0  & 5,0 &
+100,0 & 0,0 &
+100,0 & 5,0 &
+100,0 & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00174}
+\footnotesize{(8~eventos)}} & \scriptsize{Ocorr.} & 
+8 & 0 & 
+7 & 1 &
+8 & 0 &
+8 & 0 &
+7 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0  & 
+87,5  & 12,5 &
+100,0 & 0,0  &
+100,0 & 0,0  &
+87,5  & 0,0  \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00175}
+\footnotesize{(23~eventos)}} & \scriptsize{Ocorr.} & 
+23 & 0 & 
+23 & 0 &
+23 & 0 &
+23 & 0 &
+23 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 &
+100,0 & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00177}
+\footnotesize{(24~eventos)}} & \scriptsize{Ocorr.} & 
+24 & 0 & 
+24 & 0 &
+24 & 0 &
+24 & 0 &
+24 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 & 
+100,0 & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Temp. Gab. 1}
+\footnotesize{(149~eventos)}} & \scriptsize{Ocorr.} & 
+147 & 52  & 
+147 & 28  & 
+147 & 259 &
+148 & 43  &
+148 & 13  \\
+ & \scriptsize{Taxa (\%)} & 
+98,7 & 34,9  & 
+98,7 & 18,8  & 
+98,7 & 173,8 &
+99,3 & 28,9  &
+99,3 & 8,7 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Temp. Gab. 2}
+\footnotesize{(211~eventos)}} & \scriptsize{Ocorr.} & 
+191 &  8  & 
+174 &  1  & 
+201 & 234 &
+188 &  3  &
+161 &  1 \\
+ & \scriptsize{Taxa (\%)} & 
+90,5 & 3,8   & 
+82,5 & 0,0   & 
+95,3 & 110,9 &
+89,1 & 1,4   &
+76,3 & 0,5 \\ \hline
 \multirow{2}{3cm}{\centering\emph{Empilhado4}
-\footnotesize{(74~eventos)}} & {Ocorr.} & 
-37 & 0 & 37 & 0 & 24 & 0 & 57 & 9 \\
- & {Taxa (\%)} & 
-64,9 & 0,0 & 64,9 & 0,0 & 32,4 & 0,0 & 78,0 & 12,3  \\
-\hline
+\footnotesize{(74~eventos)}} & \scriptsize{Ocorr.} & 
+42 & 1 & 
+24 & 0 & 
+56 & 10 &
+37 & 0 &
+34 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+56,8 & 1,4  & 
+32,4 & 0,0  & 
+78,0 & 12,3 &
+50,0 & 0,0  &
+45,9 & 0,0 \\ \hline
 \multirow{2}{3cm}{\centering\emph{Empilhado7}
-\footnotesize{(42~eventos)}} & {Ocorr.} & 
-36 & 1 & 36 & 2 & 35 & 1 & 37 & 18 \\
- & {Taxa (\%)} & 
-85,7 & 2,4 & 85,7 & 4,8 & 83,3 & 2,4 & 88,1 & 42,9  \\
+\footnotesize{(42~eventos)}} & \scriptsize{Ocorr.} & 
+39 & 1  & 
+35 & 1  & 
+38 & 27 &
+37 & 0  &
+34 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+92,9 & 2,4  & 
+83,3 & 2,4  & 
+90,5 & 64,3 & 
+88,1 & 0,0  &
+80,9 & 2,4 \\
 \hline \hline
 \end{tabular}}
-\caption[Resultado para os três conjuntos de dados onde o
-\acs{es} foi ajustado alimentado por todos eles.]{
-Resultado para os três conjuntos de dados onde o
-\acs{es} foi ajustado alimentado por todos eles. As configurações
-\emph{Ajuste Manual} e \emph{Ajuste Anterior} se referem respectivamente aos casos
-determinados empiricamente pelo autor do trabalho e pelo grupo do
-\gls{cepel}, o último sendo determinado em dados sem ruídos.}
-\label{tab:resultados_sem_generalizacao}
+\caption[Probabilidade de detecção de eventos de transitório para os
+três conjuntos de dados, onde o \acs{es} foi ajustado alimentado por
+todos eles.]{Probabilidade de detecção de eventos de transitório para
+os três conjuntos de dados onde o \acs{es} foi ajustado alimentado por
+todos eles. As configurações \emph{Ajuste Manual} e CEPEL 
+se referem respectivamente aos casos determinados
+empiricamente pelo autor do trabalho e pelo grupo do \gls{cepel}, o
+último sendo determinado em dados sem ruídos.}
+\label{tab:resultados}
 \end{table}
 
-% 83,4 
-
-Na Tabela~\ref{tab:resultados_sem_generalizacao} encontram-se os
+Na Tabela~\ref{tab:resultados}, encontram-se os
 resultados para essas configurações. Fica evidente a maior
-sensibilidade da escolha dos patamares para o caso anterior, onde há
-uma maior capacidade de detecção, em especial para o \emph{Empilhado4}
-que contém eventos de equipamentos de menor consumo (lâmpadas
-fluorescentes) que são ignorados pelas configurações dos \acs{es}.
-Porém, isso também reflete em uma taxa de falso alarme excessiva para
-o conjunto \emph{Temporizado}, aonde há a presença de maior quantidade
-de ruído. Uma quantidade de falsos positivos nessa ordem não justifica
-a identificação de equipamentos de menor porte contidos no conjunto
+sensibilidade da escolha dos patamares para o caso CEPEL, 
+caso para o qual ocorre uma maior capacidade de detecção,
+em especial para o \emph{Empilhado4} que contém eventos de
+equipamentos de menor consumo (lâmpadas fluorescentes). Porém, isso
+também reflete em uma taxa de falso alarme excessiva para o conjunto
+\emph{Temporizado}, que contém uma \acs{c5}. Uma
+quantidade de falsos positivos dessa ordem não justifica a
+identificação de lâmpadas de menor porte contidos no conjunto
 \emph{Empilhado4}. A alta sensibilidade dos valores também é refletida
-no conjunto \emph{Empilhado7}, que assim como o \emph{Temporizado}
-contém a presença de uma \acs{c5}, porém o arquivo é mais curto ---
-apenas uma hora quando em comparação com o \emph{Temporizado} cuja
-duração é superior à um dia ---, não dando uma margem tão grande de
-falsos alarmes quanto no outro caso.
-
-Ao comparar a convergência dos \acs{es}, percebe-se que os mesmos
-convergiram praticamente para a mesma região, porém, a versão que
-deveria obter menor falso alarme por pontuar suas ocorrências como uma
-maior penalidade, o caso \acs{es}$ 1/2$, obteve um falso alarme maior
-do que a sua versão com penalidade menor. A isso se atribuiu o fato
-deles estarem explorando os limites da ruído do conjunto de dados
-\emph{Temporizado}, que, ao realizar uma pequena mudança no sentido de
-melhorar a detecção, irá gerar uma quantidade grande na geração de
-falsos alarmes. E no caso do filtro acabar convergindo para uma
-determinada janela, a mudança para uma versão com valores ajustados de
-corte para a nova janela depende de duas mutações corretas, sendo
-dificeis de ocorrerem em especial para a condição para a qual o
-\acs{es} irá reduzir a pertubação de sua estratégia evolutiva por ter
-encontrado uma região proeminente que será difícil de escapar. Por
-isso, a diferença entre as convergências na verdade é causada apenas
-para a configuração de janela que o filtro acabou escolhendo. Em
-decorrência desse fato observado, percebeu-se que era necessário
-realizar uma mudança no futuro do código, realizando uma otimização
-em um ciclo interno do corte do filtro após determinada a janela, para
-garantir melhor capacidade de convergência.
+no conjunto \emph{Empilhado7}, que, assim como o \emph{Temporizado},
+contém a presença de duas \acs{c5}. Porém, o arquivo é mais curto e
+conta com a televisão operando durante apenas 30 min e ar condicionado
+por cerca de 20 min, enquanto a televisão no conjunto de dados 
+\emph{Temporizado} opera por $\sim12$~h.
 
 A versão de \emph{Ajuste Manual} foi a menos sensível, obtendo menor
 detecção para o conjunto de dados \emph{Empilhado4}, mas ao mesmo
-tempo garantindo um falso alarme total de apenas 29 ocorrências.
-Isso mostra que com a capacidade de visualização foi possível prever
-um valor que reduziria a sensibilidade do detector, sem que fosse
-analisado vários casos até obtê-lo.
+tempo garantindo um falso alarme total de apenas 29 ocorrências (28
+ocorrências no \emph{Temporizado} e 1 no \emph{Empilhado7}).
+Isso mostra que a capacidade de visualização permite encontrar um
+valor que reduziria a sensibilidade do detector, sem que fosse
+analisado vários casos até sua obtenção.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{imagens/convergencia_es_1-9.pdf}
-\caption[Convergência para o ajuste automática através da regra
-$1/0,9$.] {Convergência para o ajuste automática através da regra
-$1/0,9$. As espécies são: remoção de eventos próximos estático após
-eventos ruidosos (amarelo), remoção de eventos próximos pela sua média
-após eventos ruidosos (azul), remoção de eventos próximos estatíco
-antes de remoção de eventos ruidosos (rosa), remoção de eventos
-próximos pela sua média antes eventos ruidosos (verde) e apenas
-remoção de eventos ruidosos (marrom). A caixa de texto mostra a
-convergência para o melhor caso: remoção de eventos próximos pela sua
-média após eventos ruidosos (azul).}
+\caption[Convergência para o ajuste automático através da regra
+$1/0,9$.] {Convergência para o ajuste automático através da regra
+$1/0,9$. As espécies e suas cores são: Espécie \ref{item:esp1}:
+amarelo, Espécie \ref{item:esp2}: azul, Espécie \ref{item:esp3}: rosa,
+Espécie \ref{item:esp4}: verde, Espécie \ref{item:esp5}: marrom.}
 \label{fig:convergencia_es_1}
 \end{figure}
 
-Em ambos os casos testados para o \acs{es}, a configuração de remoção
-de eventos próximos pela sua média após a remoção de eventos ruidosos utilizando a
-média se mostrou mais apta para a solução do problema, sendo por esse
-motivo indicada. Na Figura~\ref{fig:convergencia_es_1} está a evolução
-das espécies para o \emph{\acs{es} $1/0,9$}. Novamente a espécie de
-menor complexidade genética (marrom) foi a que obteve convergência
-mais rápida, porém, as outras espécies de maior carga genética, ao
-evoluir, ultrapassam-na por volta da 30$^{\underline{a}}$ geração. A espécie rosa
-não consegue acompanhar o processo evolutivo, indicando,
-possivelmente, a sua convergência para um máximo local.
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{imagens/convergencia_es_1-2.pdf}
+\caption[Convergência para o ajuste automático através da regra
+$1/2$.] {Convergência para o ajuste automático através da regra
+$1/2$. As espécies e suas cores são: Espécie \ref{item:esp1}:
+amarelo, Espécie \ref{item:esp2}: azul, Espécie \ref{item:esp3}: rosa,
+Espécie \ref{item:esp4}: verde, Espécie \ref{item:esp5}: marrom.}
+\label{fig:convergencia_es_2}
+\end{figure}
 
-Entrando em mais detalhes quanto a discussão das ocorrências de falso
-alarme e detecção, compara-se as Figura~\ref{fig:ruido_temporizado} e
-Figura~\ref{fig:lampadas_emp4}. Na verdade, os eventos devido à falso
-alarme no conjunto de dados \emph{Temporizado} ocorrem por causa de
-uma configuração que se assemlha muito à uma mudança de estado com a
-forma de um degrau de potência de cerca de 15 W que dura cerca de 2 à 
-3s. No momento não se sabe qual equipamento que causa esse distúrbio,
-mas nitidamente esses degraus apresentam exatamente as características
-de uma mudança discreta no consumo. Agora fica a questão de como o
-gabarito deveria ser montado, se considerando essas alterações como
-eventos a serem detectadas, ou se elas continuam sendo ruído. 
-Já para a segunda figura, observa-se que os valores
-absolutos dos pontos de inflexão, por volta de $0,006$, já estão na
-ordem do ruído do arquivo \emph{Temporizado}, ou seja, para detectar
-esses eventos é necessário descer o patamar do filtro a um valor que
-irá causar uma excessiva ocorrências de falso alarme nesse arquivo ---
-caso do filtro anteriormente utilizado pelo \acs{cepel}, cujo patamar
-é de $0,003$. A ocorrência de um grande número de falso alarmes irá
-acarretar numa perda de aptidão, tornando esses individuos soluções
-não desejáveis, cujos individuos que exploraram esses eventos não
-apresentaram boa aptidão e foram eliminados.
+No \acs{es} $1/0,9$, a espécie que obteve maior aptidão foi a
+\ref{item:esp1}, enquanto na configuração \acs{es} $1/2$, foi a
+Espécie~\ref{item:esp2}. As figuras~\ref{fig:convergencia_es_1} e
+\ref{fig:convergencia_es_2} mostram a evolução das espécies para o
+\acs{es} $1/0,9$ e \acs{es} $1/2$. O primeiro fator que se ressalta em
+ambas as figuras é a evolução mais rápida da espécie com material
+genético mais simples --- a Espécie~\ref{item:esp5}  ---, mostrando
+que o grau de liberdade a menos (essa espécie tem um gene a menos: o
+tamanho da janela) contribui ao facilitar o ajuste da estratégia
+evolutiva. Porém, isso não significa que a espécie é mais apta para a
+solução do problema, apenas que ela irá evoluir com maior facilidade
+que as demais espécies. Observa-se que a Espécie~\ref{item:esp3} da
+configuração \acs{es} $1/0,9$, assim como as espécies \ref{item:esp2}
+e \ref{item:esp3} da configuração \acs{es} $1/2$, não conseguem
+acompanhar o processo evolutivo das demais espécies. Como a espécie
+\ref{item:esp2} converge para a outra configuração testada, e, no
+caso, obtém a melhor aptidão para a configuração, há um indicativo de
+que, na verdade, essas espécies, que não acompanharam a evolução das
+demais espécies, acabaram convergindo para máximos locais de aptidão.
 
-Assim, grande parte dos falsos alarmes ocorridos para o
-\emph{Temporizado} no caso dos \glspl{es} são devidos a essa mudança
-de operação desconhecida de um equipamento e não a falso alarme devido à
-dinâmica de operação da televisão LCD. Apenas como referência,
-contabilizou-se a ocorrência desses casos no conjunto de dados
-\emph{Temporizado} utilizando a informação gráfica, observando 36
-ocorrências desse tipo desse tipo de mudanças de estado marcadas como
-evento, e portanto contabilizadas como falso alarme. Caso esses
-eventos fossem contabilizados como alvos, somente 3 falso alarmes
-seriam contabilizados. Mas a questão de como tratar esse
-problema fica aberta a discussão.
+Quanto à questão de não convergência de algumas espécies, a mesma pode
+ter ocorrido devido à função avaliada não ser continua no espaço, mas
+por diversos patamares discretos que representam valores maiores ou
+menores conforme a incidência maior ou menor de detecção, falso alarme
+e, em menor escala, eventos removidos. Como a função não é contínua,
+não há uma deriva, uma tendência que possibilite uma exploração do
+espaço de soluções gradual. Enquanto os individuos estão em cima de um
+patamar, eles não conseguem perceber qual direção localmente eles
+devem seguir, simplesmente explorando o espaço aleatóriamente em busca
+de um outro patamar na função, patamar esse que gere maiores
+ocorrências de detecção ou menores falso alarme. Quando um indivíduo
+encontrar uma região com um patamar maior, seu material genético irá
+se espalhar em sua espécie, de forma que a espécie irá subir para o
+novo patamar e voltar a explorá-lo aleatoriamente. Porém, se não
+houverem patamares no alcance da estratégia evolutiva dessa espécie,
+ela não irá conseguir deixar esse patamar, uma vez que todos os
+indivíduos que sairem do patamar serão eliminados. Pelo mesmo motivo,
+a estratégia evolutiva dessa espécie tenderá a reduzir seus valores
+de pertubação no material genético, causando a convergência para um
+máximo de aptidão local. 
+
+Com o objetivo de tratar esse problema, propõe-se uma
+otimização em dois níveis, com um ciclo interno ajustando
+especificamente o limiar de corte da derivada de Gaussiana. A
+otimização no nível externo irá conter como material genético todas as
+variáveis exceto o limiar de corte, e irá otimizar com a mesma
+metodologia atual os individuos. Porém, o corte não será fixo, após
+determinar a resposta do filtro, um otimizador local irá procurar pela
+configuração ótima de regiões sensibilizadas em relação ao gabarito.
+Para isso, a mesma função pode ser considerada, com os mesmos valores
+de $\gamma_{det}$ e $\gamma_{fa}$, ou a escolha pode ser de um
+parâmetro para cada caso, permitindo encontrar mais regiões
+sensibilizadas na resposta do filtro quando em comparação com a
+resposta final do detector, justamente para explorar os cortes por
+ruído, distância de amostras e incosistência. Ao invés de
+$\gamma_{det}$ e $\gamma_{fa}$, é possível utilizar outras medidas,
+como aquelas descritas na Subseção~\ref{ssec:nilm_eff_calc}. Ao
+realizar a otimização dessa maneira, retira-se do algoritmo genético
+um grande peso para a descoberta de novas regiões, provavelmente
+garantindo um potencial de melhor convergência.
+
+Além disso, ao analisar a taxa de falso alarme do arquivo
+\emph{Temporizado}, percebeu-se que os mesmos decorrem
+de uma pertubação na rede que se assemelha muito ao
+transitório de um equipamento, Figura~\ref{fig:ruido_temporizado}.
+Esssa pertubação tem uma característica muito marcante, contendo cerca
+de 2-3s e consumo de 15 W. Não foi possível determinar qual
+equipamento que causa esse distúrbio, mas nitidamente esses degraus
+apresentam características semelhantes àquelas causadas por \glspl{c2}
+e \glspl{c3}. Agora fica a questão de como o gabarito deveria ser
+construído, se considerando essas alterações como eventos a serem
+detectados, ou se elas continuam sendo ruído. Já para a
+Figure~\ref{fig:lampadas_emp4}, 
+observa-se que os valores absolutos dos pontos de inflexão,
+por volta de $0,006$, já estão na ordem do ruído do arquivo
+\emph{Temporizado} (ver Figura~\ref{fig:ruido_temporizado}), ou seja,
+para detectar esses eventos é necessário descer o patamar do filtro a
+um valor que irá causar uma excessiva ocorrência de falso alarme
+nesse conjunto de dados --- caso do filtro anteriormente utilizado pelo
+\acs{cepel}, cujo patamar é de $0,003$. A ocorrência de um grande
+número de falsos alarmes irá acarretar numa perda de aptidão, tornando
+esses individuos soluções não desejáveis e, portanto, os mesmos serão
+eliminados.
+
+Grande parte dos falsos alarmes ocorridos para o \emph{Temporizado} no
+caso dos \glspl{es} são devidos a essa mudança de operação
+desconhecida. Contabilizou-se a ocorrência desses casos no conjunto de
+dados \emph{Temporizado}, aonde 36 ocorrências desse fenômeno foram
+aceitas pelo filtro de núcleo de Gaussiana. Caso esses eventos fossem
+contabilizados como alvos, somente 3 falsos alarmes seriam
+contabilizados. Assim, ao contabilizar esses eventos como parte do
+gabarito, a taxa de falso alarme reduziria para 2,0 \%, mas também
+seria necessário realizar novamente o cálculo para a taxa de deteção,
+uma vez que agora esses eventos são alvos. Percebe-se, também, que uma
+nova otimização, considerando esses eventos como alvos poderia
+melhorar as taxas para essa nova representação, dado que essas
+possíveis representações de eventos de transitório estavam sendo
+evitados pelo otimizador.
 
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\textwidth]{imagens/temporizadoFA.pdf}
-\caption[Exemplos de falsos alarme no conjunto de dados \emph{Temporizado}.]
-{Exemplos de falsos alarme no conjunto de dados \emph{Temporizado}. Os
+\caption[Exemplos de falsos alarmes no conjunto de dados \emph{Temporizado}.]
+{Exemplos de falsos alarmes no conjunto de dados \emph{Temporizado}. Os
 falsos alarmes são as caixas verdes e vermelhas exibidas. Na subfigura
-inferior, são mostrados os pontos de inflexão e seus valores em
-unidades da resposta do filtro.}
+inferior, são mostrados alguns pontos de inflexão e seus valores em
+unidades da resposta do filtro, bem como valores da resposta do filtro
+para ruídos.}
 \label{fig:ruido_temporizado}
 \end{sidewaysfigure}
 
@@ -205,512 +363,190 @@ unidades da resposta do filtro exibidos.}
 \label{fig:lampadas_emp4}
 \end{sidewaysfigure}
 
-\section{\acl{som}}
-\label{sec:som_resultadados}
+Observa-se, ainda, que a configuração com maior penalidade para falso
+alarme obteve uma falso alarme a menos para o \emph{Temporizado}, mas
+também perdeu um evento de detecção do arquivo \emph{Empilhado7}.
+Essa diferença é muito pequena para inferir em apenas uma otimização
+se haveria realmente uma diferença entre as configurações, no entanto,
+ela mostra uma pequena tendência de reduzir o falso alarme, aceitando
+deterioramento na detecção. Atribui-se esse fato
+justamente por estar explorando o limite da fronteira de ruído, sendo
+necessário um valor maior a -2 pontos em $\gamma_{fa}$ para os
+individuos que exploram a região de ruído mencionada anteriormente
+sejam interessantes. 
 
-Foram feitos dois treinamentos com pré-processamento dos dados
-distintos. O primeiro realiza uma normalização nas variáveis de
-potência do evento dividindo-as por 127V. A segunda por sua vez
-realiza o mesmo processo porém divide as potências pela tensão medida
-no instante da aquisição. Para a comparação dos treinamentos foram
-avaliados os \gls{qe} e \gls{te} para cada uma das normalizações. A
-Tabela~\ref{tab:te_qe_norm} exibe a comparação entre os erros.
-	
-%TABELA 1
-\begin{table}[!htb]
-\centering
-\begin{tabular}{ccc}
+
+\begin{table}[ht!]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{>{\centering}m{3cm}>{\centering}m{1.3cm}cccccccccccc}
+\hline \hline \hline
+\multicolumn{2}{c}{\parbox[t]{4.3cm}{\centering Conjunto de Dados}} &
+\multicolumn{2}{c}{\textbf{\acs{es}}} & 
+\multicolumn{2}{c}{\textbf{Manual}} & 
+\multicolumn{2}{c}{\textbf{Anterior}} &
+\multicolumn{2}{c}{\textbf{ES 2}} &
+\multicolumn{2}{c}{\textbf{ES 3}} &
+\multicolumn{2}{c}{\textbf{Det.Elab.}} 
+\tabularnewline \hline
+\multicolumn{2}{c}{\emph{Eventos acrésc. consum.}}& 
+DET & FA & 
+DET & FA & 
+DET & FA & 
+DET & FA & 
+DET & FA & 
+DET & FA \\
+\hline\hline
+\multirow{2}{3cm}{\centering\emph{NI00168}
+\footnotesize{(20~eventos)}} & \scriptsize{Ocorr.} & 
+20 & 0 & 
+19 & 0 & 
+20 & 0 &
+20 & 0 &
+11 & 2 &
+20 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 &  
+95,0  & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+55,0  & 10,0 &
+100,0 & 5,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00171}
+\footnotesize{(26~eventos)}} & \scriptsize{Ocorr.} & 
+26 & 1 & 
+24 & 0 & 
+26 & 1 &
+24 & 0 &
+19 & 2 &
+25 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 3,8 &  
+92,3  & 0,0 &
+100,0 & 3,8 &
+92,3  & 0,0 &
+73,1  & 7,7 &
+96,2  & 3,4\\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00173}
+\footnotesize{(10~eventos)}} & \scriptsize{Ocorr.} & 
+10 & 1 & 
+10 & 0 & 
+10 & 0 &
+10 & 1 &
+10 & 0 &
+10 & 0 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 10,0 & 
+100,0 & 0,0  &
+100,0 & 0,0  &
+100,0 & 10,0 &
+100,0 & 0,0  &
+100,0 & 0,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00174}
+\footnotesize{(4~eventos)}} & \scriptsize{Ocorr.} & 
+4 & 0 & 
+4 & 0 &
+4 & 0 &
+4 & 0 &
+3 & 0 &
+4 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 0,0 &
+75,0  & 0,0 &
+100,0 & 25,0 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00175}
+\footnotesize{(12~eventos)}} & \scriptsize{Ocorr.} & 
+12 & 0 & 
+12 & 0 &
+12 & 0 &
+12 & 0 &
+12 & 0 &
+12 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 &
+100,0 & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 8,3 \\ \hline
+\multirow{2}{3cm}{\centering\emph{NI00177}
+\footnotesize{(12~eventos)}} & \scriptsize{Ocorr.} & 
+12 & 0 & 
+12 & 0 &
+12 & 0 &
+12 & 0 &
+12 & 0 &
+12 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+100,0 & 0,0 & 
+100,0 & 0,0 & 
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 0,0 &
+100,0 & 8,3 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Temp. Gab. 1}
+\footnotesize{(74~eventos)}} & \scriptsize{Ocorr.} & 
+72 & 29 & 
+73 & 12 & 
+71 & 144 &
+73 & 21 &
+71 & 7  &
+71 & 62 \\
+ & \scriptsize{Taxa (\%)} & 
+97,3 & 39,0 & 
+98,6 & 16,2 & 
+95,9 & 194,6 &
+98,6 & 28,4 &
+95,9 & 9,5 &
+95,9 & 83,8 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Temp. Gab. 2}
+\footnotesize{(105~eventos)}} & \scriptsize{Ocorr.} & 
+72  & 29  & 
+85  & 0   & 
+102 & 116 &
+91  & 3   &
+77  & 1   &
+99 & 34 \\
+ & \scriptsize{Taxa (\%)} & 
+97,3 & 39,2  & 
+81,0 & 0,0   & 
+97,1 & 110,5 &
+86,7 & 2,9 &
+73,3 & 0,9 &
+94,3 & 32,4 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Empilhado4}
+\footnotesize{(40~eventos)}} & \scriptsize{Ocorr.} & 
+23 & 1 & 
+18 & 0 & 
+28 & 8 &
+24 & 0 &
+22 & 0 &
+31 & 1 \\
+ & \scriptsize{Taxa (\%)} & 
+57,5 & 2,5  & 
+45,0 & 0,0  & 
+70,0 & 20,0 &
+60,0 & 0,0  &
+55,0 & 0,0  &
+77,5 & 2,5 \\ \hline
+\multirow{2}{3cm}{\centering\emph{Empilhado7}
+\footnotesize{(24~eventos)}} & \scriptsize{Ocorr.} & 
+22 & 0  & 
+22 & 0  & 
+21 & 16 &
+22 & 0  &
+18 & 2  &
+23 & 8 \\
+ & \scriptsize{Taxa (\%)} & 
+91,7 & 0,0  & 
+91,7 & 0,0  & 
+87,5 & 66,7 & 
+91,7 & 0,0  &
+75,0 & 8,3  &
+95,8 & 33,3 \\
 \hline \hline
-Normalização & $Qe$ & $Te$\\
-\hline \hline
-divisão por 127V & 0,0082 & 0,1321 \\
-\hline
-divisão pela tensão medida & 0,0078 & 0,1019 \\
-\hline
-\hline
-\end{tabular}
-\caption{Valores dos erros de mapeamento para cada normalização.}
-\label{tab:te_qe_norm}
-\end{table}	
-	
-Conclui-se que a segunda normalização obteve erros menores quando
-comparada com a primeira. Para o \gls{qe} essa
-diferença é de 0,0004. Embora pequeno, esse valor indica que a segunda
-normalização obteve uma maior aproximação da nuvem dos eventos. No
-caso do \gls{te}, a diferença é de 0,0302. Indicando que a segunda
-normalização obteve mais sucesso ao copiar as informações que estão no
-espaço de 4 dimensões para o espaço bidimensional do mapa. Tendo em
-vista esses resultados, a segunda normalização será utilizada no
-processo de treinamento do \acs{som}.
-
-Na Figura~\ref{fig:matrizu_res} é apresentada a \gls{matrizu} do mapa para o
-pré-processamento dos dados escolhido. A \gls{matrizu} representa as
-distâncias dos agrupamentos formados pelo \gls{som} que estão no
-espaço de alta dimensão copiadas para o espaço bidimensional. Cores
-frias (próximas do azul escuro) representam uma próximidade dos
-neurônios do mapa naquela região. Por outro lado cores quentes
-(próximas do vermelho) representam maiores distâncias entre os
-neurônios na região.
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=9cm]{imagens/umatrix.pdf}
-\caption[Matriz-U formada pelo treinamento do SOM]
-{\acs{matrizu} formada pelo treinamento do \acs{som}.}
-\label{fig:matrizu_res}
-\end{figure}
-
-Na \acs{matrizu} são encontradas duas regiões quentes. Uma na parte
-superior esquerda do mapa e outra na parte inferior direita. Essas
-regiões indicam que existem eventos que são bem diferentes dos eventos
-que marcaram nas regiões em azul do mapa. De fato, transições como as
-do chuveiro elétrico ou forno possuem uma mudança de patamar bastante
-discriminante quando comparadas com as lâmpadas ou as televisões,
-sendo então eventos bem distantes no espaço multidimensional. Para as
-regiões de cores frias existem duas quebras. Uma na região superior
-direita e uma na região inferior esquerda do mapa indicando a formação
-de um agrupamento. Nas laterais do mapa formaram-se duas ilhas no lado
-direito e uma outra formação no lado esquerdo. No centro do mapa não
-existe nenhum corte bem definido. Indicando que nessa região podem
-existir transições de aparelhos que estão muito próximos no espaço
-multidimensional.
-	
-A Figura~\ref{fig:allhits} representa o comportamento de cada variável
-utilizada no treinamento no espaço bidimensional. Repare que existem
-regiões quentes e frias em cada um dos mapas gerados. Cores azuis
-representam uma concentração de transições de valores negativos bem
-elevados. Por outro lado cores avermelhadas representam uma
-concentração de transições de valores positivos elevados.	
-	
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.9\textwidth]{imagens/all_comp_2.pdf}
-\caption{Disperção de energia das características utilizadas no SOM.}
-\label{fig:allhits}
-\end{figure}
-	
-O algoritmo de \emph{k-means} foi executado até encontrar um número
-$k$ de agrupamentos que representa-se bem a distribuição de ativações
-dos aparelhos pelo mapa. Para valores de $k$ pequenos formam gerados
-agrupamentos nas pontas do mapa, indicados pelas regiões quentes
-vistas pela \acs{matrizu}, e poucos agrupamentos na região central e
-lateral do mapa. Em contra partida, valores de $k$ bem elevados
-estabilizam a formação de agrupamentos na região periférica do mapa
-mas quebram agrupamentos em diversos subagrupamentos na região
-central do mapa. Como no caso das lâmpadas fluorescentes de baixa
-potência, que embora existam diversos tipos no conjunto de
-treinamento, ambas possuem na prática o mesmo comportamento.
-	
-A Figura~\ref{fig:agrup_kmeans}, por sua vez, mostra os agrupamentos
-formados pelo algoritmo de \emph{k-means}. Ao todo temos 16 formações
-encontradas com $I_{DB}$ igual a 0,59. Cada agrupamento foi rotulado
-de -8 a 8 e a escala de cores representa a potência real média de cada
-agrupamento.  Ou seja, cores quentes próximas do vinho e cores frias
-próximas do azul escuro indicam uma concentração de aparelhos que
-possuem variações de potencia em módulo elevadas.
-	
-\begin{figure}[!htb]
-  \begin{center}
-    \begin{subfigure}[c]{7.5cm}
-      \includegraphics[width=7.5cm]{imagens/kmeans_cluster.pdf}
-      \caption{Agrupamentos formados pelo k-means}
-      \label{fig:kmeans_cluster}
-    \end{subfigure}
-    \begin{subfigure}[c]{7.5cm}
-      \includegraphics[width=7.5cm]{imagens/idb.pdf}
-      \caption{Índice de Davies Bouldin.}
-      \label{fig:bouldin}
-    \end{subfigure}
-  \end{center}
-\caption[Agrupamentos formados pelo algoritmo de k-means.]{
-Agrupamentos formados pelo algoritmo de \emph{k-means}. Os
-agrupamentos foram pintados visando uma escala de consumo. A numeração
-indica o rótulo do agrupamento.}
-\label{fig:agrup_kmeans}
-\end{figure}
-
-A Tabela~\ref{tab:media_pot_real}  exibe a média das potências reais
-em cada um dos 16 agrupamentos formados pelo \emph{k-means}.	
-	
-
-%TABELA 1
-\begin{table}[!htb]
-\centering
-\begin{tabular}{ccccccccc}
-\hline \hline
-\multicolumn{9}{c}{Média das potências reais}\\
-\hline \hline
-Agrupamento & -8 & -7 & -6 & -5 & -4 & -3 & -2 & -1 \\
-Média $VA/V$ & -17,39 & -9,98 & -5,04 & -2,31 & -1,05 & -0,38 & -0,37
-& -0,35\\
-\hline
-Agrupamentos & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
-Média $VA/V$ & -0,18 & 0,17 & 0,40 & 0,44 & 0,88 & 2,28 & 6,69 &
-14,52\\
-\hline
-\hline
-\end{tabular}
-\caption{Média das variações de potência real em cada agrupemanto.}
-\label{tab:media_pot_real}
-\end{table} 
-
-
-A dispersão de transições para cada um dos aparelhos será mostrada nas
-figuras \ref{fig:hits_altapot} e \ref{fig:baixapot}. Cada neurônio do
-mapa foi pintado de acordo com a transição dos aparelhos que o
-ativaram. Na maioria dos casos, a cor vermelha representa um
-desligamento e a cor verde um ligamento.  Algumas transições de
-aparelhos com mais de dois estados, como o ar condicionado, foram
-representadas com cores diferenciadas.  Para cada neurônio ainda temos
-o número de eventos que o ativaram (primeira linha dentro do hexágono)
-e o agrupamento pertencente (segunda linha do hexágono). A
-Figura~\ref{fig:hits_altapot} mostra a dispersão dos eventos para o
-secador, a sanduicheira, o forno e o chuveiro elétrico --- aparelhos
-de alto consumo. Os quatro tipos de aparelhos observados ativaram
-neurônios localizados no canto superior esquerdo e no canto inferior
-direito do mapa. Essas regiões englobam agrupamentos de alto consumo,
-o que já era esperado para esses aparelhos. Outro ponto é a
-localização dos tipos de transições no mapa. Repare que as transições
-de ligamento (cor verde) marcaram na região inferior e as de
-desligamento (cor vermelha) na região superior do mapa. Indicando um
-espelhamento na localização desses eventos. 
-	
-\begin{figure}[!htb]
-  \begin{center}
-
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Secador.pdf}
-        \caption{Dispersão do secador}
-        \label{fig:hits_secador}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Sandch.pdf}
-        \caption{Dispersão da sanduicheira}
-        \label{fig:hits_sanduicheira}
-      \end{subfigure}
-    \end{subfigure}
-
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_ChuvElet.pdf}
-        \caption{Dispersão do chuveiro elétrico}
-        \label{fig:hits_chuveiro}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Forno.pdf}
-        \caption{Dispersão do forno}
-        \label{fig:hits_forno}
-      \end{subfigure}
-    \end{subfigure}
-
-  \end{center}
-\caption{Dispersão dos aparelhos de alto consumo no mapa. A cor
-vermelha representa eventos de desligamento e a cor verde eventos de
-ligamento.}
-\label{fig:hits_altapot}
-\end{figure}
-
-A Figura~\ref{fig:eletronicos} mostra a dispersão dos eventos para a
-televisão e para os 3 tipos de lâmpadas utilizadas no experimento.
-Eventos como televisão, lâmpadas fluorescentes de baixa potência e as
-incandescentes foram alocadas no centro do mapa. Indicando ativações
-de aparelhos de baixo consumo como se pode ver pelos agrupamentos
-formados e a Tabela~\ref{tab:media_pot_real}. Outro ponto é a
-aproximidade desses aparelhos nessa região. 
-
-\begin{figure}[h!t]
-  \begin{center}
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Televisao.pdf}
-        \caption{Dispersão da televisão}
-        \label{fig:hits_televisao}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_LFLow.pdf}
-        \caption{Dispersão das lâmpadas fluorescentes\\ de baixa
-  potência.}
-        \label{fig:hits_lf_ap}
-      \end{subfigure}
-    \end{subfigure}
-
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_LFHigh.pdf}
-        \caption{Dipersão das lâmpadas fluorescentes\\ de alta potência.}
-        \label{fig:hits_lw_bp}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_LIHigh.pdf}
-        \caption{Dispersão das lâmpadas incandescentes\\ de alta potência}
-        \label{fig:hits_li_ap}
-      \end{subfigure}
-    \end{subfigure}
-  \end{center}
-\caption{A cor vermelha representa eventos de desligamento e a cor
-verde eventos de ligamento. Para a televisão a cor cinza representa
-uma mudança do estado desligado para uma imagem na tela e a cor roxa
-representa uma mudança do estado ligado para imagem (congelamento de
-sinal, erro de recepção, etc)}
-\label{fig:eletronicos}
-\end{figure}
-
-Diferentemente dos aparelhos de alta potência mostrados na
-Figura~\ref{fig:baixapot}, os de baixa potência como as lâmpadas e as
-televisores possuem características muito próximas. Apenas as lâmpadas
-fluoerescentes de alta potência se destacaram fora da região central
-do mapa devido ao seu consumo elevado quando comparadas com as outras
-lâmpadas.
-
-\begin{figure}[h!tb]
-  \begin{center}
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Geladeira.pdf}
-        \caption{Dispersão da geladeira.}
-        \label{fig:hits_geladeira}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_AllShutDown.pdf}
-        \caption{Ativação para o evento de desligamento\\ geral.}
-        \label{fig:hits_allshutdown}
-      \end{subfigure}
-    \end{subfigure}
-
-    \begin{subfigure}[c]{\textwidth}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_Ventilador.pdf}
-        \caption{Dipersão do ventilador.}
-        \label{fig:hits_ventilador}
-      \end{subfigure}
-      \begin{subfigure}[c]{8cm}
-        \includegraphics[width=8cm]{imagens/hits_TelevisaoCRT.pdf}
-        \caption{Ativação para uma televisão CRT.}
-        \label{fig:televisao_CRT}
-      \end{subfigure}
-    \end{subfigure}
-  \end{center}
-\caption{A cor vermelha representa eventos de desligamento e a cor
-verde eventos de ligamento. Na dispersão das geladeiras, eventos
-marcados com a cor laranja representam uma mudança do estado de
-standby para o ligado e cor amarela representa a mudança do estado
-desligado para o standby.}
-\label{fig:baixapot}
-\end{figure}
-
-As transições para as geladeiras formaram dois agrupamentos bem
-definidos. O primeiro localizado no canto superior direito do mapa é
-formado o eventos de transição de desligamento. O segundo localizado
-na região inferior esquerda do mapa é formado basicamente por eventos
-de ligamento. Existem ainda geladeiras diferenciadas neste grupo.
-Algumas delas formadas por geladeiras com alto consumo, processadores
-integrados e fazedores de gelo. Essas geladeiras podem ser vistas nas
-transições pintadas por cores diferenciadas como o laranja e amarelo
-que possuem um estado de stanby a mais. Os ventiladores formaram
-agrupamentos bem definidos nas regiões laterais do mapa. Também com o
-mesmo perfil de espelhamento já visto nos mapas anteriores. 
-Por sua vez, o evento nomeado como \emph{AllShutDown} marcou em um
-agrupamento de potência perto de aparelhos como forno e chuveiro
-elétrico. A televisão CRT (ou de tubo) possui apenas um evento de
-ligamento que está localizado na mesma região de ligamento das
-lâmpadas fluorescentes de baixa potência. 
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=8.5cm]{imagens/hits_ArCondicionado.pdf}
-\caption{Disperção do evento ar condicionado no mapa.}
-\label{fig:hit_ac}
-\end{figure}
-
-Já na Figura~\ref{fig:hit_ac} apresenta a localização do ar condicionado
-no mapa. Vale lembra que o ar condicionado possui quatro tipos de
-transição.  A \gls{fsm} do ar condicionado é formada por quatro
-transições. A primeira representa a mudança do estado desligado para a
-ventilação. A segunda, no momento em que o compressor arma, vai do
-estado de ventilação para compressão. A terceira segue o sentido
-contrário que vai da compressão para ventilação. E por último da
-ventilação para o desligado. Sendo as duas primeiras transições
-marcadas pela súbida de estado de operação da máquina e as duas
-últimas os de descida. Na distribuição do mapa podemos ver que as
-ativações que envolvem o estágio final da máquina, o de compressão,
-estão localizadas próximo as regiões de aparelhos de alto consumo.
-Transições que envolvem o estado de desligado e ventilação em ambos os
-sentidos marcaram próximo as regiões laterais do mapa. Indicando uma
-aproximação com os agrupamentos formados pelos ventiladores. 
-
-Por fim, a Tabela~\ref{tab:porc_aparelho} contém a porcentagem de cada
-aparelho em cada um dos agrupamentos formados. Os aparelhos foram
-ordenados por escala de consumo e cada barra de porcentagem foi
-pintada fazendo referência a cor do respectivo agrupamento.
-Observa-se que agrupamentos de baixa potência na região central do
-mapa, rótulados como 1 e 2, possuem uma forte mistura entre
-televisores e lâmpadas fluorescentes. Aparelhos como forno, chuveiro e
-sanduicheira tiveram suas localizações no topo da tabela. Tendo pouca
-ou nenhuma mistura com outros aparelhos. Os agrupamentos localizados
-na região lateral do mapa, rotulados como -2 e 3, possuem uma
-distribuição uniforme de ventiladores, 50$\%$ para cada agrupamento, e
-uma pequena mistura com as lâmpadas incandescentes.
-
-Embora o mapeamento do \acs{som} não tenha gerado somente agrupamentos
-com um único tipo de aparelho, suas marcações quanto ao tipo de
-transição foram feitas quase simétricas. Apenas a região central do
-mapa, mais especificamente os agrupamentos 1 e 2, é que está sujeita
-há algum tipo de erro devido a enorme região de confusão entre as
-lâmpadas e televisores.
-	
-Tendo em vista essa propriedade de separação quanto as transições
-dos aparelhos gerados no mapa, utilizar-se-á o \acs{som} na marcação de
-transições e compara-lo com o desempenho do algoritmo genético. Uma
-ação conjunta entre \acs{som} e o algoritmo genético tambem será sugerida na
-próxima sessão. 
-
-% FIXME
-\begin{landscape}
-\begin{table}[p]
-\centering
-\includegraphics[height=1.3\textheight]{imagens/table.pdf}
-\caption{Porcentagem de cada aparelho em cada cluster formado.}
-\label{tab:porc_aparelho}
+\end{tabular}}
 \end{table}
-\end{landscape}
-
-\section{Análise de ambas estratégias}
-\label{sec:som_e_es}
-
-Nesta sessão será apresentado os resultados de detecção de transição
-do \acs{som} e compará-los com os do algoritmo genético. Também será
-apresentado os resultados em conjunto. Utilizando o \acs{som} para diminuir
-os falsos alarmes gerados pelo algoritmo genético. Os resultados serão
-apresentados para cada um dos três conjuntos de dados fornecidos pelo
-\acs{cepel}.
-	
-Ao injetar ruído na entrada da rede neural, percebeu-se que as
-ativações geradas no mapa se concentravam na região de fronteria entre
-os agrupamentos 1 e 2. De fato essas regiões apresentam valores de
-variação de potência real média próximas de zero. Sendo o agrupamento
-1 com média de -0,18 VA/V e o agrupamento 2 com 0,17 VA/V. Visto isso
-definimos a região de fronteira desses dois agrupamentos como zona de
-ruído ou zona morta. Entradas que ativem essa região não irão disparar
-a marcação do evento na linha do tempo. A Figura~\ref{fig:regiao_morta}
-mostra a zona morta do mapa pintada de preto.
-	
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=8cm]{imagens/deadZone.pdf}
-\caption{Os hexágonos de cor preta representam a zona sujeita a
-ruído definida como zona morta do mapa.}
-\label{fig:regiao_morta}
-\end{figure}
-
-O algoritmo irá analisar se o mesmo ativou ou não a zona morta quando
-propagado um evento na rede. Caso positivo, a marcação do evento não
-dispara e ele aguarda até a próxima entrada. Porém se o evento ativou
-uma região fora da zona morta, o algoritmo começa a marcar o sinal e a
-salvar a númeração das amostras até que as ativações novamente voltem
-para a zona morta do mapa.
-	
-Como em geral uma transição tem entre 250 a 300 amostras de variação,
-será realizado um corte de eventos ao final da execução do algoritmo.
-Eventos que tenham marcado o sinal com menos de 150 amostras serão
-considerados falhas de aquisição e serão excluidos da análise.	
-
-As figuras \ref{fig:som_es_temp}, \ref{fig:som_es_emp4} e
-\ref{fig:som_es_emp7} exibem a marcação dos eventos nos conjuntos
-de dados \emph{Temporizado}, \emph{Empilhado4} e \emph{Empilhado7}
-respectivamente para o \acs{es} e a rede neural \acs{som}.
-Marcações em verde significam uma transição verdadeira dentro da marca
-gerada pelos algoritmos, as marcações em azul representam a
-localização das transições do conjunto de dados e as marcações em
-vermelho representam os falsos alarmes gerados.
-
-	
-\begin{sidewaysfigure}[p]
-\centering
-\includegraphics[width=23cm]{imagens/TemporizadoDeltas_nc2_150to1000.pdf}
-\caption{Marcação das transições para o algoritmo genético e a rede
-neural SOM pare os dados do \emph{Temporizado}. Linhas em verde significam
-verdadeiro positivo,as vermelhas o falso alarme e as azuls a verdade.}
-\label{fig:som_es_temp}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[p]
-\centering
-\includegraphics[width=23cm]{imagens/Empilhado4Deltas_nc2_150to1000.pdf}
-\caption{Marcação das transições para o algoritmo genético e a rede
-neural SOM para os dados do \emph{Empilhado4}. Linhas em verde significam
-verdadeiro positivo,as vermelhas o falso alarme e as azuls a verdade.}
-\label{fig:som_es_emp4}
-\end{sidewaysfigure}
-
-\begin{sidewaysfigure}[p]
-\centering
-\includegraphics[width=23cm]{imagens/Empilhado7Deltas_nc2_150to1000.pdf}
-\caption{Marcação das transições para o algoritmo genético e a rede
-neural SOM para os dados do \emph{Empilhado7}. Linhas em verde significam
-verdadeiro positivo,as vermelhas o falso alarme e as azuls a verdade.}
-\label{fig:som_es_emp7}
-\end{sidewaysfigure}
-	
-Foi analisado, também, uma versão conjunta dos dois algoritmos. Como a
-quantidade de falsos alarmes gerados pelo algoritmo génetico é muito
-menor que os gerados pelo \acs{som}, o algoritmo combinado irá atuar encima
-da resposta do genético. Eventos em que o genético tenha marcado mas o
-\acs{som} não marcou serão descartados no final. Essa tentativa combinada
-tem o objetivo de reduzir os falsos alarmes gerados pelo genético. A
-Tabela~\ref{tab:det_fa_es_som} mostra a quantidade de detecções e
-falsos alarmes para cada um dos algoritmos testados encima de cada um
-dos banco de dados.
-
-\begin{table}[!htb]
-\centering
-\begin{tabular}{ccccccc}
-\hline
-\hline
-%\toprule
- &\multicolumn{2}{c}{Genético} & \multicolumn{2}{c}{Combinado} & \multicolumn{2}{c}{SOM}\\
-Dados & DET & FA & DET & FA & DET & FA\\
-\hline
-Temporizado (149 eventos) & 148 & 42 & 148 & 41 & 149 & 236\\
-Empilhado4 (74 eventos) & 37 & 0 & 35 & 0 & 55 & 1\\
-Empilhado7 (42 eventos) & 37 & 1 & 35 & 1 & 38 & 8\\
-\hline
-\hline
-
-\hline
-\hline
-\end{tabular}
-\caption{Valores de detecção e falsos alarmes para cada um dos
-algorítmos testados.}
-\label{tab:det_fa_es_som}
-\end{table}	
-
-Analisando somente o \acs{som}, o conjunto \emph{Temporizado} disparou uma
-quantidade de falsos alarmes quase 6 vezes a mais que o algoritmo
-genético. Esse problema deve-se a sensibilidade do \acs{som} para faixas de
-baixa potência presente no ruído deste conjunto de dados. Sua
-sensibilidade permitiu acertar todos os eventos do conjunto de dados a
-troco de uma quantidade de falsos alarmes enorme. Por sua vez, o
-algoritmo genético obteve melhores resultados errando apenas um evento
-e marcando apenas 43 falsos alarmes. O algoritmo combinado só foi
-capaz de excluir apenas um falso alarme do algoritmo genético.
-
-Para o conjunto de dados \emph{Empilhado4}, o \acs{som} obteve os melhores
-resultados de detecção quando comparado com o genético. Esse resultado
-deve-se a sensibilidade do \acs{som} para eventos como lâmpadas de baixa
-potência e a pouca presença de ruído nas amostras. Para o algoritmo
-combinado o \acs{som} excluiu dois eventos verdadeiros detectados pelo
-genético.
-	
-Para o conjunto \emph{Empilhado7}, o \acs{som} obteve um total de 38 detecções
-verdadeiras e 8 falsos alarmes contra 37 detecções e 1 falso alarme do
-algoritmo genético. O algoritmo combinado retirou 2 detecções do
-genético e nenhum falso alarme. As duas marcações eram lâmpadas
-fluorescentes de alta e baixa potência localizadas no período em que o
-ar condicionado está ligando.
-	
-Conclui-se que o algoritmo genético possui uma maior especificidade
-para eventos de transição gerando em todos os casos números maiores
-que 50\% do conjunto de dado e valores de falso alarme bem abaixo dos
-gerados pelo algoritmo do \acs{som}.
 
