@@ -1,84 +1,418 @@
 \chapter{Metodologia}
 \label{chap:metodologia}
 
-Neste capítulo está presente a descrição da base de dados
-(Seção~\ref{sec:base_de_dados}) e como será aplicado o algoritmo
-genético para a otimização dos parâmetros para detecção de eventos de
-transitório (Seção~\ref{sec:aplic_es}). 
+Uma vez definido o ambiente de análise implementado e suas
+capacidades, cabe detalhar como o mesmo será aplicado para
+determinar os parâmetros da abordagem final para detecção de
+eventos de transitório e a base de dados que será
+trabalhada. Este capítulo começa realizando a descrição das
+características presentes nos conjuntos de dados trabalhados, que
+podem ser separados em dois grandes grupos: um contendo a operação de
+poucos equipamentos atuando em conjunto e praticamente nenhuma
+injeção de ruído devido à equipamentos \acs{c5} (ver
+Subseção~\ref{ssec:modelos_carga}) --- os dados puros contidos nos
+arquivos NI00***\footnote{O símbolo ``*'' é utilizado com o mesmo
+significado do metacaractere para os sistemas operacionais
+\emph{Linux} na computação, ou seja, podem significar qualquer outro
+caractere --- o análogo à carta coringa nos baralhos de cartas.};
+enquanto o outro conta com a operação de múltiplos equipamentos
+atuando simultaneamente (cerca de 5 a 8, em geral) e da presença de
+equipamentos \acs{c5}, constituindo, por isso, de dados com menor
+relação sinal-ruído --- conjuntos \emph{Temporizado},
+\emph{Empilhado4} e \emph{Empilhado7}. Todos os conjuntos de dados
+possuem apenas um gabarito, exceto o \emph{Temporizado}, que possui
+dois gabaritos. O motivo para isso é a presença de um distúrbio
+durante a operação da televisão LCD nesse conjunto de dados, que
+\emph{não} é considerado como alvo na configuração \emph{Temporizado
+Gabarito 1}, enquanto a configuração \emph{Temporizado Gabarito 2}
+contém essa informação como eventos de transitórios desejados como
+alvo.
 
-% Dos parametros utilizados na figura esboço da metodologia empregada
-% pelo cepel
 
-% Falar da presença de dois gabaritos para o temporizado
+Em seguida, detém-se atenção para quais configurações e parâmetros
+presentes na metodologia proposta serão otimizados pelo \acs{es}
+descrito na Seção~\ref{ssec:es} do capítulo anterior, aonde detalhará
+como isso foi realizado. Como referência rápida, estes foram os
+parâmetros e as configurações otimizadas pela versão multiespécie do
+\acs{es} implementado:
+
+\begin{itemize}
+\item \textlabel{$\sigma_{gauss}$}{item:parametros}: O valor do
+$\sigma$ da Gaussiana empregado para retirar sua derivada e compor o
+\acs{fir} que é realiza a sua convolução com a envoltória de corrente;
+\item $\delta_{min}$: O valor mínimo que a resposta do \acs{fir} deve
+ter, em módulo, para as respectivas amostras constituam de uma região
+sensibilizada;
+\item $\Delta{I}_{min}$: Mínimo valor para a característica \acs{di} na
+qual o candidato a evento não será eliminado como ruído 
+\item $n_{min}$ (sujeito à utilização na configuração otimizada da
+remoção por eventos próximos): Quantidade mínima de amostras que um
+candidato deve estar distante de outro para não ser removido por evento
+próximo. A estratégia para a remoção depende da configuração
+escolhida, conforme próximo item; 
+\item Configurações otimizadas (em competição intraespécie), todas com
+remoção devido a eventos inconsistentes:
+\begin{enumerate}[label={Espécie} (\Roman*) -,ref=(\Roman*),align=left]
+\item\label{item:esp1} Com remoção de eventos próximos sem
+deslocamento, essa \emph{depois} de remover eventos ruidosos;
+\item\label{item:esp2} Com remoção de eventos próximos utilizando a
+média, essa \emph{depois} de remover eventos ruidosos;
+\item\label{item:esp3} Com remoção de eventos próximos sem
+deslocamento, essa \emph{antes} de remover eventos ruidosos;
+\item\label{item:esp4} Com remoção de eventos próximos utilizando a
+média, essa \emph{antes} de remover eventos ruidosos;
+\item\label{item:esp5} Sem remoção de eventos próximos (não otimiza
+$n_{min}$). 
+\end{enumerate}
+\end{itemize}
+
 
 \section{Descrição da base de dados}
 \label{sec:base_de_dados}
 
-%Foi proposto uma evolução gradual de dificuldade para a avaliação do
-%método e uma sequência de etapas para evoluir no sentido de obter um
-%\gls{nilm} capaz de desagregar o consumo, e não apenas identificar
-%equipamentos. A configuração mais simples incluiu a coleta de dados de
-%equipamentos operando individualmente, para depois adicionar
-%configurações com empilhamentos dois a dois, seguindo para
-%configurações mais complexas, adicionando \gls{c4}, \gls{c5} e
-%\gls{c6} de maneira gradual até chegar em condições reais. A validação
-%do filtro de derivada de Gaussiana foi realizada em cima de
-%configurações mais simples, havendo acúmulo em configurações
-%simples e dados limpos. 
+O \acs{cepel} propôs uma evolução gradual para a análise de sua
+técnica. As configurações mais simples incluem a coleta de dados com
+equipamentos sendo acionados e desacionados sequencialmente operando
+individualmente em apenas um único estado. Em seguida, simulou-se
+condições de operação em conjunto de equipamentos dois a dois, e
+equipamentos \acs{c2} operando em seus diversos estados. Essas
+condições mais simples e com dados bastante limpos constituíram a base
+de dados dos arquivos NI00*** que serão detalhados adiante nesta
+seção. Para todos os conjuntos utilizados neste trabalho, foi
+construído o gabarito com a infraestrutura implementada descrita no
+Capítulo~\ref{chap:framework} e de posse de registros das alterações
+nos estados operativos dos equipamentos fornecidos pelo \acs{cepel}.
+
+Já os conjuntos de dados \emph{Temporizado}, \emph{Empilhado4} e
+\emph{Empilhado7} constituem de simulações em laboratório mais
+complexas, contendo a operação de diversos aparelhos simultaneamente
+que têm sua detecção dificultada pela presença da dinâmica de
+aparelhos \acs{c5}. O conjunto \emph{Temporizado} foi criado pelo
+\acs{cepel} mais recentemente com o intuito de explorar os resultados
+de sua técnica em condições ruidosas, enquanto os conjuntos
+\emph{Empilhado4} e \emph{Empilhado7} foram elaborados durante a época
+do estudo de \citeauthor*{nilm_cepel_alvaro}, que não teve a
+oportunidade de analisar mais a fundo tais conjuntos de dados. Os
+registros das alterações nos estados operativos dos equipamentos
+nesses conjuntos de dados foram fornecidos pelo mesmo, o que
+possibilitou a recuperação desses dados com a informação necessária
+para a construção do gabarito.
+
+\subsection{Conjunto de dados \emph{NI00168}}
+
+Este conjunto de dados contém apenas a operação de equipamentos
+individualmente. Há a presença de dois equipamentos desconhecidos, que
+não foram possíveis de ter sua informação recuperada ao correlacionar
+com os registros de alterações. Como não era prioridade neste trabalho
+ter essa informação --- esses equipamentos não-rotulados não
+apresentam características especiais nos eventos de transitório
+decorrentes de seus acionamentos e desacionamentos, e essa informação
+é mais importante para a etapa de discriminação ---, trabalhou-se com
+os dados sem a rotulação desses equipamentos.
+
+O consumo agregado neste conjunto de dados pode ser observado na
+Figura~\ref{fig:ni00168_overview}, enquanto a
+Figura~\ref{fig:ni00168_app_time} contém a estimativa do consumo
+desagregado no gabarito.
+
+Os equipamentos presentes neste conjunto de dados são, todos com dois
+eventos de transitório, exceto quando especificado:
+
+\begin{itemize}
+\item Lâmpada incandescente 100 W, 60 W (com \emph{dimmer},
+o que constitui uma \acs{c4});
+\item Dois equipamentos desconhecidos;
+\item Lâmpada fluorescente 15 W, 16 W, 18 W, 20 W, 21 W (circular),
+40 W (tubular), 32 W (tubular), 28 W (tubular);
+\item Secador de cabelo (4 eventos: Desligado $\rightarrow$ Fraco
+$\rightarrow$ Forte $\rightarrow$ Fraco $\rightarrow$ Desligado);
+\item Televisão (3 eventos: Desligado $\rightarrow$ Ligado
+$\rightarrow$ Ligado e exibindo imagem $\rightarrow$
+Desligado)\footnote{A televisão pode ser ligada em um canal que não
+apresenta imagem.};
+\item Geladeira;
+\item Ar condicionado (4 eventos: Desligado $\rightarrow$ Ventilação
+$\rightarrow$ Ventilação e compressor $\rightarrow$ Ventilação
+$\rightarrow$ Desligado, constitui uma \acs{c5}).
+\end{itemize}
+
+Todos os arquivos NI00*** foram coletados utilizando o medidor do
+\acs{cepel}.
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00168_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00168}.}
+\label{fig:ni00168_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00168_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00168} - consumo temporal dos equipamentos.}
+\label{fig:ni00168_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00168_AppPie.png}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00168} - gráfico circular do consumo dos equipamentos.}
+\label{fig:ni00168_app_pie}
+\end{sidewaysfigure}
+
+\FloatBarrier
+\subsection{Conjunto de dados \emph{NI00171}}
+
+Este conjunto de dados é bastante similar ao conjunto \emph{NI00168},
+porém há a distinção quanto a alguns equipamentos presentes nesses
+conjuntos. A diferença mais notável dos dois conjuntos é a presença de
+eletrodomésticos com outros uso-finais distintos de iluminação, sendo
+eles: ferro de passar roupas, computador portátil, ventilador e
+liquidificador.  Os equipamentos de destaque nesse conjunto de dados
+são o ventilador e o computador portátil, onde este apresenta mudanças
+de estados com pequenos degraus de potência, como pode ser observado
+na Figura~\ref{fig:ni00171_app_time} e aquele se constitui de uma
+\acs{c5} com múltiplas oscilações de consumo durante o seu
+acionamento, que ocorre em dois estágios exibidos na
+Figura~\ref{fig:ni00171_laptop}. Os eventos de transitório nessa
+figura têm sua média retirada para permitir a comparação das múltiplas
+mudanças de estado presentes do equipamento, como os casos dos
+equipamentos no conjunto de dados \emph{Temporizado}, disponíveis nas 
+Figuras~\ref{fig:temporizado_geladeira}-\ref{fig:temporizado_televisao}.
+
+\begin{itemize}
+\item Lâmpada incandescente 100 W;
+\item Quatro equipamentos desconhecidos;
+\item Lâmpada fluorescente 18 W, 26 W, 40 W (tubular), 32 W (tubular),
+28 W (tubular);
+\item Secador de cabelo (4 eventos: Desligado $\rightarrow$ Fraco
+$\rightarrow$ Forte $\rightarrow$ Fraco $\rightarrow$ Desligado);
+\item Televisão (3 eventos: Desligado $\rightarrow$ Ligado
+$\rightarrow$ Ligado e exibindo imagem $\rightarrow$
+Desligado);
+\item Geladeira;
+\item Ferro de passar roupas;
+\item Computador portátil (constitui uma \acs{c5} durante mudanças do
+uso do processamento, que neste conjunto de dados ocorre apenas
+durante o seu acionamento);
+\item Liquidificador;
+\item Ventilador (6 eventos: Desligado $\rightarrow$ Forte $\rightarrow$
+Médio $\rightarrow$ Fraco $\rightarrow$ Médio $\rightarrow$ Forte
+$\rightarrow$ Desligado);
+\item Ar condicionado (4 eventos: Desligado $\rightarrow$ Ventilação
+$\rightarrow$ Ventilação e compressor $\rightarrow$ Ventilação
+$\rightarrow$ Desligado, constitui uma \acs{c5}).
+\end{itemize}
+ 
+Todos os arquivos NI00*** foram coletados utilizando o medidor do
+\acs{cepel}.
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00171_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00171}.}
+\label{fig:ni00171_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00171_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00171} - consumo temporal dos equipamentos.}
+\label{fig:ni00171_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00171_AppPie.png}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00171} - gráfico circular do consumo dos equipamentos.}
+\label{fig:ni00171_app_pie}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00171_App_Laptop.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00171} - envoltória para as diversas variáveis para o
+computador portátil.}
+\label{fig:ni00171_laptop}
+\end{sidewaysfigure}
 
 
-Foram utilizados três conjuntos de dados fornecidos pelo \acs{cepel},
-todos amostrados em situações controladas. Serão descritos as
-características de cada um deles, sendo seus códigos para
-identificação \emph{Temporizado} (Subseção~\ref{ssec:temp}),
-\emph{Empilhado4} (Subsseão~\ref{ssec:emp4}) e \emph{Empilhado7}
-(Subseção~\ref{ssec:emp7}).
+\FloatBarrier
+\subsection{Conjunto de dados \emph{NI00173}, \emph{NI00174},
+\emph{NI00175} e \emph{NI00177}}
 
+Estes conjuntos de dados apresentam acionamentos de equipamentos
+simultaneamente, porém isso é realizado de maneira simples, apenas com
+a operação de dois equipamentos atuando ao mesmo tempo. Em ambos os
+casos é utilizado uma lâmpada incandescente (100 W) em conjunto com um
+outro aparelho para realizar a operação conjunta de equipamentos. No
+caso do conjunto de dados \emph{NI00173}, o equipamento operando em
+conjunto com a lâmpada incandescente é um ventilador acionado em um
+único estado (pode ser modelado como uma \acs{c3}, apesar de ser uma
+\acs{c2}), enquanto nos demais conjuntos o equipamento é um secador de
+cabelo que opera em dois estados (Forte e Fraco, e, portando, atua
+como uma \acs{c2}). A única diferença entre os arquivos
+\emph{NI00174}, \emph{NI00175} e \emph{NI00177} é a ordem na qual o
+secador de cabelo e a lâmpada têm seus estados de operação alterados.
+Para o conjunto \emph{NI00174}, a lâmpada permanece ligada enquanto o
+estado de operação do secador é alterado.  Os conjuntos \emph{NI00175}
+e \emph{NI00177} alteram a operação dos estados desses equipamentos de
+diversas modos diferentes, tentando simular diversas configurações em
+que esses aparelhos poderiam ter seus estados alterados em uma
+residencia. As
+Figuras~\ref{fig:ni00173_overview}-\ref{fig:ni00177_app_time} permitem
+observar esses comportamentos, contendo o consumo agregado nesses
+conjuntos de dados e a informação estimada do consumo desagregado em
+seus respectivos gabaritos.
+
+Todos os arquivos NI00*** foram coletados utilizando o medidor do
+\acs{cepel}.
+
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00173_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00173}.}
+\label{fig:ni00173_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00173_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00173} - consumo temporal dos equipamentos.}
+\label{fig:ni00173_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00174_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00174}.}
+\label{fig:ni00174_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00174_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00174} - consumo temporal dos equipamentos.}
+\label{fig:ni00174_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00175_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00175}.}
+\label{fig:ni00175_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00175_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00175} - consumo temporal dos equipamentos.}
+\label{fig:ni00175_app_time}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00177_Overview.pdf}
+\caption{Perfil de consumo agregado para o conjunto de dados
+\emph{NI00177}.}
+\label{fig:ni00177_overview}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/NI00177_AppTime.pdf}
+\caption{Informação no gabarito para o conjunto de dados
+\emph{NI00177} - consumo temporal dos equipamentos.}
+\label{fig:ni00177_app_time}
+\end{sidewaysfigure}
+
+\FloatBarrier
 \subsection{Conjunto de dados \emph{Temporizado}}
 \label{ssec:temp}
 
-\FloatBarrier
-O conjunto de dados \emph{Temporizado} contém apenas cinco
-equipamentos:
+Este conjunto possui a operação de cinco aparelhos que podem ser
+modelados como \acs{c3} por atuarem apenas em um único estado quando
+operando. Uma característica deste conjunto é a presença de um alto
+nível de ruído durante a operação de uma \acs{c5}, a televisão LCD.
+Outra peculiaridade deste conjunto é a sua longa duração, cerca de 18
+horas foram coletadas. Além disso, ele possui dois gabaritos, motivo
+detalhado um pouco mais a adiante. A atuação dos equipamentos foi
+feito através de chaveamento automático, onde tentou-se gerar eventos
+próximos de acionamentos e desacionamentos dos equipamentos. Um total
+de 149 eventos de transitório estão presentes no conjunto, causados
+por estes equipamentos (sempre na sequência Desligado $\rightarrow$
+Ligado $\rightarrow$ Desligado):
 
 \begin{itemize}
-\item Televisão LCD, constitui-se de uma \acs{c5};
-\item Geladeira;
-\item Lâmpada fluorescente 23W, 54W;
-\item Ventilador.
+\item Televisão LCD (6 eventos de transitório), constitui-se de uma \acs{c5};
+\item Geladeira (123 eventos, o número impar de eventos é causado pelo
+fato da geladeira já estar operando quando a medição do conjunto é
+iniciada);
+\item Lâmpada fluorescente 23 W (4 eventos), 54 W (4 eventos);
+\item Ventilador (12 eventos).
 \end{itemize}
 
-Esse arquivo é diferente dos anteriores por estes motivos: 
-conter apenas acionamentos e desacionamentos de equipamentos; 
-Sua medição foi realizada com o medidor \emph{Yokogawa}, e o perfil de
-consumo dos equipamentos pode ser visualizada em
-\ref{fig:temporizado_overview}. Este conjunto é o que tem a maior
-presença de ruído, causado pela televisão LCD, em especial para os
-períodos das 00:00 às 02:00 e 04:30 às 08:00 do dia 21.
-
-A informação no gabarito pode ser observada nas figuras
-\ref{fig:temporizado_app_time}--\ref{fig:temporizado_televisao}.  A
-Figura~\ref{fig:temporizado_app_time} contém a informação do consumo
+O consumo agregado pode ser observado na
+Figura~\ref{fig:temporizado_app_time}. A informação contida no
+gabarito para este conjunto de dados pode ser observada nas figuras
+\ref{fig:temporizado_app_time}--\ref{fig:temporizado_televisao}.
+A Figura~\ref{fig:temporizado_app_time} contém a informação do consumo
 temporal dos equipamentos, enquanto a
 Figura~\ref{fig:temporizado_app_pie} contém o gráfico circular do
 consumo estimado no gabarito para os equipamentos. As figuras
 \ref{fig:temporizado_geladeira}--\ref{fig:temporizado_televisao}
-contêm os transitórios dos equipamentos marcados pelo usuário durante a
-criação do gabarito. Todos os eventos são movidos para obterem média
-zero de forma que a figura fique uniforme e seja possível compará-los.
-A informação contida nesse gráfico auxilia a identificar eventos no
-gabarito que fogem do padrão, seja por erro do usuário no
-preenchimento, ou por caracterizar um evento excêntrico, facilitando a
-identificação desses casos. Um exemplo pode ser observado na
-Figura~\ref{fig:temporizado_ventilador}, onde há a ocorrência de um
-evento que foge do padrão dos outros coletados. Essas figuras também
-permitem observar a quantidade de eventos para cada alteração de
-estado (indicado entre parênteses no título das subfiguras).
+contêm os transitórios dos equipamentos marcados pelo usuário durante
+a criação do gabarito. Todos os eventos são movidos para obterem média
+zero, de forma que os eventos de transitório estejam centrados no mesmo
+patamar e seja possível compará-los. A informação contida nesse
+gráfico auxilia a identificar eventos no gabarito que fogem do padrão,
+seja por erro do usuário no preenchimento, ou por caracterizar um
+evento excêntrico, facilitando a identificação desses casos. Um
+exemplo pode ser observado na Figura~\ref{fig:temporizado_ventilador},
+onde há a ocorrência de um evento, marcado por uma etiqueta (a mesma
+torna possível a identificação do evento através de sua chave), que
+foge do padrão dos outros coletados. Essas figuras também permitem
+observar a quantidade de eventos para cada alteração de estado
+(indicado entre parênteses no título das subfiguras). Sua medição foi
+realizada com o medidor \emph{Yokogawa}.
+
+Este conjunto é o que tem a maior presença de ruído, causado pela
+televisão LCD, em especial para os períodos das 00:00 às 02:00 e 04:30
+às 08:00 do dia 21. Durante esses períodos, há a ocorrência de uma
+pertubação que se assemelha com a operação de um equipamento \acs{c3},
+como exibido na Figura~\ref{fig:temporizado_disturbio}. Durante a
+aplicação da metodologia descrita na Seção~\ref{sec:aplic_es} e ao
+observar os resultados presentes no Capítulo~\ref{chap:resultados},
+observou-se uma alta presença de falsos alarmes nesse conjunto para
+todas os parâmetros examinados, o que levou a descoberta dessa
+pertubação. Fica então a questão de como tratá-la, se essa pertubação
+deve ser considerado como um estado interno de operação da televisão
+LCD, ou se esse distúrbio deve ser ignorado e tratado como falso
+alarme. Para permitir a análise de ambas situações, gerou-se o
+gabarito para este conjunto de dados com os dois casos, o primeiro
+gabarito contendo apenas os acionamentos e desacionamentos registrados
+pelo \acs{cepel} (149 eventos de transitório), e o segundo contém,
+também, os distúrbios observados na
+Figura~\ref{fig:temporizado_disturbio} (211 eventos).
 
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_Overview.pdf}
-\caption{Perfil de consumo para o conjunto de dados \emph{Temporizado}.}
+\caption{Perfil de consumo agregado para o conjunto de dados \emph{Temporizado}.}
 \label{fig:temporizado_overview}
 \end{sidewaysfigure}
 
@@ -86,7 +420,7 @@ estado (indicado entre parênteses no título das subfiguras).
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_AppTime.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: consumo temporal dos equipamentos.}
+\emph{Temporizado} - consumo temporal dos equipamentos.}
 \label{fig:temporizado_app_time}
 \end{sidewaysfigure}
 
@@ -94,7 +428,7 @@ estado (indicado entre parênteses no título das subfiguras).
 \centering
 \includegraphics[width=.5\textwidth]{imagens/Temporizado_AppPie.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: gráfico circular do consumo dos equipamentos.}
+\emph{Temporizado} - gráfico circular do consumo dos equipamentos.}
 \label{fig:temporizado_app_pie}
 \end{sidewaysfigure}
 
@@ -102,7 +436,7 @@ estado (indicado entre parênteses no título das subfiguras).
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_App_Geladeira.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: envoltória para as diversas variáveis para a
+\emph{Temporizado} - envoltória para as diversas variáveis para a
 geladeira.}
 \label{fig:temporizado_geladeira}
 \end{sidewaysfigure}
@@ -111,7 +445,7 @@ geladeira.}
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_App_Ventilador.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: envoltória para as diversas variáveis para a
+\emph{Temporizado} - envoltória para as diversas variáveis para a
 ventilador.}
 \label{fig:temporizado_ventilador}
 \end{sidewaysfigure}
@@ -120,7 +454,7 @@ ventilador.}
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_App_LF23W.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: envoltória para as diversas variáveis para a
+\emph{Temporizado} - envoltória para as diversas variáveis para a
 lâmpada fluorescente 23W.}
 \label{fig:temporizado_lf23}
 \end{sidewaysfigure}
@@ -129,8 +463,8 @@ lâmpada fluorescente 23W.}
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_App_LF54W.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: envoltória para as diversas variáveis para a
-lâmpada fluoresecente 54W.}
+\emph{Temporizado} - envoltória para as diversas variáveis para a
+lâmpada fluorescente 54W.}
 \label{fig:temporizado_lf54}
 \end{sidewaysfigure}
 
@@ -138,9 +472,20 @@ lâmpada fluoresecente 54W.}
 \centering
 \includegraphics[width=\textwidth]{imagens/Temporizado_App_Televisao.pdf}
 \caption{Informação no gabarito para o conjunto de dados
-\emph{Temporizado}: envoltória para as diversas variáveis para a
+\emph{Temporizado} - envoltória para as diversas variáveis para a
 televisão.}
 \label{fig:temporizado_televisao}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\textwidth]{imagens/temporizado_disturbio.pdf}
+\caption[Distúrbio recorrente presente no conjunto de dados \emph{Temporizado}.]
+{Distúrbio recorrente presente no conjunto de dados
+\emph{Temporizado}. O distúrbio apresenta características semelhantes
+a um aparelho \acs{c3} com consumo de 15 W e opera durante cerca de
+3 s.}
+\label{fig:temporizado_disturbio}
 \end{sidewaysfigure}
 
 \FloatBarrier
@@ -148,38 +493,42 @@ televisão.}
 \subsection{Conjunto de dados \emph{Empilhado4}}
 \label{ssec:emp4}
 
-O conjunto de dados \emph{Empilhado4} contém os seguintes
-equipamentos:
+A principal característica deste conjunto é a operação simultânea de
+lâmpadas fluorescentes e incandescentes de diversos consumos em
+conjunto com outros três equipamentos:
+forno elétrico, chuveiro elétrico e televisão CRT. Esses aparelhos
+operam um a um em conjunto com as lâmpadas. Este conjunto também é o
+que contém a maior quantidade de eventos de transitório de baixo
+consumo causado pelas lâmpadas fluorescentes de baixo consumo. A
+seguir segue a descrição dos equipamentos presentes neste conjunto de
+dados:
 
 \begin{itemize}
-\item Forno elétrico;
-\item Lâmpada fluorescente (LF) 25 W (2 unidades), 22W (2 unidades), 15W (3
-unidades), 9W;
-\item Lâmpada incandescente (LI) 40W (2 unidades);
-\item Televisão CRT.
+\item Forno elétrico: dinâmica de consumo após acionamento (queda
+lenta do consumo até estabilizar); 
+\item Chuveiro elétrico: dinâmica de consumo após acionamento (flutuações
+após acionamento, tendência a estabilizar, porém durante a operação
+observada neste conjunto se trata de uma \acs{c5} durante toda sua
+atuação);
+\item Televisão CRT: dinâmica de consumo permanente;
+\item Lâmpada fluorescente (LF) 25 W (2 unidades), 22 W (2 unidades), 15 W (3
+unidades), 9 W;
+\item Lâmpada incandescente (LI) 40 W (2 unidades).
 \end{itemize}
 
-Sua medição foi realizada com o medidor do \acs{cepel}. Contém a maior
-quantidade de alterações de estados de equipamentos de baixo consumo (no
-caso as lâmpadas fluorescentes). O
-perfil de seu consumo pode ser visualizado na
-Figura~\ref{fig:empilhado4_overview}.
-
+Sua medição foi realizada com o medidor do \acs{cepel}. O perfil de seu
+consumo pode ser visualizado na Figura~\ref{fig:empilhado4_overview}.
 A informação no gabarito pode ser observada nas figuras
-\ref{fig:empilhado4_app_time}--\ref{fig:empilhado4_app_pie}. 
-A Figura~\ref{fig:empilhado4_app_time} contém a informação do consumo
-temporal dos equipamentos, enquanto a Figura~\ref{fig:empilhado4_app_pie}
-contém o gráfico circular do consumo estimado no gabarito para os
-equipamentos.
-
-%Figure~\ref{fig:empilhado4_app_pie} contém o gráfico circular do
-%consumo estimado no gabarito para os equipamentos. As figuras
-%\ref{fig:empilhado4_geladeira}--\ref{fig:empilhado4_televisao}
+\ref{fig:empilhado4_app_time} e \ref{fig:empilhado4_app_pie}.  A
+Figura~\ref{fig:empilhado4_app_time} contém a informação do consumo
+temporal dos equipamentos, enquanto a
+Figura~\ref{fig:empilhado4_app_pie} contém o gráfico circular do
+consumo estimado no gabarito para os equipamentos.
 
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\textwidth]{imagens/Empilhado4_Overview.pdf}
-\caption{Perfil de consumo para o conjunto de dados \emph{Empilhado4}.}
+\caption{Perfil de consumo agregado para o conjunto de dados \emph{Empilhado4}.}
 \label{fig:empilhado4_overview}
 \end{sidewaysfigure}
 
@@ -212,36 +561,40 @@ equipamentos.
 \subsection{Conjunto de dados \emph{Empilhado7}}
 \label{ssec:emp7}
 
-O conjunto de dados \emph{Empilhado7} contém os seguintes
-equipamentos:
+Este é o conjunto com a maior operação simultânea de equipamentos de
+diferentes uso-finais. Há a ocorrência de um evento de transitório
+aonde ocorre o desacionamento de quatro equipamentos em conjunto
+(geladeira, uma lâmpada incandescente 100 W, e duas lâmpadas
+fluorescentes 20 W e 24 W). Outra peculiaridade deste arquivo é a
+distorção dos eventos de transitório durante o momento que o ar
+condicionado está operando (um total de 13 eventos presentes). Os
+equipamentos presentes neste conjunto são:
 
 \begin{itemize}
-\item Lâmpada incadescente (LI) 60 W, 100 W;
-\item Lâmpada fluorescente (LF) 20 W, 21 W, 24 W, 26 W, 28 W, 40 W;
+\item Lâmpada incandescente (LI) 60 W, 100 W;
+\item Lâmpada fluorescente (LF) 20 W, 21 W (circular), 24 W, 26 W, 28
+W, 40 W;
 \item Secador de cabelo;
-\item Ar condicionado;
+\item Ar condicionado (constitui de uma \acs{c5});
 \item Sanduicheira;
 \item Geladeira (obs: essa geladeira tem consumo bastante superior
 àquele utilizada no arquivo \emph{Temporizado});
-\item Televisão CRT.
+\item Televisão CRT (constitui de uma \acs{c5}).
 \end{itemize}
 
-Sua medição foi realizada com o medidor do \acs{cepel}. Uma
-peculiaridade desse arquivo é a distorção dos transitórios durante o
-momento que o ar condicionado está operando.
-
-A informação no gabarito pode ser observada nas figuras
-\ref{fig:empilhado7_app_time}--\ref{fig:empilhado7_app_pie}. 
-A Figura~\ref{fig:empilhado7_app_time} contém a informação do consumo
-temporal dos equipamentos, enquanto a Figura~\ref{fig:empilhado7_app_pie}
-contém o gráfico circular do consumo estimado no gabarito para os
-equipamentos.
+Sua medição foi realizada com o medidor do \acs{cepel}.  A informação
+no gabarito pode ser observada nas figuras
+\ref{fig:empilhado7_app_time}--\ref{fig:empilhado7_app_pie}.  A
+Figura~\ref{fig:empilhado7_app_time} contém a informação do consumo
+temporal dos equipamentos, enquanto a
+Figura~\ref{fig:empilhado7_app_pie} contém o gráfico circular do
+consumo estimado no gabarito para os equipamentos.
 
 
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\textwidth]{imagens/Empilhado7_Overview.pdf}
-\caption{Perfil de consumo para o conjunto de dados \emph{Empilhado7}.}
+\caption{Perfil de consumo agregado para o conjunto de dados \emph{Empilhado7}.}
 \label{fig:empilhado7_overview}
 \end{sidewaysfigure}
 
@@ -267,76 +620,147 @@ equipamentos.
 Aplicação do \acf{es} para Otimização do Detector de Eventos}
 \label{sec:aplic_es}
 
-Para o ajuste automático, utilizou-se o ambiente de análise detalhado
-no Capítulo~\ref{chap:framework}. Entretanto, algumas questões ainda
-estavam em aberto. Além dos caminhos mostrados na
-Figura~\ref{fig:cepel_transitorio}, foi implementado uma nova versão
-para a remoção de eventos próximos utilizando a média de seus centros
-(ver pp.~\pageref{text:media}). Outra maneira de remoção dos eventos
-também foi adicionada utilizando o conceito de incosistência (ver
-pp.~\pageref{text:incosistentes}). Uma estratégia em força bruta ---
-aqui se referindo a otimizar todas as possíveis configurações e
-identificar a melhor convergência delas --- não parecia ser a melhor
-maneira de abordar o problema. Percebeu-se a necessidade de realizar a
-escolha de algumas configurações a serem testadas para reduzir a
-quantidade de caminhos possíveis.
+Esta seção se dedica a descrição da metodologia final adotada para a
+detecção de eventos por este trabalho que foi aplicada na base de
+dados descrita na seção anterior. A metodologia base é aquela
+explicada na Seção~\ref{ssec:met_cepel}, proposta pelo \acs{cepel}
+para a detecção de eventos de transitório. Resumidamente, a
+metodologia utiliza um filtro para convoluir a derivada de Gaussiana
+com o sinal de corrente, que irá gerar regiões sensibilizadas caso a
+resposta do filtro ultrapasse um limiar. O ponto de inflexão dessas
+regiões representam candidatos a evento de transitório, que serão
+aceitos caso não tenham sido gerados por ruído ou estejam
+demasiadamente próximos a outros candidatos. Porém, a mesma foi
+reimplementada de acordo com as considerações realizadas no
+Capítulo~\ref{chap:framework} que, além de diversas alterações
+técnicas, trouxeram três alterações:
 
+\begin{itemize}
+\item Remoção de eventos próximos utilizando sua média (ver
+pp.~\pageref{text:media});
+\item Remoção de eventos inconsistentes (ver
+pp.~\pageref{text:incosistentes});
+\item Ajuste automático dos parâmetros através de um otimizador, que
+neste trabalho se trata da versão multiespécie do \acs{es}
+implementado e detalhado na Seção~\ref{sec:otimizacao}.
+\end{itemize}
+
+Antes de entrar no mérito do ajuste automático, este trabalho também
+realizou um ajuste empírico dos parâmetros como era feito pelo
+\acs{cepel} na sua metodologia original, que será referido como
+\emph{Ajuste Manual}. Isso foi realizado para permitir uma melhor
+afinidade com o ambiente de análise, uma vez que a utilização
+unicamente de parâmetros otimizados automaticamente não permite a
+compreensão de nuances da operação e capacidade da metodologia. Apesar
+de ser realizada manualmente, algumas diferenças podem ser citadas em
+relação ao ajuste realizado pelo \acs{cepel}. A primeira, e mais
+importante, é que o ajuste foi realizado para os conjuntos de dados
+\emph{Temporizado}, que contém a presença mais forte de ruídos.  Além
+disso, diferente do ajuste automático de parâmetros que será explicada
+a seguir e opera ajustando vários parâmetros citados no início deste
+capítulo (pp.~\pageref{item:parametros}), o \emph{Ajuste Manual} foi
+realizado apenas para o $\delta_{min}$, enquanto os demais parâmetros
+são os mesmos empregados pela metodologia do \acs{cepel}. Contudo, a
+versão do algoritmo já permitia a utilização de novas maneiras de
+remoção de evento, que foram analisadas e optou-se empregar a versão
+com remoção de eventos inconsistentes e utilização da média para
+remoção de eventos próximos.
+
+A metodologia original do \acs{cepel} já apresentava cinco diferentes
+maneiras para a remoção de candidatos, indicadas na
+Figura~\ref{fig:cepel_transitorio}. A adição de duas novas maneiras de
+remoção de candidatos aumentou a quantidade de possibilidades de
+configurações a serem analisadas com relação a quais exames empregar
+para a remoção de candidatos. Não se espera que a questão dos exames
+realizados para a remoção seja um fator chave no desempenho da
+metodologia, e sim o valor dos parâmetros empregados. Porém, não se sabe
+\emph{a priori} qual é a configuração mais indicada para a operação,
+sendo necessário realizar comparações entre elas para determinar qual
+é a mais adequada. Ao invés de realizar a otimização de cada
+configuração individualmente e então determinar qual teve a melhor
+convergência, implementou-se a versão multiespécie do \acs{es} (ver
+pp.~\pageref{sssec:multiespecie}) que
+permite dinâmica na quantidade de esforço computacional reservado para
+cada configuração. Assim, analisar-se-á diversas configurações, cada
+uma representada como uma espécie competindo durante a evolução no
+\acs{es}, que terão maior ou menor esforço computacional dedicado
+conforme sua melhor ou pior evolução.
+
+Ainda assim, a avaliação de uma estratégia em força bruta --- aqui se
+referindo a otimizar todas as possíveis configurações e identificar a
+melhor convergência delas --- não parece ser a melhor maneira de
+abordar o problema, mesmo que houvesse capacidade computacional para
+realizar tal tarefa em tempo hábil. Percebeu-se a necessidade de
+realizar a escolha de algumas configurações a serem testadas para
+reduzir a quantidade de caminhos possíveis.  
 Durante a realização do \emph{Ajuste Manual}, percebeu-se que os
-eventos removidos devido à incosistência eram sempre eventos de falso
-alarme, mas não havia a ocorrência de perda de eventos de detecção causados por
-esse tipo de remoção. Por isso, determinou-se que a remoção de eventos de
-inconsistentes seria sempre realizada. Por outro lado, a remoção de
-eventos devido à ruído era importante para remoção de pertubações
-rápidas geradas na rede que não constituiam na mudança do patamar
-operativo da rede e, com base nisso, determinou-se que a remoção de
-eventos ruidosos sempre seria realizada. Assim, essa variável
-($\Delta I_{min}$) sempre estará presente no material genético das
-espécies, bem como o $\sigma$ da Gaussiana a ser utilizada no filtro
-de derivada de Gaussiana e o seu valor de corte $\delta_{min}$. Já
-para o caso da remoção de eventos próximos, não era possível
-determinar se sua utilização era necessária, nem qual das versões de
-remoção --- por média, ou sem deslocamento --- era o que mais se
-adequada ao problema. No caso de não usar corte, a variável $n_{min}$
-não seria utilizada, porém no caso oposto as espécies teriam um gene a
-mais, cujo fenótipo é inteiro. Ainda assim, sua representação é no
-conjunto real, sendo necessário determinar como codificar a
-informação. Simplesmente se escolheu arredondar o valor na
-representação para obter o valor do fenótipo. Finalmente, também não
-se sabia \emph{a priori} determinar se a ordem influenciaria na
+eventos removidos devido à inconsistência eram sempre eventos de falso
+alarme, mas não havia a ocorrência de perda de eventos de detecção
+causados por esse tipo de remoção. Por isso, determinou-se que a
+remoção de eventos de inconsistentes seria sempre realizada durante o
+ajuste de parâmetros. Por outro lado, a remoção de eventos devido à
+ruído era importante para remoção de pertubações rápidas geradas na
+rede que não constituíam na mudança do patamar operativo da rede e,
+com base nisso, determinou-se que a remoção de eventos ruidosos também
+sempre seria realizada. Assim, a variável $\Delta I_{min}$ sempre
+estará presente no material genético das espécies, bem como o $\sigma$
+da Gaussiana a ser utilizada no filtro de derivada de Gaussiana e o
+seu valor de corte $\delta_{min}$. Já para o caso da remoção de
+eventos próximos, não era possível determinar se sua utilização era
+necessária, nem qual das versões de remoção --- por média, ou sem
+deslocamento --- era o que mais se adequada ao problema. No caso de
+não usar corte, a variável $n_{min}$ não estará presente no material
+genético das espécies, porém no caso oposto as espécies há a
+ocorrência de um gene a mais, cujo fenótipo é inteiro. Ainda assim,
+sua representação no genótipo é realizada por números reais, sendo
+preciso determinar como codificar a informação. Simplesmente se
+escolheu arredondar o valor na representação para obter o valor do
+fenótipo. Finalmente, também não se sabia \emph{a priori} determinar
+se a ordem de aplicação das remoções pode causar alguma influência na
 capacidade de detecção e, apesar de não se esperar grandes diferenças
 devido à mudança da ordem em que eles seriam removidos, decidiu-se
 testar ambas configurações.  
 
-Assim, para essas determinações, haviam cinco caminhos a serem
-percorridos, que determinam as espécies utilizadas no \acs{es}: 
+Assim, decidiu-se empregar cinco configurações a serem analisadas, que
+determinam as espécies utilizadas no \acs{es}. As mesmas estão
+descritas no início deste capítulo, constituindo as espécies
+\ref{item:esp1}--\ref{item:esp5} na pp.~\pageref{item:esp1}.
 
-\begin{enumerate}[label={Espécie} (\Roman*) -,ref=(\Roman*),align=left]
-\item\label{item:esp1} Com remoção de eventos próximos sem
-deslocamento, essa \emph{depois} de remover eventos ruidosos;
-\item\label{item:esp2} Com remoção de eventos próximos utilizando a
-média, essa \emph{depois} de remover eventos ruidosos;
-\item\label{item:esp3} Com remoção de eventos próximos sem
-deslocamento, essa \emph{antes} de remover eventos ruidosos;
-\item\label{item:esp4} Com remoção de eventos próximos utilizando a
-média, essa \emph{antes} de remover eventos ruidosos;
-\item\label{item:esp5} Sem remoção de eventos próximos (essa espécie tem um gene a
-menos que as espécies anteriores: o tamanho da janela); 
-\end{enumerate}
-
-Além da questão dos caminhos, era necessário determinar a
+Além da questão das configurações, era necessário determinar a
 inicialização. Para garantir melhor convergência, empregou-se
 fronteiras mínimas e máximas para cada um dos valores representados
-pelos genes. A inicialização foi aleatória uniforme dentro dessas
-fronteiras. Para o parâmetro da estratégia evolutiva, porém,
+pelos genes, sendo estas:
+
+\begin{subequations}\label{eq:fronteiras}
+\begin{equation}\label{eq:fronteira_sigma}
+0,003 < \sigma_{gauss} < 0,5
+\end{equation}
+\begin{equation}\label{eq:fronteira_delta}
+0,009 < \delta_{min} < 0,5
+\end{equation}
+\begin{equation}\label{eq:fronteira_dimin}
+0,0 < \Delta{I}_{min} < 1,0
+\end{equation}
+\begin{equation}\label{eq:fronteira_nmin}
+5,0 < n_{min} < 500,0\footnote{Apesar do $n_{min}$ ser inteiro na
+representação no fenótipo, sua representação é por número reais no
+genótipo por estar utilizando-se do algoritmo genético por \acs{es}.
+Também se reitera, aqui, que esse gene só estará presente nas
+configurações que realizam a remoção de eventos próximos.}
+\end{equation}
+\end{subequations}
+
+A inicialização foi aleatória uniforme dentro das fronteiras descritas
+em \ref{eq:fronteiras}. Para o parâmetro da estratégia evolutiva, porém,
 iniciou-se esse valor de acordo com \ref{eq:sigma_init}, garantindo
 que inicialmente cada individuo tenha, em média, 95\% de chance de
 explorar uma região no interior a 10\% do espaço de solução permitido. Os
 limites inferiores e superiores foram determinados por
 \ref{eq:sigma_min} e \ref{eq:sigma_max}, respectivamente. Os valores
 de $\sigma_{min,i}$ e $\sigma_{max,i}$ garantem que, no mínimo, o material
-genético irá sofrer pertubações dentro da região de 0,01\% da região
-de solução em 67\% dos casos, enquanto no máximo ele irá pertubar o
-material genético em 30\% da região para a mesma probabilidade:
+genético sofrerá pertubações dentro da região de 0,01\% da região
+de solução em 67\% dos casos, enquanto o mesmo será perturbado no máximo 
+em 30\% da região para a mesma probabilidade:
 
 \begin{subequations}
 \begin{equation}\label{eq:sigma_init}
@@ -353,10 +777,40 @@ material genético em 30\% da região para a mesma probabilidade:
 \noindent onde $\Delta x_i$ é a região do espaço dentro das fronteiras
 para a i-ésima variável.
 
+Além disso, há de escolher os parâmetros livres no cálculo da aptidão
+explicitada em \ref{eq:regra_pontuacao}. Os parâmetros $\gamma_{det}$
+e $\gamma_{fa}$ permitem priorizar uma melhor taxa de detecção ou
+menor taxa de falso alarme, em detrimento de um acréscimo na taxa de
+falso alarme ou decréscimo na taxa de detecção, respectivamente. Isso
+pode ser feito dando valores maiores ou menores para a recompensa de
+encontrar corretamente um evento de transitório ou a penalidade de
+aceitar um evento que se constitui de falso alarme.
+Os valores utilizados foram a unidade para $\gamma_{det}$ e -0,9 para
+$\gamma_{fa}$. O objetivo dessa diferença é uma leve priorização para
+a detecção de eventos em detrimento de uma maior taxa de falso alarme.
+O valor para $\gamma_{rem}$ foi de -0,05. Esse parâmetro é importante
+para garantir a obtenção de soluções mais simples, que exploram a
+capacidade do filtro de Gaussiana em gerar o mínimo possível de
+candidatos, o que reduz a carga da remoção de eventos através de
+cortes em $\Delta{I}_{min}$ ou $n_{min}$. Ao mesmo tempo, 
+a geração de menos candidatos significa que a solução exige menor
+esforço computacional, e é mais adequada para a aplicação na operação
+em tempo real. Ainda, o parâmetro \acs{jmax} foi definido como 50
+amostras. 
+
 Finalmente, cabe ainda decidir qual dos métodos de competição para as
-espécies será utilizado. Como a implementação do método de competição
-intraespécies acaba favorecendo espécies com carga genética mais
-simples de serem otimizadas ou que começaram em condições 
-privilegiadas --- quando sem o mecanismo de adiamento da competição
----, irá optar-se pela competição intraespécie.
+espécies será utilizado e os tamanhos das populações. Como a
+implementação do método de competição intraespécies, da maneira
+atualmente disponível neste trabalho, acaba favorecendo espécies com
+carga genética mais simples de serem otimizadas ou que começaram em
+condições privilegiadas --- quando sem o mecanismo de adiamento da
+competição ---, irá optar-se pela competição intraespécie. Para
+\acs{mu}, utilizou-se o valor de inicial de 30 indivíduos para cada
+uma das espécies. Como hão cinco espécies que serão otimizadas, a
+população global é de 150 indivíduos. Cada indivíduo gerará 7 filhos,
+de forma que o valor de \acs{lambda} global é de 1050 indivíduos.
+
+
+
+
 

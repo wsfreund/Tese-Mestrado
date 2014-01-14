@@ -1,67 +1,210 @@
 \chapter{Conclusão}
 \label{chap:conclusao}
 
-O \acs{nilm} é uma técnica com potencial para obtenção de uma melhor
-\acs{ee}, podendo auxiliar diretamente na obtenção de uma menor
-intensidade energética ou facilitar no estudo realizados de \acs{ee}
-para o setor residencial através da oferta de dados com melhor
-qualidade e frequência.
+Este trabalho trouxe um extenso levantamento bibliográfico, desde um
+detalhamento das aplicações do \acs{nilm} para a obtenção de uma
+melhor \acs{ee}, às diversas técnicas aplicadas por outros autores
+em busca da obtenção de uma estimativa do consumo desagregado. A
+primeira parte do levantamento, em relação à aplicação do \acs{nilm}
+para \acs{ee}, detalhou um novo programa de \acs{ee} proposto em
+países desenvolvidos como \acs{eua} e outros países na Europa
+Ocidental que permite a redução do consumo de energia elétrica no
+setor residencial através do retorno da informação (estimada) de
+consumo, aonde o \acs{nilm} pode ter papel fundamental de tornar essa
+informação disponível com baixo custo. A intenção desses autores é
+tentativa da união da infraestrutura que será disponibilizada pelas
+redes elétricas inteligentes (\emph{smart grid}) como sistema de
+aquisição de dados --- os medidores inteligentes (\emph{smart
+meters}). Além disso, o mesmo pode auxiliar na obtenção de uma
+informação com melhor qualidade e maior frequência para os estudos em
+\acs{ee} realizados por entidades governamentais, aonde o mesmo pode
+auxiliar na informação obtida através das \glspl{pph} ou, até mesmo,
+futuramente substituí-la.
 
-A função do \acs{nilm} é informar o consumo de energia desagregado por
-aparelho, e não apenas identificar o mesmo. Além disso, a grande
-dificuldade para a implementação da tecnologia é quando a rede
-elétrica das residências está com maior operação de aparelhos, o que,
-dependendo de sua dinâmica operativa, irá causar ruído na rede.  Há
-ainda a questão da ocorrência de aparelhos desconhecidos que podem
-afetar a eficácia das técnicas. Por isso, é necessário determinar como
-a presença dos mesmos irá afetar a eficácia no \acs{nilm}. E, por esse
-mesmo motivo, é desejável que o \acs{nilm} tenha a capacidade de
-identificar aparelhos desconhecidos, adicionando-os ao seu catálogo e
-permitindo sua futura identificação de alguma maneira.
+O levantamento das técnicas permitiu a realização de diversas
+considerações sobre os pontos envolvidos no projeto dessa tecnologia,
+aonde essa informação foi organizada e debatida na primeira seção
+Capítulo~\ref{cap:nilm}. Isso permitiu uma melhor compreensão do
+projeto como um todo, o que levou ao desenvolvimento de um ambiente
+para atender às especificações observadas. Dentre elas, destaca-se a
+necessidade de um ambiente único de análise para a evolução do
+projeto, que pode utilizar diversas técnicas e características
+diferentes durante o seu progresso, com o intuito de melhorar a
+capacidade de reconstrução de energia do \acs{nilm}, que inclusive
+pode alterar a configuração de seu sistema de aquisição de dados e,
+portanto, precisa ser capaz de representar os dados e análises em uma
+única maneira. Esse ambiente permite analisar o comportamento do
+\acs{nilm} antes que o mesmo seja colocado em operação.
 
-Devido à percepção de que o projeto irá se prolongar bem além deste
-trabalho, viu-se a necessidade de realizar um ambiente para integrar
-as técnicas aplicadas no \acs{nilm} permitindo que elas sejam
-utilizadas no futuro em um único ambiente agregando toda a informação.
-Bem como também facilitar a continuação do projeto no rumo da
-discriminação dos aparelhos e de seus estados operativos, que é o
-próximo passo para tornar o desenvolvimento da tecnologia.
-Esse ambiente também pode auxiliar caso o \acs{cepel} opte por tomar
-outras direções no projeto --- como na possibilidade de impregnar o
-método atuando nos medidores inteligentes, mas nesse caso se limitando
-a amostragens mais baixas, ou elevar a amostragem com o objetivo de
-obter melhores eficácias ---, sendo necessário apenas ajustar os
-módulos para atender as novas configurações de operação do \acs{nilm}
-facilitando, assim, possíveis desdobramentos. 
+A implementação desse ambiente adaptou a metodologia proposta pelo
+\acs{cepel} para detecção de eventos de transitório, passo necessário
+para a exploração da informação deixada por equipamentos durante a
+alteração de seu estado operativo e que foi atacado pelo grupo do
+\acs{cepel}. A sua metodologia emprega um filtro de derivada de
+Gaussiana para a geração de candidatos, que ainda passam por outros
+dois cortes antes de serem aceitos como um evento de transitório: um
+para o valor mínimo de degrau de corrente que, caso seja
+demasiadamente pequeno, será removido por constituir um evento de
+ruído; e outro para candidatos próximos, adicionando um tempo morto de
+resposta do filtro antes que um novo candidato possa ser aceito.
 
-Uma das dificuldades para o \acs{nilm} é obter uma estimativa do
-consumo desagregado por aparelho para permitir a otimização das
-técnicas e o cálculo de eficiência do \acs{nilm}. O ambiente tratou
+Na versão da metodologia presente no ambiente de análise,
+adicionaram-se diversos avanços operacionais, alguns exemplos: 
+leitura de redes elétricas com até três fases, transformação dos dados
+em um formato único para os dois medidores sendo utilizados;
+segmentação da informação em memória para permitir a leitura de dados
+longos; redução da necessidade de leitura em disco através do
+armazenamento das bordas dos arquivos em memória transitória;
+robustez indicando capacidade de recuperação de dados com falhas no
+medidor ou sua sobrecarga; aumento da velocidade da análise através da
+remoção de amostras irrelevantes na janela do filtro em convolução;
+melhor capacidade de interpretação gráfica dos dados e das análises; etc.
+
+Porém, as maiores contribuições foram: 
+
+\begin{itemize}
+\item Construção do gabarito: uma das dificuldades para o \acs{nilm} é
+obter uma estimativa do consumo desagregado por aparelho a ser
+identificado pelas técnicas aplicadas no \acs{nilm}. O ambiente tratou
 desse caso fornecendo uma interface gráfica para o usuário, que
 permitiu a criação da informação estimada a ser desagregada nos dados.
 Após completar o seu preenchimento para um determinado conjunto de
 dados, esse ambiente facilita a compreensão da informação contida no
-mesmo através de informações gráficas. Apenas utilizando essa
-informação já foi possível determinar um valor adequado a ser
-empregado na metodologia original do \acs{cepel}.
+mesmo através de informações gráficas;
+\item Remoção de eventos por inconsistência: a mesma mostrou-se
+suficiente nos conjuntos de dados analisados para a remoção de
+candidatos a eventos de transitório antes removidos pela adição de
+tempo morto em resposta do detector pela metodologia do \acs{cepel},
+esses eventos causados por picos no consumo durante acionamento de
+equipamentos --- como aqueles contendo motores. A inconsistência
+ocorre quando a resposta do filtro tem sinal diferente àquele presente
+no degrau (diferença entre pós e pré transitório) de corrente extraído
+durante a geração do candidato à evento;
+\item Capacidade de ajuste automático dos parâmetros: realizado
+através de uma adaptação do \acl{es} inspirada nas versões
+multiespécies de otimização multiobjetivo, porém para permitir uma
+dinâmica durante a evolução das espécies que possibilita separar
+maior capacidade computacional às espécies que melhor se adaptam para
+a solução do problema. O otimizador também apresenta outras capacidades:
+\begin{itemize}
+\item Determinação do ponto de operação: através do ajuste dos
+parâmetros livres para o cálculo da aptidão, é possível priorizar
+maiores taxas de detecção ou falso alarme, porém essa capacidade não
+pode ser avaliada neste trabalho; 
+\item Recuperar o processo caso ocorra interrupção não planejada: o
+algoritmo genético implementado é capaz de recuperar a evolução de um
+processo perdido, o que é especialmente importante durante a
+otimização de conjuntos com grande quantidade de dados.
+\end{itemize}
+\end{itemize}
 
-Esse ambiente permitiu avaliar a proposta do \acs{cepel} de um filtro
-de núcleo de Gaussiana para os três conjuntos de dados oferecidos pelo
-mesmo, onde estão representados possíveis cenários de aplicação real,
-contendo a operação simultânea de aparelhos na rede que a tornam um
-local mais complexo para operação da tecnologia. Nesses conjuntos de
-dados, aplicou-se um otimizador por algoritmo genético para obter os
-parâmetros ótimos para as regras de avaliação determinadas pelo
-usuário. Obteve-se taxa de detecção superior a 83\%, podendo ser
-considerada boa. A taxa de falso alarme significativa, próxima a 17\%,
-é causada em sua maioria pelo arquivo \emph{Temporizado}, aonde há um
-distúrbio semelhante à operação de um equipamento não conhecido, e por
-esse mesmo motivo, não estando presente no gabarito do \acs{nilm}.
-Como consequência, há um aumento da taxa de falso alarme. Nesses
-casos, seria importante ter, além dos rótulos dos tempos de alteração
-de estados realizadas nos equipamentos, a informação de submedição dos
-aparelhos para garantir a construção de um gabarito fiel à realidade
-dos conjuntos de dados. 
+Três ajustes utilizando o otimizador foram realizados:
+
+\begin{itemize}
+\item ES 1: antes de perseguir a aplicação do otimizador para os dados
+simulando cenários de aplicação prática, aplicou-se a otimização para
+os dados com condições mais simples --- os conjuntos \emph{NI00***}.
+O otimizador apresentou menor falso alarme nos dados simulando
+cenários de aplicação prática. Atribuiu-se essa capacidade ao
+parâmetro $\gamma_{rem}$ utilizado para o cálculo da aptidão dos
+indivíduos. Seu emprego permitiu explorar os limites do limiar de
+sensibilização para a geração de candidatos a eventos de transitório,
+o que reduziu a presença de falsos alarmes nos conjuntos representando
+cenários de aplicação reais, mesmo que eles não tenham sido vistos
+pelo otimizador;
+\item ES 2: como o objetivo do trabalho foi a extensão da técnica para
+condições mais próximas àquelas presentes nas redes elétricas
+residenciais --- o ajuste de parâmetros realizado pelo \acs{cepel} foi
+realizado para dados com pouca presença de sinal ruído e operação de
+poucos (no máximo dois) equipamentos simultaneamente ---, aplicou-se o
+ajuste automático para essas condições. A redução do falso alarme para
+o conjunto \emph{Temporizado}, o conjunto com maior incidência de
+falsos alarmes, não correspondeu às expectativas, o que durante a
+investigação causou a descoberta de um distúrbio causado durante a
+operação da televisão LCD presente em tal conjunto. Ao considerar esse
+distúrbio como alvo, percebeu-se uma redução na taxa de detecção, o
+que mostra que nem todos eventos desse distúrbio são identificados
+pela metodologia. Assim, esse distúrbio ainda precisa ser melhor
+compreendido antes da aplicação do \acs{nilm};
+\item ES 3: para analisar a capacidade de generalização, ao invés de
+empregar os três conjuntos de dados simulando cenários de aplicação
+prática, realizou-se a otimização com apenas dois desses conjuntos.
+Essa configuração permitiu identificar uma falha na fronteira
+determinada para o parâmetro responsável pelo tempo morto de resposta
+que permitia um limite superior de até 8,3 s aonde todos os candidatos
+seriam removidos caso um evento de transitório fosse confirmado.
+Apesar desse valor não ser justificável, para os dois conjuntos de
+dados analisados esse valor se constituía de uma vantagem por permitir
+a redução do falso alarme em detrimento de pouca perda na detecção, e
+o algoritmo genético explorou essa falha ao percebê-la. Assim, ainda
+que o ajuste seja realizado automaticamente, é necessário a realização
+de critica pós-convergência para identificação de possíveis problemas
+como esse. 
+\end{itemize}
+
+As taxas de detecção de falso alarme para o ajuste realizado pelo
+\acs{cepel} eram respectivamente de 100~\% e 1,2~\% para os dados
+\emph{NI00***}, enquanto esses valores foram de 90,2~\% e 82,9~\% para
+os dados com cenários de aplicação prática. A configuração ES~1
+alterou os valores para os cenários de aplicação prática para 83,18 e
+3,0~\%, bem mais próximos a necessidade de aplicação do \acs{nilm},
+enquanto seus valores para os conjuntos de dados \emph{NI00***}
+permaneceram praticamente constantes, em 98,8~\% e 1,2~\%. Os valores
+para os dados \emph{NI00***} também permaneceram na mesma faixa para
+o ES 2, porém houve sua taxa para os dados com cenários de aplicação
+prática foram 80,1~\% e 0,9~\%, reduzindo o falso alarme em detrimento
+de uma menor taxa de detecção em comparação à configuração anterior.
+Portanto, além de todas facilidades e capacidades já referidas, o
+ambiente trouxe sistematização do processo de determinação dos
+parâmetros, que podem ser ajustados automaticamente para novas
+condições ainda não conhecidas presentes nas redes elétricas
+residenciais. 
+
+%A função do \acs{nilm} é informar o consumo de energia desagregado por
+%aparelho, e não apenas identificar o mesmo. Além disso, a grande
+%dificuldade para a implementação da tecnologia é quando a rede
+%elétrica das residências está com maior operação de aparelhos, o que,
+%dependendo de sua dinâmica operativa, irá causar ruído na rede.  Há
+%ainda a questão da ocorrência de aparelhos desconhecidos que podem
+%afetar a eficácia das técnicas. Por isso, é necessário determinar como
+%a presença dos mesmos irá afetar a eficácia no \acs{nilm}. E, por esse
+%mesmo motivo, é desejável que o \acs{nilm} tenha a capacidade de
+%identificar aparelhos desconhecidos, adicionando-os ao seu catálogo e
+%permitindo sua futura identificação de alguma maneira.
+%
+%Devido à percepção de que o projeto irá se prolongar bem além deste
+%trabalho, viu-se a necessidade de realizar um ambiente para integrar
+%as técnicas aplicadas no \acs{nilm} permitindo que elas sejam
+%utilizadas no futuro em um único ambiente agregando toda a informação.
+%Bem como também facilitar a continuação do projeto no rumo da
+%discriminação dos aparelhos e de seus estados operativos, que é o
+%próximo passo para tornar o desenvolvimento da tecnologia.
+%Esse ambiente também pode auxiliar caso o \acs{cepel} opte por tomar
+%outras direções no projeto --- como na possibilidade de impregnar o
+%método atuando nos medidores inteligentes, mas nesse caso se limitando
+%a amostragens mais baixas, ou elevar a amostragem com o objetivo de
+%obter melhores eficácias ---, sendo necessário apenas ajustar os
+%módulos para atender as novas configurações de operação do \acs{nilm}
+%facilitando, assim, possíveis desdobramentos. 
+
+
+%Esse ambiente permitiu avaliar a proposta do \acs{cepel} de um filtro
+%de núcleo de Gaussiana para os três conjuntos de dados oferecidos pelo
+%mesmo, onde estão representados possíveis cenários de aplicação real,
+%contendo a operação simultânea de aparelhos na rede que a tornam um
+%local mais complexo para operação da tecnologia. Nesses conjuntos de
+%dados, aplicou-se um otimizador por algoritmo genético para obter os
+%parâmetros ótimos para as regras de avaliação determinadas pelo
+%usuário. Obteve-se taxa de detecção superior a 83\%, podendo ser
+%considerada boa. A taxa de falso alarme significativa, próxima a 17\%,
+%é causada em sua maioria pelo arquivo \emph{Temporizado}, aonde há um
+%distúrbio semelhante à operação de um equipamento não conhecido, e por
+%esse mesmo motivo, não estando presente no gabarito do \acs{nilm}.
+%Como consequência, há um aumento da taxa de falso alarme. Nesses
+%casos, seria importante ter, além dos rótulos dos tempos de alteração
+%de estados realizadas nos equipamentos, a informação de submedição dos
+%aparelhos para garantir a construção de um gabarito fiel à realidade
+%dos conjuntos de dados. 
 
 %Porém, foi constatado que a 
 %de baixo consumo, onde muitos outros autores desconsideram aparelhos
@@ -72,56 +215,65 @@ dos conjuntos de dados.
 %para ocorrências de falso alarme, obterá-se uma resposta menos
 %sensível aos ruídos presentes nesses dados.
 
-%Para auxiliar na compreensão do problema, também se empregou \acs{som}
-%com o objetivo de melhor compreender as características dos distúrbios
-%causados pela alteração de um estado de operação de um aparelho. A
-%representação obtida através do mesmo foi um degrade na escala de
-%energia. Sua representação permitiu observar a existência de duas
-%geladeiras distintas nos conjuntos de dados no mapa. Eventos
-%decorrentes de acionamentos/desacionamentos de ventilação do ar
-%condicionado ativaram regiões próximas às marcadas pelos ventiladores.
-%Observou-se uma maior confusão na separação de aparelhos de menor
-%consumo, como as lâmpadas fluorescentes e televisores.
-%Estudou-se, também, a possibilidade de empregá-los para atuar como um
-%detector de eventos. O mesmo mostrou capacidade de ser empregado para
-%realizar tal tarefa, porém é necessário aperfeiçoá-lo.
-%Apesar do \acs{som} não ter mostrado a capacidade de
-%reproduzir a eficiência do filtro de núcleo de Gaussiana, nem auxiliar
-%de maneira efetiva na eliminação da alta taxa de falso alarme, ele
-%mostrou capacidade discriminante bem como aptidão para sintetizar a
-%informação em um degradê de potência.
 
 \section{Trabalhos Futuros}
 \label{sec:trabfut}
 
 O trabalho tratou apenas de uma das etapas necessárias para o
-desenvolvimento da tecnologia, sendo ainda preciso tratar do tema de
+desenvolvimento da tecnologia, o próximo passo é tratar do tema de
 discriminação e identificação do estado operativo dos aparelhos.
 Foram realizadas considerações sobre o tema das escolhas das
-características, que pode auxiliar próximos trabalhos em determinar
-quais delas serão utilizadas. Deseja-se aqui ressaltar a
+características neste trabalho, que pode auxiliar próximos trabalhos
+em determinar quais delas serão utilizadas. Deseja-se aqui ressaltar a
 característica que se sobressaiu no levantamento bibliográfico, a
-estatística de uso. Apesar de não ser possível realizar a discriminação
-apenas utilizando a envoltória como característica única, uma vez que
-ela só é discriminante para mudanças de estados que causam crescimento
-na potência, a mesma se mostrou discriminante nos estudos anteriores
-em colaboração com o \acs{cepel} e podem ser empregadas para auxiliar
-na discriminação.  Propõe-se que a implementação seja realizada no
-ambiente de análise pela questão de unificação e aproveitamento das
-ferramentas, além de toda a capacidade já oferecida por esse ambiente.
+estatística de uso. Apesar de não ser possível realizar a
+discriminação apenas utilizando a envoltória como característica
+única, uma vez que ela só é discriminante para mudanças de estados que
+causam acréscimo no consumo, a mesma mostrou-se discriminante nos
+estudos anteriores em colaboração com o \acs{cepel} e podem ser
+empregadas para auxiliar na discriminação. Propõe-se que a
+implementação seja realizada no ambiente de análise pela questão de
+unificação e aproveitamento das ferramentas, além de toda a capacidade
+já oferecida por esse ambiente.
 
-Conforme a evolução da técnica para discriminação, será necessário
-determinar o ponto operativo do detector de evento para garantir uma
-melhor capacidade do \acs{nilm}. É preciso determinar o quanto os
-falso alarmes irão afetar a eficácia do \acs{nilm} de desagregar a
-informação, bem como estudar o caso para determinar quais são
-as taxas de falso alarme que são aceitáveis sem deteriorar a operação.
+Outra questão importante é a utilização das medidas que levam em sua
+consideração a reconstrução em energia para a determinação da eficácia
+do \acs{nilm}, bem como de conjuntos de dados reais. Também quanto a
+questão dos dados, é interessante a utilização dos conjuntos
+\acs{redd} e \acs{blued} para possibilitar a técnica ser comparada em
+nível internacional. As medidas em termos de energia podem ser
+adaptadas também para o caso de detecção de eventos, que devem ser
+utilizadas com a evolução do trabalho.
 
-Quanto ao otimizador por estratégia evolutiva, pretende-se ajustar os
-métodos de competição para que a mesma só comece após algumas
-gerações, estratégia importante para garantir que as espécies ajustem
-suas estratégias evolutivas e se desenvolvam minimamente antes de
-competir, para assim garantir uma competição justa entre elas. Além
-disso, pretende-se avaliar o emprego da otimização com menos
-parâmetros livres, em especial o patamar de corte do filtro de núcleo
-de Gaussiana, a fim de obter uma melhor capacidade de convergêcia.
+A otimização automática de parâmetros também tem pontos que precisam
+ser trabalhados. Primeiro, a versão do \acs{es} implementada ainda não
+está completa, sendo necessário adicionar um método que permita a
+competição dos indivíduos somente após atingir um estágio de
+pré-evolução. Ainda, é necessário avaliar a capacidade do \acs{es} de
+determinar o ponto de operação através do ajuste dos parâmetros livres
+($\gamma_{det}$ e $\gamma_{fa}$) no cálculo da aptidão. Por
+fim, outros algoritmos podem ser analisados, como Inteligência de
+Enxames.
+
+Quanto a técnica para detecção de eventos, podem ser aplicados outros
+métodos além do filtro de núcleo de Gaussiana. Mesmo sem alterar a
+ideia de convolução de um filtro, pode-se aplicar outra com uma função
+simétrica no sinal para a detecção de eventos. Além disso,
+durante este trabalho também se avaliou a capacidade da técnica
+proposta pelo estudo anterior realizado pela colaboração
+\acs{coppe}--\acs{cepel}, o Detector de Patamar Elaborado.
+Percebeu-se que o mesmo apresenta um potencial para ser estendido para
+os novos cenários, sendo necessário realizar o ajuste de seus
+parâmetros. Nesse caso, também será necessário a sua adaptação para
+não causar falsos alarmes durante a atuação de chaves \emph{break then
+make}, presentes em alguns equipamentos como ventiladores e secadores
+de cabelo. Outra possibilidade seria a aplicação da \gls{tw}, que como
+observado durante o levantamento bibliográfico, tem aplicação
+bem-sucedidada para a detecção de transitórios em redes elétricas.
+Ainda, o patamar não precisa ser determinado como um valor fixo, é
+possível estender essa metodologia para a utilização de patamares
+adaptativos, tendo um valor de sensibilização conforme o nível de
+dinâmica presente na rede elétrica.
+
+
+

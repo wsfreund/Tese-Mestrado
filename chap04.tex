@@ -28,7 +28,7 @@ empregadas por demais autores para realizar a desagregação do consumo
 que será resumida e debatida em sua subseção final.  Por sua vez, a
 metodologia proposta pelo \acs{cepel} está disponível na
 Seção~\ref{sec:nilm_cepel}, aonde também serão tratados os estudos
-anteriores realizados pela colaboração \acs{coppe}-\acs{cepel} e
+anteriores realizados pela colaboração \acs{coppe}--\acs{cepel} e
 considerações sobre a escolha das características discriminantes, que
 utilizará como base os demais estudos de \acs{nilm} abordados por este
 trabalho. 
@@ -1230,7 +1230,7 @@ O estudo em sequência aperfeiçoou o anterior com uma abordagem única
 para determinar os equipamentos em operação. Ele compara, em ordem
 decrescente em termos de demanda média operativa, se a magnitude
 do evento é próxima à média do nível operativo de um dos equipamentos
-almejados, empregando como limiar de corte dois desvios padrões. Ainda
+almejados, empregando como limiar de corte dois desvios padrão. Ainda
 assim, a referência emprega diversas regras de pré/pós-processamento
 determinadas empiricamente para melhorar a resolução em energia, assim
 como também necessita do período de treinamento através de medição
@@ -2894,7 +2894,7 @@ Figura~\ref{fig:resp_fir}.
 resultantes proposta pelo \acs{cepel}. Na subfigura superior está a
 envoltória de corrente, que é utilizada como entrada do \acs{fir} e
 tem sua resposta representada na subfigura inferior. Observe que a
-resposta do \acs{fir} ao ultrapassar o limiar de 0,003 gera uma região
+resposta do \acs{fir}, ao ultrapassar o limiar de 0,003, gera uma região
 sensibilizada, representada em verde e vermelho, respectivamente para
 um candidato a acréscimo e decréscimo de consumo. Os candidatos são
 gerados no centro do transitório, o ponto de inflexão da resposta do
@@ -2942,7 +2942,7 @@ operando em diversos estados, no entanto sem ruído. A ideia aplicada
 foi de gradualmente aumentar a dificuldade a ser estudada e adaptar a
 abordagem até chegar em condições similares àquelas encontradas nas
 residências brasileiras. A análise para as condições com pouca
-presença de ruído (conjuntos de dados NI00***) revelou
+presença de ruído (os conjuntos de dados NI00***) revelou
 que a derivada de Gaussiana obteve melhor eficiência que os filtros
 apresentados no trabalho anterior, sendo a técnica escolhida desde
 então para a detecção de eventos de transitório.  A versão do
@@ -3012,7 +3012,7 @@ acordo com \ref{eq:d} essa variável só pode assumir valores positivos,
 diferente de \acs{dq} que assume valores em ambas direções, sendo, na
 realidade, a única característica que apresenta essa propriedade.
 Obviamente, erros de medição irão ocorrer, de modo que o valor de
-\acs{d} pode acabar sendo pertencente ao conjunto de números complexo.
+\acs{d} pode acabar sendo pertencente ao conjunto de números complexos.
 Para evitar isso, nesses casos o valor de \acs{d} é determinado como
 zero.
 
@@ -3195,7 +3195,10 @@ I-V e, até mesmo, as ondas cruas --- poderiam ser utilizadas para
 explorar a capacidade de discriminação dos equipamentos eletrônicos e
 outras cargas não-lineares. Diferente da limitação das envoltórias,
 onde a informação discriminante está disponível apenas para
-acionamentos, a informação discriminante para essas características
+acionamentos (ver
+Figuras~\ref{fig:temporizado_geladeira}--\ref{fig:temporizado_televisao}
+para exemplos), 
+a informação discriminante para essas características
 está disponível em todos os casos, aonde é
 necessário apenas extrair a informação da diferença causada pela
 mudança de estado dos equipamentos em pós e pré-transitório. Um exemplo
@@ -3303,7 +3306,7 @@ Todas foram determinadas empiricamente.}
 \multicolumn{1}{c}{\textbf{Grupo}} &
 \multicolumn{1}{c}{\textbf{Equipamento}} \\
 \hline \hline
-\parbox[c]{19cm}{\centering\emph{Variáveis padrões}}\\ 
+\parbox[c]{19cm}{\centering\emph{Variáveis padrão}}\\ 
 \hline \hline 
 \multicolumn{1}{c}{1} & Aparelhos eletrônicos em modo \emph{stand by}
 - computadores \emph{desktop}, monitores \emph{LCD} \\
@@ -3394,7 +3397,7 @@ celulares \\
 \hline \hline \hline
 \end{tabular} } 
 \caption[Taxonomias determinadas por LAM et al.: curvas I-V,
-decomposição SVD e variáveis padrões 
+decomposição SVD e variáveis padrão 
 ]{Taxonomias determinadas através de dendrograma por
 \citet{nilm_lam_2007_33} (ver pp.~\pageref{nilm:curvas_iv}), tradução
 própria. O grupo \emph{Outros} determina equipamentos com um grupo
@@ -3405,7 +3408,7 @@ identificação visual dos mesmos.}
 \end{table}
  
 Pode ser do interesse do \acs{cepel} alterar a amostragem dos
-medidores, dependendo, por exemplo, se for possível utilizar os
+medidores dependendo, por exemplo, se for possível utilizar os
 medidores inteligentes para garantir a impregnação do método, ou de
 ser necessário melhores eficácias, nesse caso, sendo necessário
 aumentar a frequência de amostragem. No primeiro caso,
