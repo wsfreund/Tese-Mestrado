@@ -1,21 +1,35 @@
 \begin{foreignabstract}
 
-Non-intrusive monitoring may be applied to power quality, load
-diagnosis, faulty appliance detection or with excessive energy
-consumption and energy efficiency. This work will discuss the
-technology developed when addressing the issue of energy efficiency
-for the residential sector. The transient event detection is its
-focus, where it was used a Gaussian core filter to obtain the
-responsive regions which indicates an appliance state change. The
-approach parameters were optimize via genetic algorithm. %In order to
-%improve the problem comprehension, it was used Self-Organizing Maps to
-%explore the disturbance chracteristics due to an appliance state
-%change. They were also evaluated as an method to aid increasing
-%previous methodology efficiency. 
-Detection rates higher than 83\% were achieved for
-false alarm rates lower than 17\% while in a pratical
-scenario application. False alarm rates may be lower depending on 
-the problem representation.
+This work was done in collaboration with \acs{cepel} at the
+development of the technology known as Non-Intrusive Appliance Load
+Moniroring (NILM). Non-intrusive monitoring may be applied to power
+quality, load diagnosis, faulty appliance detection or with excessive
+energy consumption and energy efficiency. This work will address the
+step of detecting transients events caused by appliance loads, which
+is required for obtaining the traces of information left by the
+appliance while changing its consumption status. The technique
+proposed by \acs{cepel} is a Gaussian derivative filter which
+generates the transient events candidates, also analyzed by other
+checks that further eliminate false alarm events.
+
+The contribution of this work is on the systematic determination of
+the parameters required for the proposed \acs{cepel}'s method, which
+allows their automatic adjustment for several scenarios. To this end,
+it was implemented an adaptation of a genetic algorithm, that has as
+its feature the dynamic allocation of more computational effort for
+those configurations which are best suited for solving the problem.
+Furthermore, the optimizer is part of an extensive analysis
+environment which led to operational advantages in terms of
+infrastructure for the project.
+
+When applying the algorithm to distinct datasets, it showed
+generalization properties for the conditions evaluated. The results
+were compared with related recent work. Detection rate above 80~\%,
+meanwhile false alarm rate less than 1~\%, were achieved for practical
+scenario applications with several simultaneous appliances operation
+and load dynamics. Yet for datasets with naive appliance operation
+conditions, those rates were respectively of 98,1~\% and 0,6~\%.
+
 
 \end{foreignabstract}
 
