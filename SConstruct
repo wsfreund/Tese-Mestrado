@@ -6,7 +6,9 @@ import os
 #import time
 #from multiprocessing import Process, Lock
 
-env = Environment(ENV=os.environ)
+env = Environment(ENV=os.environ, 
+                  PDFLATEXFLAGS=('-file-line-error ' \
+                  '-interaction=nonstopmode -recorder'))
 env.PDF(target = file + '.pdf', source = file + '.tex')
 os.system('open -a Preview ' + file + '.pdf')
 
