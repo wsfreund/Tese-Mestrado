@@ -36,11 +36,11 @@ portanto, precisa ser capaz de representar os dados e análises em uma
 única maneira. Esse ambiente permite analisar o comportamento do
 \acs{nilm} antes que o mesmo seja colocado em operação.
 
-A implementação desse ambiente adaptou a metodologia proposta pelo
+A implementação desse ambiente adaptou o método proposta pelo
 \acs{cepel} para detecção de eventos de transitório, passo necessário
 para a exploração da informação deixada por equipamentos durante a
 alteração de seu estado operativo e que foi atacado pelo grupo do
-\acs{cepel}. A sua metodologia emprega um filtro de derivada de
+\acs{cepel}. O seu método emprega um filtro de derivada de
 Gaussiana para a geração de candidatos, que ainda passam por outros
 dois cortes antes de serem aceitos como um evento de transitório: um
 para o valor mínimo de degrau de corrente que, caso seja
@@ -48,8 +48,8 @@ demasiadamente pequeno, será removido por constituir um evento de
 ruído; e outro para candidatos próximos, adicionando um tempo morto de
 resposta do filtro antes que um novo candidato possa ser aceito.
 
-Na versão da metodologia presente no ambiente de análise,
-adicionaram-se diversos avanços operacionais, alguns exemplos: 
+Na versão do método presente no ambiente de análise,
+adicionaram-se diversos avanços operacionais, alguns exemplos:
 leitura de redes elétricas com até três fases, transformação dos dados
 em um formato único para os dois medidores sendo utilizados;
 segmentação da informação em memória para permitir a leitura de dados
@@ -60,7 +60,7 @@ medidor ou sua sobrecarga; aumento da velocidade da análise através da
 remoção de amostras irrelevantes na janela do filtro em convolução;
 melhor capacidade de interpretação gráfica dos dados e das análises; etc.
 
-Porém, as maiores contribuições foram: 
+Porém, as maiores contribuições foram:
 
 \begin{itemize}
 \item Construção do gabarito: uma das dificuldades para o \acs{nilm} é
@@ -74,7 +74,7 @@ mesmo através de informações gráficas;
 \item Remoção de eventos por inconsistência: a mesma mostrou-se
 suficiente nos conjuntos de dados analisados para a remoção de
 candidatos a eventos de transitório antes removidos pela adição de
-tempo morto em resposta do detector pela metodologia do \acs{cepel},
+tempo morto em resposta do detector pelo método do \acs{cepel},
 esses eventos causados por picos no consumo durante acionamento de
 equipamentos --- como aqueles contendo motores. A inconsistência
 ocorre quando a resposta do filtro tem sinal diferente àquele presente
@@ -90,7 +90,7 @@ a solução do problema. O otimizador também apresenta outras capacidades:
 \item Determinação do ponto de operação: através do ajuste dos
 parâmetros livres para o cálculo da aptidão, é possível priorizar
 maiores taxas de detecção ou falso alarme, porém essa capacidade não
-pôde ser avaliada neste trabalho; 
+pôde ser avaliada neste trabalho;
 \item Recuperar o processo caso ocorra interrupção não planejada: o
 algoritmo genético implementado é capaz de recuperar a evolução de um
 processo perdido, o que é especialmente importante durante a
@@ -124,7 +124,7 @@ investigação causou a descoberta de um distúrbio causado durante a
 operação da televisão LCD presente em tal conjunto. Ao considerar esse
 distúrbio como alvo, percebeu-se uma redução na taxa de detecção, o
 que mostra que nem todos eventos desse distúrbio são identificados
-pela metodologia. Assim, esse distúrbio ainda precisa ser melhor
+pelo método. Assim, esse distúrbio ainda precisa ser melhor
 compreendido antes da aplicação do \acs{nilm};
 \item ES 3: para analisar a capacidade de generalização, ao invés de
 empregar os três conjuntos de dados simulando cenários de aplicação
@@ -139,7 +139,7 @@ a redução do falso alarme em detrimento de pouca perda na detecção, e
 o algoritmo genético explorou essa falha ao percebê-la. Assim, ainda
 que o ajuste seja realizado automaticamente, é necessário a realização
 de critica pós-convergência para identificação de possíveis problemas
-como esse. 
+como esse.
 \end{itemize}
 
 As taxas de detecção de falso alarme para o ajuste realizado pelo
@@ -158,7 +158,7 @@ Portanto, além de todas facilidades e capacidades já referidas, o
 ambiente trouxe sistematização do processo de determinação dos
 parâmetros, que podem ser ajustados automaticamente para novas
 condições ainda não conhecidas presentes nas redes elétricas
-residenciais. 
+residenciais.
 
 %A função do \acs{nilm} é informar o consumo de energia desagregado por
 %aparelho, e não apenas identificar o mesmo. Além disso, a grande
@@ -185,7 +185,7 @@ residenciais.
 %a amostragens mais baixas, ou elevar a amostragem com o objetivo de
 %obter melhores eficácias ---, sendo necessário apenas ajustar os
 %módulos para atender as novas configurações de operação do \acs{nilm}
-%facilitando, assim, possíveis desdobramentos. 
+%facilitando, assim, possíveis desdobramentos.
 
 
 %Esse ambiente permitiu avaliar a proposta do \acs{cepel} de um filtro
@@ -204,9 +204,9 @@ residenciais.
 %casos, seria importante ter, além dos rótulos dos tempos de alteração
 %de estados realizadas nos equipamentos, a informação de submedição dos
 %aparelhos para garantir a construção de um gabarito fiel à realidade
-%dos conjuntos de dados. 
+%dos conjuntos de dados.
 
-%Porém, foi constatado que a 
+%Porém, foi constatado que a
 %de baixo consumo, onde muitos outros autores desconsideram aparelhos
 %abaixo de uma determinada faixa de consumo, como 150 W, ou seja, o
 %conjunto de dados apresenta uma dificuldade bastante elevada se o
@@ -269,9 +269,9 @@ não causar falsos alarmes durante a atuação de chaves \emph{break then
 make}, presentes em alguns equipamentos como ventiladores e secadores
 de cabelo. Outra possibilidade seria a aplicação da \acl{tw}, que como
 observado durante o levantamento bibliográfico, tem aplicação
-bem-sucedidada para a detecção de transitórios em redes elétricas.
+bem-sucedida para a detecção de transitórios em redes elétricas.
 Ainda, o patamar não precisa ser determinado como um valor fixo, é
-possível estender essa metodologia para a utilização de patamares
+possível estender esse método para a utilização de patamares
 adaptativos, tendo um valor de sensibilização conforme o nível de
 dinâmica presente na rede elétrica.
 

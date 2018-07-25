@@ -1,26 +1,26 @@
-\chapter{Ambiente de Análise}
+\chapter{Ambiente de Análise}%
 \label{chap:framework}
 
 Inicialmente, no capítulo anterior, foi feito um levantamento dos
 aspectos envolvidos no projeto do \acs{nilm}, levando em consideração
-diversos os pontos técnicos para a aplicação do \acs{nilm} em um programa
+diversos dos pontos técnicos para a aplicação do \acs{nilm} em um programa
 de \acs{ee}. Em seguida, foi apresentado a evolução do projeto dessa
-tecnologia no \acs{cepel}.  Observou-se a necessidade de detecção de
+tecnologia pelo \acs{cepel}.  Observou-se a necessidade de detecção de
 eventos de transitório para a operação do \acs{nilm} quando o mesmo
 explora a informação presente na alteração de um estado operativo de
 um equipamento. Essa etapa recebeu atenção do \acs{cepel} atualmente,
 onde se decidiu aplicar um filtro de derivada de Gaussiana,
-metodologia explicada em maiores detalhes na
-Seção~\ref{ssec:met_cepel}. Aqui apenas será recapitulado que além da
+método explicado em maiores detalhes na
+Seção~\ref{ssec:met_cepel}. Aqui apenas será recapitulado que, além da
 aplicação de um limiar na resposta do filtro, há a remoção de
 candidatos ruidosos e de candidatos próximos.
 
 O trabalho atual firmou-se com o intuito de sistematizar o processo de
-ajuste de parâmetros da metodologia proposta pelo \acs{cepel} e
-estudar o comportamento da metodologia em uma nova base de dados que
+ajuste de parâmetros do método proposta pelo \acs{cepel} e
+estudar o seu comportamento em uma nova base de dados que
 contém a presença de ruídos causados pela dinâmica de carga
 de alguns equipamentos operando na rede --- os equipamentos
-\acs{c5} (ver definições na Subseção~\ref{ssec:modelos_carga}). 
+\acs{c5} (ver definições na Subseção~\ref{ssec:modelos_carga}).
 Além disso, ao observar nos capítulos anteriores a complexidade do
 projeto, percebeu-se a necessidade da implementação de uma
 infraestrutura que permitisse unificar o projeto e facilitar o seu
@@ -28,7 +28,7 @@ desenvolvimento. Este capítulo se dedica à descrição dessa
 infraestrutura --- o ambiente de análise. As necessidades para sua
 implementação serão debatidas mais profundamente na
 Seção~\ref{sec:motivacao_framework}. As seções seguintes
-(\ref{sec:daq_info}--\ref{sec:otimizacao}) irão detalhar os módulos do
+(\ref{sec:daq_info}--\ref{sec:otimizacao}) detalharão os módulos do
 ambiente implementado. Houve diversas alterações na versão original,
 trazendo benefícios operacionais e melhor capacidade de compreensão e
 interação com os dados e análises, especialmente no aspecto gráfico.
@@ -45,7 +45,7 @@ de sua média;
 sinais de entre a resposta do filtro e da variável \acs{di} sejam
 opostos;
 \item Construção do gabarito: a informação que se deseja obter é o
-consumo desagregado de energia por equipamento, porém conseguir essa 
+consumo desagregado de energia por equipamento, porém conseguir essa
 informação para o ajuste das técnicas não é simples, sendo necessário
 realizar submedição em cada equipamento e anotar os instantes das
 mudanças de estados de operação de cada equipamento. Em alguns casos
@@ -99,7 +99,7 @@ transição dos estados operativos para treinar (se existentes) técnicas
 supervisionados, quanto ter o consumo desagregado para avaliar a
 eficiência do \gls{nilm}. No exterior disponibilizaram-se dois
 conjuntos de dados (ver Subseção~\ref{top:nilm_padrao}) justamente
-com o intuito de possibilitar dados para autores e permití-los
+com o intuito de possibilitar dados para autores e permiti-los
 compararem suas técnicas. Para obter a informação desagregada, pelo
 menos uma das informações seguintes deve estar disponível, no entanto,
 as duas se complementam, sendo desejável trabalhar com ambas: as
@@ -133,7 +133,7 @@ desvantagem. O interesse no ambiente é de explorar a capacidade das
 técnicas, antes de implementá-las para operação em tempo real. O ambiente
 foi organizado procurando modularizar os componentes, para que, se
 fosse necessário o desenvolvimento ou adaptação de código,
-simplificasse o processo para que apenas o módulo em questão seja 
+simplificasse o processo para que apenas o módulo em questão seja
 atacado;
 
 \item Capacidade de Interpretação dos Dados e Resultados: o tempo
@@ -178,19 +178,18 @@ para análise e otimização. O Módulo de Análise dos Dados
 (Seção~\ref{sec:analise}) é executado pelo Módulo de Otimização dos
 Parâmetros (Seção~\ref{sec:otimizacao}), que realiza diversas
 análises iterativamente em busca de uma configuração ótima para os
-dados alimentados. 
+dados alimentados.
 
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=\textwidth]
-{imagens/ambiente_de_analise.pdf}
+\includegraphics[width=\textwidth]{imagens/ambiente_de_analise.pdf}
 \caption{Esboço do ambiente de análise implementado.}
 \label{fig:ambiente_analise}
 \end{figure}
 
 É importante notar que apesar do esboço mostrar toda a cadeia para a
 obter os parâmetros otimizados, essa não é sua única operação. O
-usuário irá determinar sua operação, ex.: seja só para realizar uma
+usuário determinará sua operação, ex.: seja só para realizar uma
 análise, obter os resultados e explorar graficamente a sua resposta,
 construir um gabarito para um novo conjunto de dados, explorar os
 dados a procura de alguma informação etc.
@@ -217,8 +216,8 @@ eventos de transitório. Essa representação pode ser criada tanto pelo
 usuário durante a criação de um gabarito, ou seja, informar um evento
 de transitório e suas propriedades a serem encontradas para avaliar a
 performance de análise ou otimizar os parâmetros baseando-se nessa
-informação, ou quanto pelo Módulo de Análise, que irá gerar essa
-informação através de sua metodologia;
+informação, ou quanto pelo Módulo de Análise, que gerará essa
+informação através de seu método;
 \item Equipamentos (Subseção~\ref{ssec:equipamento}): contém a informação
 do estado de consumo dos equipamentos, seus consumo temporal estimado bem
 como a estimativa de seu consumo total para o conjunto de dados.
@@ -315,13 +314,13 @@ o gabarito, não sendo possível a otimização dos valores, nem calcular
 sua eficiência ---, ele revela uma série de aspectos importantes para
 a compreensão do problema envolvido na desagregação do \gls{nilm}, bem
 como algumas necessidades durante a implementação da parte de
-representação dos dados no ambiente de análise. 
+representação dos dados no ambiente de análise.
 
-%\begin{landscape}
 %\begin{figure}[h!p]
-\begin{sidewaysfigure}[p]
+\begin{SidewaysFigure}
+%\begin{landscape}
 \centering
-\includegraphics[width=\textwidth]{imagens/RealHouse.pdf}
+\includegraphics[width=\textheight]{imagens/RealHouse.pdf}
 \caption[Informação gráfica para o interação com dados do medidor]
 {Informação gráfica para a interação com os dados do medidor. Gráfico
 gerado através do ambiente de análise para um conjunto de dados com
@@ -333,9 +332,9 @@ elétrica é representado na subfigura inferior. São utilizados as cores
 azul, vermelho, verde e preto para as potências ativa, reativa,
 harmônica e aparente, respectivamente.}
 \label{fig:casa_real}
-\end{sidewaysfigure}
-%\end{figure}
+\end{SidewaysFigure}
 %\end{landscape}
+%\end{figure}
 
 Quanto a questão da descontinuidade, há uma falha na medição próximo
 às 07:15~h do dia~31, mostrando que o algoritmo foi capaz de perceber
@@ -422,7 +421,7 @@ Figura~\ref{fig:casa_real}.}
 Eventos são gerados tanto pelo usuário quando criando o gabarito ou
 quanto pelo algoritmo de análise. A informação nos eventos de
 transitório são de mais baixo nível àquelas contidas no objeto que
-representa o equipamento. Suas capacidades são: 
+representa o equipamento. Suas capacidades são:
 
 \begin{itemize}
 \item \acs{fex} para classificação: Realiza o cálculo das variáveis
@@ -437,7 +436,7 @@ dentro de uma janela deslizante}{text:media}: Para a
 remoção de eventos próximos, adicionou-se uma outra maneira de realizar
 a mesma. Ao invés de simplesmente ignorar a informação de outros
 candidatos dentro de uma janela após um número determinado de
-amostras, como realizado na metodologia proposta pelo \acs{cepel},
+amostras, como realizado no método proposto pelo \acs{cepel},
 decidiu-se avaliar uma nova maneira de realizar essa tarefa,
 empregando a média dos valores das amostras desses
 candidatos. A inspiração para isso se deu pelo fato da maioria dos
@@ -446,7 +445,7 @@ equipamento com um pico de consumo, assim, ao substituir o evento
 causada pelo acréscimo de consumo e seu decréscimo logo em seguida por
 sua média, obtém-se um evento mais próximo ao centro do distúrbio
 causado pelo equipamento na rede. Um exemplo pode ser observado na
-Figura~\ref{fig:analise_eventos}; 
+Figura~\ref{fig:analise_eventos};
 \item \textlabel{Remoção de eventos
 inconsistentes}{text:incosistentes}: ao observar que grande parte dos
 eventos que eram removidos por serem eventos próximos na verdade eram
@@ -513,7 +512,7 @@ do gabarito;
 equipamentos é bem mais extensa que a dos eventos. Para evitar
 redundância de informação, refere-se diretamente as figuras onde são
 mostradas as características dos dados que foram gerados através do
-método de informação gráfica de cada equipamento. Estes são os possíveis 
+método de informação gráfica de cada equipamento. Estes são os possíveis
 gráficos de serem gerados são:
 \begin{itemize}
 \item gráfico do consumo temporal por equipamento para os dados,
@@ -541,19 +540,19 @@ realizar a interação com a informação de análise não é complexa e
 se pretende realizar sua implementação no futuro. A seguir estão
 suas capacidades:
 
-\begin{sidewaysfigure}[p]
+\begin{SidewaysFigure}
 \centering
-\includegraphics[width=\textwidth]{imagens/Temporizado_gui_evento_sobreposto.png}
+\includegraphics[width=\textheight]{imagens/Temporizado_gui_evento_sobreposto.png}
 \caption[Informação gráfica para o Módulo de Interação Gráfica com os
 Dados: Evento de Transitório com Sobreposição.]{Informação gráfica
 para o Módulo de Interação Gráfica com os Dados: Evento de Transitório com
 Sobreposição. A região com as amostras para o cálculo da média de pós
 transitório está sobrepondo com outro evento.}
 \label{fig:gui_evento_sobreposto}
-\end{sidewaysfigure}
+\end{SidewaysFigure}
 
-\begin{sidewaysfigure}[p]
-\includegraphics[width=\textwidth]{imagens/Temporizado_gui_evento_sobreposto_consertado.png}
+\begin{SidewaysFigure}
+\includegraphics[width=\textheight]{imagens/Temporizado_gui_evento_sobreposto_consertado.png}
 \caption[Informação gráfica para o Módulo de Interação Gráfica com os
 Dados: Evento de Transitório Corrigido.]{
 Informação gráfica para o Módulo de Interação Gráfica com os
@@ -561,7 +560,7 @@ Dados: Evento de Transitório Corrigido. A sobreposição foi corrigida
 ao arrastar a região com o ponteiro, o que resulta em uma
 estimativa de consumo mais fiel.}
 \label{fig:gui_evento_sobreposto_corrigido}
-\end{sidewaysfigure}
+\end{SidewaysFigure}
 
 \begin{itemize}
 \item Informação da amostra próxima ao ponteiro: funciona de maneira
@@ -579,7 +578,7 @@ seleciona a opção ``Adicionar Evento'' (na figura estando em inglês:
 do transitório. Nessa amostra é criado um evento, onde são calculados
 os \acs{di}, \acs{dp}, \acs{dq}, \acs{dd}, \acs{ds}. Essa informação é
 disponibilizada já calculada para o usuário no canto inferior da
-esquerda, contendo tanto o valor do patamar operativo do 
+esquerda, contendo tanto o valor do patamar operativo do
 pré/pós-transitório dessas variáveis. O algoritmo
 detecta e agrupa os possíveis estados automaticamente por uma análise
 em dendrograma. Conforme o usuário vai preenchendo a informação do
@@ -623,7 +622,7 @@ informação do gabarito não era possível sem gerar dificuldade para sua
 interpretação, bem como não haveria espaço suficiente para colocar
 todos os nomes dos equipamentos (espera-se cerca de 30 a 50 equipamentos nas
 residências) na tabela sem comprometer a figura. Por isso, o usuário
-tem a opção de abrir uma janela que irá conter essa legenda
+tem a opção de abrir uma janela que conterá essa legenda
 (Figura~\ref{fig:temporizado_gui_legenda}), que será atualizada
 automaticamente enquanto o usuário preenche o gabarito.
 \end{itemize}
@@ -655,7 +654,7 @@ Dados: Disposição da informação.}
 \label{sec:analise}
 
 O Módulo de Análise dos Dados foi implementado para refletir o ponto
-inicial da metodologia empregada pelo \acs{cepel}, mas adaptando o
+inicial do método empregado pelo \acs{cepel}, mas adaptando o
 mesmo para o ambiente de análise, corrigindo possíveis pequenos
 equívocos no código original e expandindo o mesmo. Suas aptidões
 são:
@@ -677,9 +676,9 @@ repouso (com respostas nulas em estado permanente) para a entrada com
 o valor da amostra inicial. Por exemplo, no caso da
 Figura~\ref{fig:casa_real} há uma descontinuidade às 07:15 do dia 31
 causada por alguma falha na medição, que, ao executar a convolução do
-filtro no período posterior a essa falha, irá gerar um evento de
+filtro no período posterior a essa falha, gerará um evento de
 transitório falso uma vez que haverá sensibilização na resposta do
-\acs{fir} pelo motivo referido. 
+\acs{fir} pelo motivo referido.
 
 Seja, assim, a determinação da resposta
 $y(m)$ para um \acs{fir} dada por \ref{eq:y_m_fir}
@@ -694,7 +693,7 @@ forma matricial e igualando $\underline{y}=0$, obtém-se
 repouso para a primeira amostra do arquivo, bastando fazer
 $\underline{x}=a_1$, onde $a_1$ é a primeira amostra do conjunto de
 dados ou a primeira amostra após uma descontinuidade. Assim,
-utiliza-se \ref{eq:matrix_fir} com o valor de $a_1$ para todo o vetor 
+utiliza-se \ref{eq:matrix_fir} com o valor de $a_1$ para todo o vetor
 $\underline{x}$;
 \begin{subequations}
 \begin{eqnarray}\label{eq:y_m_fir}
@@ -706,7 +705,7 @@ z_{n-2}(m) = b(n-1)x(m)+z_{n-1}(m-1)  \nonumber \\
 z_{n-1}(m) = b(n)x(m) \nonumber
 \end{eqnarray}
 \begin{equation} \label{eq:matrix_fir}
-\underline{z} = 
+\underline{z} =
 \underbrace{\begin{bmatrix}
 b(n-1) & b(n-2)   & b(n-3) & \dots & b(1) \\
        & b(n-2)   & b(n-3) & \dots & b(1) \\
@@ -739,13 +738,13 @@ execução do algoritmo;
 \item Reconhecimento de múltiplas análises com mesma configuração:
 suponha que se deseje realizar quatro análises, duas delas com um filtro com
 $\sigma=2$ e valores de corte \acs{di}$_{min}=0,1$ e
-\acs{di}$_{min}=0,2$, enquanto os outros dois filtros irão ter 
+\acs{di}$_{min}=0,2$, enquanto os outros dois filtros terão
 $\sigma=3$ com os mesmos cortes. Nesse caso, não é necessário gerar a
 respostas dos filtros de derivada de Gaussiana quatro vezes, apenas
 duas vezes e então aplicar os dois cortes em cada uma dessas
 respostas. O ambiente de análise realiza a identificação dessas
 ocorrências quando executando múltiplas análises e as executa apenas
-uma vez, partilhando essa memória para os algoritmos seguintes; 
+uma vez, partilhando essa memória para os algoritmos seguintes;
 
 \item Informação gráfica: a Figura~\ref{fig:analise_eventos} contém um
 exemplo de gráfico gerado para uma análise. É possível observar a
@@ -757,9 +756,9 @@ os mesmos foram aceitos ou foram eliminados devido a algum dos cortes.
 \end{itemize}
 
 
-\begin{sidewaysfigure}[p]
+\begin{SidewaysFigure}
 \centering
-\includegraphics[width=.8\textwidth]{imagens/Empilhado7_ex_incosistencia_e_media.pdf}
+\includegraphics[width=.8\textheight]{imagens/Empilhado7_ex_incosistencia_e_media.pdf}
 \caption[Exemplo de informação gráfica para o Módulo de Análise dos
 Dados.]{Exemplo de informação gráfica para o Módulo de Análise dos
 Dados. Na subfigura inferior, as regiões verdes e vermelhas indicam
@@ -777,9 +776,9 @@ fossem removidos, eles seriam constituídos de falsos alarmes. Na
 subfigura superior é possível observar as regiões que serão utilizadas
 para a extração do transitório (região cinza) e as regiões utilizadas
 para calcular o degrau de potência (regiões amarelas
-pré/pós-transitório). } 
+pré/pós-transitório). }
 \label{fig:analise_eventos}
-\end{sidewaysfigure}
+\end{SidewaysFigure}
 
 
 \section{Otimização dos Parâmetros}
@@ -815,7 +814,7 @@ de transitório aonde essa informação não existe. O primeiro caso é
 referido de detecção, enquanto o segundo consiste de um falso positivo
 ou falso alarme. Também é possível adicionar outras punições, por
 exemplo, não é desejável que sejam gerados muito candidatos para serem
-removidos, isso irá reduzir a velocidade de processamento e se uma
+removidos, isso reduzirá a velocidade de processamento e se uma
 solução consegue realizar a detecção com acurácia parecida mas gerando
 menos candidatos, é preferível optar por essa opção, mesmo que ela
 tenha uma performance ligeiramente reduzida para obter uma performance
@@ -825,7 +824,7 @@ grande questão a ser otimizada. A regra de pontuação utilizada está
 representada em \ref{eq:regra_pontuacao}. Ainda, os eventos detectados
 pelo Módulo de Análise não estarão exatamente na mesma posição que os
 eventos gerados pelo usuário no gabarito, já que o usuário não
-necessariamente irá marcar a amostra que constitui o ponto de inflexão da
+necessariamente marcará a amostra que constitui o ponto de inflexão da
 resposta do filtro e, mesmo que isso ocorra, os eventos podem sofrer
 deslocamento quando empregando a remoção de eventos próximos por sua
 média. Assim, é preciso definir uma janela de um número máximo de
@@ -864,11 +863,11 @@ diferenciável e portanto não é possível utilizar os métodos
 convencionais de otimização. É necessário empregar algum método de
 tentativa e erro para realizar essa tarefa. Neste trabalho, optou-se
 pela utilização de um \acs{es}, porém outras estratégias de
-otimização podem ser utilizadas, como Inteligência de Enxame. 
+otimização podem ser utilizadas, como Inteligência de Enxame.
 Aprofundar-se-á nas características do algoritmo
 implementado na Subseção~\ref{ssec:es};
 
-\item Capacidade de recuperação do processo caso ocorra alguma falha: 
+\item Capacidade de recuperação do processo caso ocorra alguma falha:
 como as otimizações podem levar dias para serem executadas, viu-se a
 necessidade de armazenar informações relevantes do processo enquanto
 ele evolui, para garantir que se ocorresse algum problema na máquina
@@ -876,7 +875,7 @@ em execução, não houvesse de recomeçar o processo desde a primeira
 geração. Assim, a versão do algoritmo é capaz de armazenar, se o
 usuário requirir, a evolução do processo de otimização e retornar caso
 o processo seja interrompido --- por exemplo, devido à falta de
-energia. 
+energia.
 
 \end{itemize}
 
@@ -891,8 +890,7 @@ algoritmos de estratégia evolutiva.
 
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=.9\textwidth]
-{imagens/ga.pdf}
+\includegraphics[width=.9\textwidth]{imagens/ga.pdf}
 \caption[Esboço de um algoritmo evolutivo genérico.]
 {Esboço de um algoritmo evolutivo genérico. Baseado em
 \cite[pp. 17]{eiben2003introduction}.}
@@ -904,7 +902,7 @@ um algoritmo evolutivo genérico. Ela conta com uma população inicial,
 onde se recomenda que a mesma seja iniciada aleatoriamente.  Essa
 população inicial passará por um processo de seleção parental aonde
 serão obtidos os espécimes ou indivíduos para compor a \gls{mu},
-população que irá realizar a propagação de sua informação genética
+população que realizará a propagação de sua informação genética
 para a \gls{lambda}. Porém, a \acl{lambda} recebe o material
 perturbado através de operações de recombinação e mutação. A mutação é
 uma pertubação que ocorre somente levando em conta o material de um
@@ -938,7 +936,7 @@ operações de pertubação no material, como possuir uma maneira de
 decodificá-la novamente no espaço do fenótipo. Para isso, cada solução
 do fenótipo deve ser mapeável, bem como cada genótipo tenha a sua
 decodificação em apenas uma solução. Ainda, a escolha da representação
-irá afetar o problema: no exemplo citado a representação escolhida
+afetará o problema: no exemplo citado a representação escolhida
 não parece ter o significado do fenótipo, uma vez que Norte e Oeste são
 vizinhos entre si, enquanto na representação eles estão distantes de três
 unidades. Uma escolha em variáveis cíclicas parece representar o
@@ -958,7 +956,7 @@ costumam focar na recombinação. Todos os indivíduos passam por
 pertubações Gaussianas em seu material genético, no entanto, a ordem
 dessas pertubações são ajustadas conforme a evolução da espécie,
 aumentando ou diminuindo sua ordem de acordo com as necessidades de
-evolução. Assim, o \acs{es} irá aumentar a ordem de suas pertubações
+evolução. Assim, o \acs{es} aumentará a ordem de suas pertubações
 quando distante de um valor ótimo --- sujeito a capacidade de perceber
 uma tendência no espaço de solução apontando na direção de um ótimo
 --- e reduzir as pertubações conforme se aproxima desse valor para
@@ -1002,7 +1000,7 @@ empregar diversas estratégias de mutação em diferentes direções. Os
 valores indicados para ambos são $1/\sqrt{2n}$ e $1/\sqrt{2\sqrt{n}}$,
 respectivamente. O alcance da pertubação no material genético, dado uma
 determinada probabilidade de ocorrência fixa, formam elipsoides no
-espaço de solução alinhadas com os eixos da representação escolhida. 
+espaço de solução alinhadas com os eixos da representação escolhida.
 
 \begin{subequations}
 \begin{equation}\label{eq:s_esbegin}
@@ -1013,12 +1011,12 @@ x_i' = x_i\sigma_i'N_i(0,1)
 \end{equation}
 \end{subequations}
 
-\noindent onde: 
+\noindent onde:
 
 \begin{description}
 \item[$N(0,1)$] e $N_i(0,1)$ são uma pertubação Gaussiana com média
 zero e $\sigma$ unitário, a primeira sendo um único valor para todas
-as representações, enquanto a segunda uma para cada representação $i$; 
+as representações, enquanto a segunda uma para cada representação $i$;
 \item[$x_i$] e $x_i'$ é a i-ésima representação e a mesma após sofrer a
 pertubação;
 \item[$\sigma_i$] e $\sigma_i'$ é a i-ésima estratégia evolutiva e a
@@ -1056,13 +1054,13 @@ x_{i,2}' = x_{i,\text{o.c.}}
 
 \begin{description}
 \item[$x_{i,1}$] e $x_{i,2}$ são a i-ésima representação para o
-primeiro e segundo pai, respectivamente; 
+primeiro e segundo pai, respectivamente;
 \item[$x_{i,o.c.}$] é a i-ésima representação para o pai não
 selecionado para $x_{i,1}'$;
 \item[$\sigma_{i,1}$] e $\sigma_{i,2}$ são a i-ésima estratégia
 evolutiva para o primeiro e segundo pai, respectivamente;
 \item[$x_{i,1}'$] e $x_{i,2}'$ são a i-ésima representação para o
-primeiro e segundo pai após a pertubação, respectivamente; 
+primeiro e segundo pai após a pertubação, respectivamente;
 \item[$\sigma_{i,1}'$] e $\sigma_{i,2}'$ são a i-ésima estratégia
 evolutiva para o primeiro e segundo pai após a pertubação,
 respectivamente.
@@ -1135,7 +1133,7 @@ a ideia de subpopulações --- que serão referidas por espécies, por
 poderem ter cromossomos diferentes dependendo da configuração
 utilizada ---, mas aplicando a mesma para um outro conceito. No caso,
 ao invés de utilizar espécies para otimização de múltiplas funções
-objetivo, esse conceito irá ser utilizado para criar uma dinâmica
+objetivo, esse conceito será utilizado para criar uma dinâmica
 entre as várias otimizações sendo realizadas no problema.
 
 A ideia da dinâmica é reservar o esforço computacional para aquelas
@@ -1147,8 +1145,8 @@ algum motivo, sofreram desvantagem durante o processo evolutivo ---
 seja por uma inicialização em condições desprivilegiadas, ou por uma
 demora maior para ajustar sua estratégia evolutiva. Assim, a proposta
 é executar apenas uma otimização para as diferentes maneiras de
-tratar o problema, aonde todas as configurações desejadas irão
-competir entre si de modo que o algoritmo irá reservar maior
+tratar o problema, aonde todas as configurações desejadas
+competirão entre si de modo que o algoritmo reservará maior
 esforço computacional para otimizar mais profundamente aquela que se
 melhor adéqua ao espaço de solução, diferente da versão aonde se
 executaria para cada espécie, reservando esforço computacional igual
@@ -1164,7 +1162,7 @@ uma mesma espécie. É calculada a aptidão para cada espécie
 (\ref{eq:aptidao_especie}) a ser utilizada como parâmetro na
 competição das mesmas e determinar a parcela da população global que
 elas tem direito. Uma vez determinado o tamanho da população de cada
-espécie, seus indivíduos irão competir entre si para determinar os
+espécie, seus indivíduos competirão entre si para determinar os
 sobreviventes. É necessário escolher um método para avaliar a aptidão
 das espécies e como determinar suas populações através dele;
 \item Intraespécie: os espécimes disputam entre si na população global
@@ -1178,7 +1176,7 @@ antes que sua população seja drasticamente reduzida ou até mesmo
 extinta, tratou-se cada um dos casos individualmente. No caso da
 seleção interespécie, é necessário escolher uma função que privilegie
 espécies mais aptadas, mas que uma diferença de aptidão muito grande
---- que irá ocorrer em especial durante o inicio da evolução devido a
+--- que ocorrerá em especial durante o inicio da evolução devido a
 espécies condicionadas em ambientes mais propícios que outras --- não
 elimine toda a diversidade das populações antes que elas adequem sua
 estratégia evolutiva. Para isso, escolheu-se empiricamente a função
@@ -1189,7 +1187,7 @@ função de transformação em inteiro \emph{floor},
 ao somar $\mu_i'$ para cada espécie pode acabar resultando em uma
 população menor que $\mu$. Assim, distribui-se aleatoriamente os
 indivíduos faltantes nas espécies de forma que a soma dos $\mu_i'$
-seja o mesmo que $\mu$. 
+seja o mesmo que $\mu$.
 
 Para a avaliação da configuração intraespécie, bem como interespécie,
 será utilizada a função de \emph{Ackley} contendo 10 espécies. As
@@ -1211,10 +1209,10 @@ espécies, crescendo gradualmente sua população.
 \begin{subequations}\label{eq:inter_especie}
 \begin{equation} \label{eq:aptidao_especie}
 \text{Aptidão}_{(i)} = \sum^{\lambda_i}_{j=1} \text{Aptidão}_{(i,j)}
-\end{equation} 
+\end{equation}
 \begin{equation} \label{eq:funcao_interespecie}
 f_{inter}(i)=log_2(\text{Aptidão}_{(i)}-min(\text{Aptidão}_{(i)}|\forall i\in \Gamma)+2)
-\end{equation} 
+\end{equation}
 \begin{equation} \label{eq:mu}
 \mu_i' = floor\left(\dfrac{f_{inter}(i)}{f_{inter,norm}}\right)
 \end{equation}
@@ -1274,7 +1272,7 @@ espécies, é necessário suavizar a competição, de modo que uma espécie
 que por algum motivo se tornou mais apta não extermine outras espécies
 rapidamente acabando com sua diversidade e não as dê a oportunidade
 para evoluir, já que os indivíduos que sobraram possivelmente ainda não
-ajustaram sua estratégia evolutiva. A 
+ajustaram sua estratégia evolutiva. A
 Figura~\ref{fig:intraspecies_nopressurecontrol_info} mostra as
 pressões de seleção em ordens muito além daquelas que deveriam
 ocorrer, obtendo valores na ordem de 20 logo no inicio da evolução
@@ -1306,7 +1304,7 @@ intraespécie sem intervenção na competição.}
 
 Em vista disso, implementou-se um mecanismo de controle de pressão de
 seleção por espécie. Esse mecanismo aceita um valor máximo de
-pressão para cada espécie, se o valor ultrapassar o limiar, então se 
+pressão para cada espécie, se o valor ultrapassar o limiar, então se
 reduz sua pressão ao alocar espaço da população para essa espécie
 retirando das espécies com maior alocação de população até que a
 alocação de população dessas espécies que ultrapassaram o corte máximo
@@ -1321,7 +1319,7 @@ população de uma outra espécie, adiciona-se essa espécie para a
 redução de população e continua o processo. Caso isso ocorra
 novamente, a próxima espécie também será adicionada para redução de
 população e o processo continua até que seja determinado quais
-espécies irão ceder espaço para que a população das espécies com altas
+espécies cederão espaço para que a população das espécies com altas
 pressões satisfaça o critério mínimo;
 \item Quando há o agrupamento de espécies para redução e a
 necessidade de reduzir um número não inteiro de população em cada
@@ -1354,7 +1352,7 @@ Ainda, as espécies de índices mais altos precisam de mais tempo para
 chegarem em seu auge. Isso ocorre pela maior dificuldade para o ajuste
 da estratégia de evolução devido a maior presença de parâmetros livres
 nessas espécies, bem como a menor alocação de população para sua
-evolução uma vez que essas espécies irão tender a se inicializar
+evolução uma vez que essas espécies tenderão a se inicializar
 probabilisticamente com menor aptidão --- a dispersão nas dimensões a
 mais tenderão a aumentar o erro e, consequentemente, reduzir a aptidão
 dessas espécies.
@@ -1370,7 +1368,7 @@ competição.]{Competição intraespécies com intervenção na competição.}
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=\textwidth]{imagens/es_intraspcies_pressurecontrol_pressureInfo.pdf}
-\caption[Pressão de seleção para competição intraespécie com 
+\caption[Pressão de seleção para competição intraespécie com
 intervenção na competição.]{Pressão de seleção para competição
 intraespécie com intervenção na competição.}
 \label{fig:intraspecies_pressurecontrol_info}

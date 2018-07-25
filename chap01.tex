@@ -45,7 +45,7 @@ de novas possibilidades podem ser exploradas, como:
 
 \begin{itemize}
 \item maior versatilidade de operação e planejamento das redes
-elétricas devido à maior informação presente; 
+elétricas devido à maior informação presente;
 \item tarifação variável conforme a demanda na rede, incentivando os
 consumidores a deslocarem cargas não-essenciais para operarem em
 horários fora de ponta de forma a reduzir ou postergar a necessidade
@@ -63,13 +63,13 @@ eficiência energética é a \gls{nilm}, seja no mundo corporativo --- atraindo
 empresas como \emph{Intel} e \emph{Belkin} --- como no meio acadêmico,
 em especial nos países desenvolvidos.
 
-O monitoramento não-invasivo utiliza-se de um único medidor central no
+A monitoração não-invasiva utiliza-se de um único medidor central no
 fornecimento de energia da residência para identificar o consumo dos
 equipamentos através dos distúrbios causados na rede elétrica pelos
 mesmos. Para isso, empregam-se técnicas de processamento
 de sinais, inteligência computacional e estatística para identificar
 os padrões dos distúrbios e correlacioná-los com o equipamento de origem.
-Dependendo da metodologia aplicada no \acs{nilm}, isso pode ser
+Dependendo do método aplicado no \acs{nilm}, isso pode ser
 realizado de maneira cega, ou seja, encontrando padrões recorrentes
 na rede elétrica e os identificando quando eles se repetem.
 A topologia mais comum pode ter sua operação resumida através destes
@@ -98,7 +98,7 @@ identificado um distúrbio na rede, reduzindo o processamento dos
 dados.
 \end{itemize}
 
-As aplicações do \acs{nilm} são diversas, como monitoramento da
+As aplicações do \acs{nilm} são diversas, como a monitoração da
 qualidade de energia, diagnóstico de carga, identificação de equipamentos
 defeituosos ou com consumo excessivo de energia. No que se refere à
 eficiência energética, o mesmo pode auxiliar destas maneiras:
@@ -171,13 +171,13 @@ e, com isso, torna a tarefa a detecção dos eventos de transitório
 dos estados de operação dos equipamentos não trivial pois há uma menor
 relação sinal-ruído. Essa dinâmica também tornará a identificação de
 padrões dos eletrodomésticos mais complexa, aonde o discriminador terá
-de lidar com distorções em seus padrões. 
+de lidar com distorções em seus padrões.
 
-O trabalho atual irá expandir a metodologia proposta pelo \acs{cepel}
+O trabalho atual expandirá o método proposto pelo \acs{cepel}
 para operação nessas condições, propondo uma abordagem sistemática que
 permita o ajuste da técnica aplicada de acordo com as condições
 presentes nas redes elétricas residenciais, limitando-se ao estudo da
-capacidade da metodologia proposta em detecção de eventos de
+capacidade do método proposto em detecção de eventos de
 transitório. Porém, como será visto a seguir, o trabalho trouxe
 diversas outras contribuições.
 
@@ -202,13 +202,13 @@ os leitores, que podem não estar familiarizados com o tema e
 importância das questões ambientais envolvidas.
 
 Além disso, o \acs{nilm} vem sido desenvolvido desde 1992, sendo
-possível encontrar uma vasta quantidade de metodologias propostas por
+possível encontrar uma vasta quantidade de métodos propostos por
 diversos autores. O trabalho centralizou e uniformizou, na medida do
 possível, a informação relevante para o projeto dessa tecnologia para
 facilitar seu desenvolvimento pelo \acs{cepel} e por demais autores
 quando levando em conta o tema de eficiência energética.
 
-Já quanto à metodologia aplicada, como foi dito, o \acs{nilm}
+Já quanto ao método aplicado, como foi dito, o \acs{nilm}
 constitui-se de diversas etapas, sendo necessário tratar de todas elas
 para que o projeto seja aplicável. Cada uma delas precisa ser estudada
 e compreendida, de tal modo que nem sempre é possível tratar de
@@ -219,11 +219,11 @@ Essa abordagem será explorada e estendida pelo trabalho, porém,
 limitar-se-á à questão de detecção de eventos de transitório --- apenas
 uma das etapas necessárias para a operação do \acs{nilm}. Indo além, é
 importante notar que o objetivo do trabalho é estudar o comportamento
-da metodologia proposta pelo \acs{cepel} e sua extensão realizada no
+do método proposto pelo \acs{cepel} e sua extensão realizada no
 trabalho em cenários de aplicação prática. Os conjuntos de dados com
 essas condições foram fornecidos pelo próprio \acs{cepel}.
 
-A evolução da metodologia proposta pelo \acs{cepel} foi realizada em
+A evolução do método proposta pelo \acs{cepel} foi realizado em
 termos de estruturação e sistematização. Também no levantamento
 bibliográfico se percebeu a capacidade de complementação das técnicas
 aplicadas, de forma que um ambiente único de análise não apenas
@@ -233,15 +233,15 @@ suplementar outras técnicas, o que permite ao \gls{nilm} explorar uma
 maior quantidade de equipamentos e/ou eficiência de desagregação do
 consumo por equipamento.
 
-O ajuste dos parâmetros realizados pela metodologia do \acs{cepel} era
+O ajuste dos parâmetros realizados pelo método do \acs{cepel} era
 feito empiricamente, aonde se viu a necessidade de sistematizar o
 processo. Foi implementado um sistema de otimização através de um
 algoritmo genético de estratégia evolutiva para auxiliar no ajuste dos
-parâmetros. 
+parâmetros.
 
 \section{Estrutura Capitular}
 
-Os Capítulos \ref{chap:ee} e \ref{chap:ee_retorno} compilam a
+Os Capítulos~\ref{chap:ee} e~\ref{chap:ee_retorno} compilam a
 informação sobre as aplicações do \acs{nilm} para eficiência
 energética. O Capítulo~\ref{chap:ee} tratará a origem do tema de
 eficiência energética (Seção~\ref{sec:ee_origem}) e prosseguir até as
@@ -268,7 +268,7 @@ Seção~\ref{sec:nilm_mundo}. Em sequência, as técnicas aplicadas pelo
 \acs{cepel} e os trabalhos anteriores em colaboração com a \acs{coppe}
 serão tratados na Seção~\ref{sec:nilm_cepel}, aonde será realizado o
 levante das dificuldades e necessidades do projeto. Nessa seção,
-também está disponível a metodologia original do \acs{cepel} na
+também está disponível o método original do \acs{cepel} na
 Subseção~\ref{ssec:met_cepel}.
 
 As informações levantadas na Seção~\ref{sec:nilm_cepel} serão
@@ -276,21 +276,21 @@ resumidas e discutidas na Seção~\ref{sec:motivacao_framework} do
 Capítulo~\ref{chap:framework}. Esse capítulo se dedica à descrição do
 ambiente desenvolvido com o objetivo de melhorar a capacidade e
 sistematizar a análise, bem como unificar o projeto para facilitar sua
-continuidade. As alterações da metodologia original podem ser
+continuidade. As alterações do método original podem ser
 encontradas ao longo desse capítulo, no entanto, na
 Seção~\ref{sec:otimizacao} é descrita a principal ampliação realizada
-na metodologia original, o Módulo de Otimização dos Parâmetros. 
+no método original, o Módulo de Otimização dos Parâmetros.
 
-O Capítulo~\ref{chap:metodologia} irá descrever as condições simuladas
+O Capítulo~\ref{chap:metodologia} descreverá as condições simuladas
 na base de dados fornecida pelo \acs{cepel}
 (Seção~\ref{sec:base_de_dados}), contendo tanto condições mais simples
 com apenas acionamentos e desacionamentos, quanto condições mais
 próximas às reais nas redes elétricas residenciais, com operação
 simultânea de diversos equipamentos e dinâmica no consumo de alguns
-equipamentos. Também é apresentado a metodologia para a aplicação do
+equipamentos. Também é apresentado o método para a aplicação do
 algoritmo genético para ajuste dos parâmetros
-(Seção~\ref{sec:aplic_es}). Os resultados para a metodologia empregada
+(Seção~\ref{sec:aplic_es}). Os resultados para o método empregado
 por este trabalho estão no Capítulo~\ref{chap:resultados}. A conclusão
 do trabalho encontra-se no Capítulo~\ref{chap:conclusao}.
 
-\glsunsetall
+\glsunsetall{}

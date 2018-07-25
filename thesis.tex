@@ -1,4 +1,8 @@
+
 \documentclass[msc,numbers]{coppe}
+\let\printglossary\relax
+\let\theglossary\relax
+\let\endtheglossary\relax
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage[unicode]{hyperref}
@@ -12,10 +16,39 @@
 \usepackage{array}
 \usepackage{import} % To access created latex images in different folders
 \usepackage{enumerate} % To have access to special enumerations
-\usepackage{rotating} % To rotate pages
 \usepackage[inline]{enumitem}
 \usepackage{steinmetz} % Para ter acesso ao angulo de fase como
 % deveria ser.
+\usepackage{graphicx}% for \rotatebox
+\usepackage{everypage}
+\usepackage{environ}
+
+\newcounter{abspage}% \thepage not reliab
+
+\makeatletter
+\newcommand{\newSFPage}[1]% #1 = \theabspage
+  {\global\expandafter\let\csname SFPage@#1\endcsname\null}
+
+\NewEnviron{SidewaysFigure}{\begin{figure}[p]
+\protected@write\@auxout{\let\theabspage=\relax}% delays expansion until shipout
+  {\string\newSFPage{\theabspage}}%
+\ifdim\textwidth=\textheight
+  \rotatebox{90}{\parbox[c][\textwidth][c]{\linewidth}{\BODY}}%
+\else
+  \rotatebox{90}{\parbox[c][\textwidth][c]{\textheight}{\BODY}}%
+\fi
+\end{figure}}
+
+\AddEverypageHook{% check if sideways figure on this page
+  \ifdim\textwidth=\textheight
+    \stepcounter{abspage}% already in landscape
+  \else
+    \@ifundefined{SFPage@\theabspage}{}{\global\pdfpageattr{/Rotate 0}}%
+    \stepcounter{abspage}%
+    \@ifundefined{SFPage@\theabspage}{}{\global\pdfpageattr{/Rotate 90}}%
+  \fi}
+\makeatother
+
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -39,13 +72,15 @@ urlcolor=black%
 }
 
 
-\usepackage[acronym,style=long,nonumberlist,shortcuts]{glossaries} % Para as listas de simbolos e abreviaturas
-\usepackage{etoolbox} % Para robustify
-\robustify{\gls}
-\renewcommand{\glossaryname}{S{í}mbolos e Abreviaturas}
+\usepackage[style=long,nomain,nonumberlist,shortcuts]{glossaries} % Para as listas de simbolos e abreviaturas
+\renewcommand*{\glsacrpluralsuffix}{}
+\renewcommand*{\glsupacrpluralsuffix}{}
+\renewcommand*{\acrpluralsuffix}{}
 \newglossary[slg]{Simb}{sym}{sbl}{Lista de S{í}mbolos}
 \newglossary[alg]{Abrev}{abr}{abv}{Lista de Abreviaturas}
 
+\usepackage{etoolbox} % Para robustify
+\robustify{\gls}
 \robustify{\url}
 
 % Mutliplas referências de pé de nota com o mesmo número
@@ -55,7 +90,7 @@ urlcolor=black%
 
 
 \begin{document}
-  
+
   \input{simb.tex}
   \input{abrev.tex}
 
@@ -86,20 +121,20 @@ urlcolor=black%
   \include{abstract}
   \addtocounter{page}{1}
   \vfill
-  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Sumário}
+  \cleardoublepage{} \phantomsection{} \addcontentsline{toc}{chapter}{Sumário}
   \tableofcontents \vfill
-  \cleardoublepage \phantomsection
+  \cleardoublepage{} \phantomsection{}
   \listoffigures \vfill
-  \cleardoublepage \phantomsection
+  \cleardoublepage{} \phantomsection{}
   \listoftables \vfill
-  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Lista de Símbolos}
+  \cleardoublepage{} \phantomsection{} \addcontentsline{toc}{chapter}{Lista de Símbolos}
   %\renewcommand{\glossarypreamble}{Texto Simbulos}
   \printglossary[type=Simb] \vfill
-  \cleardoublepage \phantomsection \addcontentsline{toc}{chapter}{Lista de Abreviaturas}
+  \cleardoublepage{} \phantomsection{} \addcontentsline{toc}{chapter}{Lista de Abreviaturas}
   \renewcommand{\glossarypreamble}{No caso de algumas abreviaturas internacionalmente conhecidas, optou-se por mantê-las em sua lingua original.}
   \printglossary[type=Abrev] \vfill
 
-  \mainmatter
+  \mainmatter{}
   \include{chap01}
   \include{chap02}
   \include{chap03}
@@ -109,9 +144,9 @@ urlcolor=black%
   \include{chap07}
   \include{chap08}
 
-  \glsaddall
+  \glsaddall{}
 
-  \backmatter
+  \backmatter{}
   \bibliographystyle{coppe-unsrt}
   \bibliography{thesis}
 
